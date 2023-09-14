@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.TrainingMaterials
 {
-    abstract class TrainingMaterial
+    abstract class TrainingMaterial : Training
     {
-        public Guid Id { get; set; }
+        public Guid Id { get;}
         private string? _description;
         public string? Description { get { return _description; } set {
                 if (value.Length > 256)
@@ -20,6 +20,11 @@ namespace ConsoleApp1.TrainingMaterials
                     _description = value;
                 }
                 } 
+        }
+        new public string? ToString { get { return _description; }}
+        public bool Equals(string otherId)
+        {
+            return Id.Equals(otherId);
         }
     }
 }
