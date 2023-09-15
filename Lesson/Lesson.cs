@@ -15,7 +15,7 @@ namespace ConsoleApp1.Lesson
     }
     class TextLesson : ITraining, IVersionable, ICloneable
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
         private string? _description;
         private List<TrainingMaterial> _lessonMaterials;
         public LessonType LessonType { get; }
@@ -25,7 +25,11 @@ namespace ConsoleApp1.Lesson
             get { return _description; }
             set
             {
-                if (value.Length > 256)
+                if (value == null)
+                {
+                    _description = null;
+                }
+                else if (value.Length > 256)
                 {
                     _description = value[..256];
                 }
@@ -77,7 +81,10 @@ namespace ConsoleApp1.Lesson
             }
             return lesson;
         }
-
+        public bool Equals(string otherId)
+        {
+            return Id.Equals(otherId);
+        }
     }
     class VideoLesson : TextLesson
     {

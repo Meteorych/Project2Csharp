@@ -15,6 +15,8 @@ namespace ConsoleApp1.TrainingMaterials
         public string URIVideo { get; }
         public string URIPicture { get;}
         public string Format { get; }
+
+        private readonly string[] validFormats = { "Unknown", "Avi", "Mp4", "Flv" };
         public byte[] Version { get; private set; }
         public VideoTraining(string uriVideo, string uriPicture, string format, string? description, byte[] version)
         {
@@ -33,11 +35,14 @@ namespace ConsoleApp1.TrainingMaterials
             Description = description;
             SetVersion(version);
         }
-
+        /// <summary>
+        /// Check if fromat of video is available
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
         private bool IsValidVideoFormat(string format)
         {
-            // Проверка на допустимые форматы видео
-            string[] validFormats = { "Unknown", "Avi", "Mp4", "Flv" };
+            
             return Array.Exists(validFormats, f => f.Equals(format, StringComparison.OrdinalIgnoreCase));
         }
         public void SetVersion(byte[] version)

@@ -12,7 +12,7 @@ namespace ConsoleApp1.TrainingMaterials
         private readonly int _maxLength = 10000;
         public TextTraining(string text, string? description)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("Text can't be empty!");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException();
             if (text.Length > _maxLength)
             {
                 Text = text[.._maxLength];

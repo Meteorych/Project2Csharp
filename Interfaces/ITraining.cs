@@ -8,7 +8,7 @@ namespace ConsoleApp1.Interfaces
 {
     internal interface ITraining
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
         public string? Description { get; set; }
     }
 }
