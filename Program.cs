@@ -5,8 +5,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-            TrainingMaterial trainingMaterial = new VideoTraining("sdafjahhasfsfafsaf", "ksdfdhshfsdsf", "Mp4", "hooodoood");
+            
         }
     }
 }
