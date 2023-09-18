@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BooksCatalogue
 {
-    internal class Class2
+    internal class Catalogue
     {
     }
 }
