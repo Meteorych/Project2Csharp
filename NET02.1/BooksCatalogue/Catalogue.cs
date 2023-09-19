@@ -27,9 +27,21 @@ namespace BooksCatalogue
             }
             return null;
         }
+        public List<Book> LinqName(string firstName, string lastName) 
+        { 
+            
+        }
+        public List<Book> LinqTime(string time)
+        {
+
+        }
+        public List<Book> LinqTuple()
+        {
+
+        }
         public IEnumerator<Book> GetEnumerator()
         {
-            var sortedBooks = _books.OrderBy(book => book.Name).ToList();
+            var sortedBooks = _books.OrderBy(book => book.Title).ToList();
 
             foreach (var book in sortedBooks)
             {

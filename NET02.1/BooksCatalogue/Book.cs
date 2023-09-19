@@ -10,10 +10,10 @@ namespace BooksCatalogue
     class Book
     {
         public string ISBN { get; }
-        public string Name { get; }
-        public string? ReleaseDate { get; }
+        public string Title { get; }
+        public DateOnly? ReleaseDate { get; }
         public List<Author>? Authors { get; }
-        public Book (string isbn, string name, string? releaseDate, List<Author>? authors) 
+        public Book (string isbn, string title, string? releaseDate, List<Author>? authors) 
         {
             if (RegexISBNCheck(isbn))
             {
@@ -23,8 +23,11 @@ namespace BooksCatalogue
             {
                 throw new ArgumentException("Wrong ISBN format!");
             }
-            Name = name;
-            ReleaseDate = releaseDate;
+            Title = title;
+            if (releaseDate != null)
+            {
+                ReleaseDate = DateOnly.Parse(releaseDate);
+            }
             Authors = authors;
         }  
 
