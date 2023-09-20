@@ -27,17 +27,32 @@ namespace BooksCatalogue
             }
             return null;
         }
-        public List<Book> LinqName(string firstName, string lastName) 
+        public IEnumerable<Book>? LinqName(string firstName, string lastName) 
         { 
-            
+            var SelectedBooks = from book in _books
+                                where book.Authors != null &&
+                              book.Authors.Any(author =>
+                                  author.FirstName == firstName &&
+                                  author.LastName == lastName)
+                                select book;
+            return SelectedBooks.ToList();
         }
-        public List<Book> LinqTime(string time)
+        public IEnumerable<Book> LinqTime()
         {
-
+            var SelectedBooks = from book in _books
+                                orderby book.ReleaseDate descending
+                                select book;
+            return SelectedBooks.ToList();
         }
-        public List<Book> LinqTuple()
+        public IEnumerable<(Author author, int BooksCount)> LinqTuple()
         {
+            var authorBookCounts = _books
+            .Where(book => book.Authors != null)
+            .SelectMany(book => book.Authors, (book, author) => new { Book = book, Author = author })
+            .GroupBy(x => x.Author)
+            .Select(group => (group.Key, BookCount: group.Count()));
 
+            return authorBookCounts.ToList();
         }
         public IEnumerator<Book> GetEnumerator()
         {

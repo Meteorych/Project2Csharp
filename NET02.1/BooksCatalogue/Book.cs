@@ -13,7 +13,7 @@ namespace BooksCatalogue
         public string Title { get; }
         public DateOnly? ReleaseDate { get; }
         public List<Author>? Authors { get; }
-        public Book (string isbn, string title, string? releaseDate, List<Author>? authors) 
+        public Book (string isbn, string title, string? releaseDate = null, List<Author>? authors = null) 
         {
             if (RegexISBNCheck(isbn))
             {
@@ -21,8 +21,9 @@ namespace BooksCatalogue
             }
             else
             {
-                throw new ArgumentException("Wrong ISBN format!");
+                throw new ArgumentException("");
             }
+            
             Title = title;
             if (releaseDate != null)
             {
@@ -33,7 +34,7 @@ namespace BooksCatalogue
 
         private static bool RegexISBNCheck(string isbn)
         {
-            Regex pattern = new("^/d{13}$|^/d{3}-/d-/d{2}-/d{6}-/d$");
+            Regex pattern = new("^\\d{13}$|^\\d{13}$|^\\d{3}-\\d-\\d{2}-\\d{6}-\\d$");
             return pattern.IsMatch(isbn);
         }
         public bool Equals (Book other)

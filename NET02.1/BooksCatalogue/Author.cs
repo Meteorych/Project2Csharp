@@ -9,13 +9,13 @@ namespace BooksCatalogue
 {
     class Author
     {
-        private const int _maxLength = 200;
+        private const int MaxLength = 200;
         public string FirstName { get; }
         public string LastName { get; } 
         public Author(string firstName, string lastName) 
         { 
-            FirstName = firstName[.._maxLength];
-            LastName = lastName[.._maxLength];
+            FirstName = firstName.Length > MaxLength ? firstName.Substring(0, MaxLength) : firstName;
+            LastName = lastName.Length > MaxLength ? lastName.Substring(0, MaxLength) : lastName;
         } 
     }
 }

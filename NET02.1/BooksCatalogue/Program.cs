@@ -1,10 +1,13 @@
-﻿namespace BooksCatalogue
+﻿using static BooksCatalogue.Tests.Tests;
+namespace BooksCatalogue
 {
-    internal class Program
+    class Program
     {
         static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            BookTest1();
+            BookTest2();
+            AuthorTest();
         }
     }
 }
