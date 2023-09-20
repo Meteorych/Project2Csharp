@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BooksCatalogue
 {
-    class Author
+    public class Author
     {
         private const int MaxLength = 200;
         public string FirstName { get; }

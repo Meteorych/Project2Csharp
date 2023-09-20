@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BooksCatalogue
 {
-    class Book
+    public class Book
     {
         public string ISBN { get; }
         public string Title { get; }

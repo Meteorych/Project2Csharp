@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BooksCatalogue
 {
-    class Catalogue : IEnumerable<Book>
+    public class Catalogue : IEnumerable<Book>
     {
         private List<Book> _books = new();
         public Catalogue(List<Book> books)

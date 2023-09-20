@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Runtime.InteropServices;
+using Books
 using System.Text;
-using System.Threading.Tasks;
 
-namespace BooksCatalogue.Tests
+namespace BooksCataloguesTests
 {
+    [TestClass]
     static class Tests
     {
         /// <summary>
@@ -19,10 +14,11 @@ namespace BooksCatalogue.Tests
             Book testBook1 = new("1234567891017", "Test Book", "2012-05-09");
             Console.WriteLine($"{testBook1.GetType().Name} ISBN: {testBook1.ISBN}, Release Date: {testBook1.ReleaseDate}, Authors: {testBook1.Authors}");
             //book with wrong isbn to check exception call and regex check
-            try 
-            { 
+            try
+            {
                 Book testBook2 = new("121215--25124-21", "Wrong-ISBN Book");
-            } catch (ArgumentException ex) 
+            }
+            catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -30,7 +26,7 @@ namespace BooksCatalogue.Tests
         /// <summary>
         /// Check of book with authors's creation
         /// </summary>
-        public static void BookTest2() 
+        public static void BookTest2()
         {
             Author testAuthor = new("Mahatma", "Bugandi");
             Book testBook3 = new("1234567891011", "Test Book", "2012-05-09", new() { testAuthor });
@@ -40,9 +36,9 @@ namespace BooksCatalogue.Tests
         {
 
         }
-        public static void CatalogueTest2() 
-        { 
-        
+        public static void CatalogueTest2()
+        {
+
         }
         public static void AuthorTest()
         {
