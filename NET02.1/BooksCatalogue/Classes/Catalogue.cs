@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BooksCatalogue
+namespace BooksCatalogue.Classes
 {
     public class Catalogue : IEnumerable<Book>
     {
@@ -19,7 +19,7 @@ namespace BooksCatalogue
         {
             _books.Add(book);
         }
-        public Book? GetBook(string isbn) 
+        public Book? GetBook(string isbn)
         {
             foreach (Book book in _books)
             {
@@ -27,8 +27,8 @@ namespace BooksCatalogue
             }
             return null;
         }
-        public IEnumerable<Book>? LinqName(string firstName, string lastName) 
-        { 
+        public IEnumerable<Book>? LinqName(string firstName, string lastName)
+        {
             var SelectedBooks = from book in _books
                                 where book.Authors != null &&
                               book.Authors.Any(author =>
