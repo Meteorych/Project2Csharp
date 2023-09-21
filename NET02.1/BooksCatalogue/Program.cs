@@ -1,13 +1,10 @@
-﻿using static BooksCatalogue.Tests.Tests;
-namespace BooksCatalogue
+﻿namespace BooksCatalogue
 {
-    class Program
+    internal class Program
     {
         static void Main()
         {
-            BookTest1();
-            BookTest2();
-            AuthorTest();
+            
         }
     }
 }

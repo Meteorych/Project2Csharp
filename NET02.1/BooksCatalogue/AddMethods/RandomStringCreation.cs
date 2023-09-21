@@ -14,8 +14,8 @@ namespace BooksCatalogue.AddMethods
             Random rand = new();
             for (int i = 0; i < length; i++)
             {
-                int randvalue = rand.Next(26);
-                char letter = Convert.ToChar(randvalue + 65);
+                int randValue = rand.Next(26);
+                char letter = Convert.ToChar(randValue + 65);
                 stringBuilder.Append(letter);
             }
             return stringBuilder.ToString();
