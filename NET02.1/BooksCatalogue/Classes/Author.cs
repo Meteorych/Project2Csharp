@@ -14,8 +14,8 @@ namespace BooksCatalogue.Classes
         public string LastName { get; }
         public Author(string firstName, string lastName)
         {
-            FirstName = firstName.Length > MaxLength ? firstName.Substring(0, MaxLength) : firstName;
-            LastName = lastName.Length > MaxLength ? lastName.Substring(0, MaxLength) : lastName;
+            FirstName = firstName.Length > MaxLength ? firstName[..MaxLength] : firstName;
+            LastName = lastName.Length > MaxLength ? lastName[..MaxLength] : lastName;
         }
     }
 }
