@@ -8,7 +8,7 @@ namespace ConsoleApp1
         {
             TrainingMaterial trainingMaterial = new TextTraining("ssfafafasf", null);
             Console.WriteLine(trainingMaterial.Id);
-            ObjectExtension.GenerateNewId(trainingMaterial);
+            trainingMaterial.GenerateNewId();
             Console.WriteLine(trainingMaterial.Id);
         }
     }

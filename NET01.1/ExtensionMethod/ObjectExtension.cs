@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.ExtensionMethod
 {
-    class ObjectExtension
+    static class ObjectExtension
     {
-        static public void GenerateNewId(ITraining trainingObject) 
+        static public void GenerateNewId(this ITraining trainingObject) 
         { 
             trainingObject.Id = Guid.NewGuid();
         }  
