@@ -34,7 +34,7 @@ namespace TestProject1
             List<Book> testBookList = new() { new Book("1234433212343", "TestBook1", "2005.07.08"), new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08") };
             var expected = testBookList.OrderByDescending(book => book.ReleaseDate).ToList();
-            var result = new Catalogue(testBookList).LinqTime().ToList();
+            var result = new Catalogue(testBookList).ReturnBookByReleaseDate().ToList();
             CollectionAssert.AreEqual(expected, result);
         }
         [TestMethod]
@@ -43,7 +43,7 @@ namespace TestProject1
             List<Book> expectedBooks = new() { new("1234433212343", "TestBook1", authors: new List<Author>() { new Author("Test", "Author1") }) };
             List<Book> testbookList = new() { expectedBooks[0], new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08", authors:new List<Author>() { new Author("Test","Author2") }) };
-            var result = new Catalogue(testbookList).LinqName("Test", "Author1").ToList();
+            var result = new Catalogue(testbookList).GetByAuthorName("Test", "Author1").ToList();
             CollectionAssert.AreEqual(expectedBooks, result);
         }
         [TestMethod]
@@ -56,7 +56,7 @@ namespace TestProject1
             Book testBook3 = new ("2835533215643", "TestBook3", authors: new List<Author>() { testAuthor2 });
             List<Book> testBookList = new() { testBook1, testBook2, testBook3 };
             List<(Author, int)> expectedTuples = new() { (testAuthor1, 1), (testAuthor2, 2)};
-            var result = new Catalogue(testBookList).LinqTuple().ToList();
+            var result = new Catalogue(testBookList).GetNumberOfBooksByAuthors().ToList();
             CollectionAssert.AreEqual(expectedTuples, result);
         }
         [TestMethod]

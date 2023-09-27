@@ -15,6 +15,7 @@ namespace BooksCatalogue.Classes
         {
             _books = books;
         }
+        //Проверка нет ли такой книжки в каталоге
         public void AddBook(Book book)
         {
             _books.Add(book);
@@ -24,6 +25,7 @@ namespace BooksCatalogue.Classes
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns></returns>
+        // LINQ and override of Equals
         public Book? GetBook(string isbn)
         {
             foreach (Book book in _books)
@@ -38,7 +40,7 @@ namespace BooksCatalogue.Classes
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns></returns>
-        public IEnumerable<Book>? LinqName(string firstName, string lastName)
+        public IEnumerable<Book>? GetByAuthorName(string firstName, string lastName)
         {
             var SelectedBooks = from book in _books
                                 where book.Authors != null &&
@@ -52,7 +54,7 @@ namespace BooksCatalogue.Classes
         /// Return list of books sorted from the newest to the oldest.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Book> LinqTime()
+        public IEnumerable<Book> ReturnBookByReleaseDate()
         {
             var SelectedBooks = from book in _books
                                 orderby book.ReleaseDate descending
@@ -63,7 +65,7 @@ namespace BooksCatalogue.Classes
         /// Return tuple "Author — Number of his/her books".
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<(Author author, int BooksCount)> LinqTuple()
+        public IEnumerable<(Author author, int BooksCount)> GetNumberOfBooksByAuthors()
         {
             var authorBookCounts = _books
             .Where(book => book.Authors != null)
@@ -78,13 +80,8 @@ namespace BooksCatalogue.Classes
         /// </summary>
         /// <returns></returns>
         public IEnumerator<Book> GetEnumerator()
-        {
-            var sortedBooks = _books.OrderBy(book => book.Title).ToList();
-
-            foreach (var book in sortedBooks)
-            {
-                yield return book;
-            }
+        { 
+            return _books.OrderBy(book => book.Title).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
