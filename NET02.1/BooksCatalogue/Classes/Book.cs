@@ -14,16 +14,12 @@ namespace BooksCatalogue.Classes
         public DateOnly? ReleaseDate { get; }
         public List<Author>? Authors { get; }
         public Book(string isbn, string title, string? releaseDate = null, List<Author>? authors = null)
-        {
-            if (RegexISBNCheck(isbn))
+        { 
+            if (!RegexISBNCheck(isbn))
             {
-                ISBN = isbn;
+                throw new ArgumentException("Wrong ISBN!");
             }
-            else
-            {
-                throw new ArgumentException("");
-            }
-
+            ISBN = isbn;
             Title = title;
             if (releaseDate != null)
             {
@@ -38,14 +34,22 @@ namespace BooksCatalogue.Classes
             return pattern.IsMatch(isbn);
         }
         //Переделать Equals
-        public override bool Equals(object? otherobject)
+        public override bool Equals(object? otherObject)
         {
-            if (otherobject != null && otherobject is Book)
+            if (otherObject == null || otherObject is not Book)
             {
-                return true;
+                return false;
             }
-            else { return false; }
-            
+
+            // Cast the otherObject to Book type for property comparison.
+            Book otherBook = (Book)otherObject;
+
+            // Compare ISBN properties for equality.
+            return ISBN == otherBook.ISBN;
+        }
+        public override int GetHashCode()
+        {
+            return ISBN.GetHashCode();
         }
     }
 }
