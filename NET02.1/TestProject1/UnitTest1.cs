@@ -6,13 +6,13 @@ namespace TestProject1
     [TestClass]
     public class UnitTest1
     {
-        private const int MaxLength = 50; // Replace with the actual maximum length
+        private const int MaxLength = 200;
 
         [TestMethod]
         public void AuthorConstructor_ThrowsExceptionWhenFirstNameExceedsMaxLength()
         {
             // Arrange
-            string firstName = new string('A', MaxLength + 1); // Create a string longer than MaxLength
+            string firstName = new ('A', MaxLength + 1); 
 
             // Act and Assert
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Author(firstName, "LastName"));
