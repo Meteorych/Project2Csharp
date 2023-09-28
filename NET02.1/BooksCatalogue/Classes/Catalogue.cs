@@ -42,24 +42,22 @@ namespace BooksCatalogue.Classes
         /// <returns></returns>
         public IEnumerable<Book>? GetByAuthorName(string firstName, string lastName)
         {
-            var SelectedBooks = from book in _books
-                                where book.Authors != null &&
+            var SelectedBooks = _books.
+                                Where(book => book.Authors != null &&
                               book.Authors.Any(author =>
                                   author.FirstName == firstName &&
-                                  author.LastName == lastName)
-                                select book;
+                                  author.LastName == lastName));
             return SelectedBooks.ToList();
         }
         /// <summary>
         /// Return list of books sorted from the newest to the oldest.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Book> ReturnBookByReleaseDate()
+        public IEnumerable<Book> ReturnBooksSortedByReleaseDate()
         {
-            var SelectedBooks = from book in _books
-                                orderby book.ReleaseDate descending
-                                select book;
-            return SelectedBooks.ToList();
+            var SortedBooks = _books.
+                                OrderByDescending(book => book.ReleaseDate);
+            return SortedBooks.ToList();
         }
         /// <summary>
         /// Return tuple "Author — Number of his/her books".

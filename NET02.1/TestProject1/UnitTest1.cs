@@ -11,10 +11,7 @@ namespace TestProject1
         [TestMethod]
         public void AuthorConstructor_ThrowsExceptionWhenFirstNameExceedsMaxLength()
         {
-            // Arrange
             string firstName = new ('A', MaxLength + 1); 
-
-            // Act and Assert
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Author(firstName, "LastName"));
         }
         [TestMethod]
@@ -26,16 +23,16 @@ namespace TestProject1
             Assert.AreEqual (expected, testBook.ReleaseDate);
         }
         [TestMethod]
-        public void CatalogueBooks_LinqToObjectCatalogueBookTimeTest()
+        public void CatalogueBooks_SortingBooksbyTimeTest()
         {
             List<Book> testBookList = new() { new Book("1234433212343", "TestBook1", "2005.07.08"), new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08") };
             var expected = testBookList.OrderByDescending(book => book.ReleaseDate).ToList();
-            var result = new Catalogue(testBookList).ReturnBookByReleaseDate().ToList();
+            var result = new Catalogue(testBookList).ReturnBooksSortedByReleaseDate().ToList();
             CollectionAssert.AreEqual(expected, result);
         }
         [TestMethod]
-        public void CatalogueBooks_LinqToObjectCatalogueBookNameTest() 
+        public void CatalogueBooks_SelectBookByNameOfAuthorTest() 
         {
             List<Book> expectedBooks = new() { new("1234433212343", "TestBook1", authors: new List<Author>() { new Author("Test", "Author1") }) };
             List<Book> testbookList = new() { expectedBooks[0], new Book("1237833215643", "TestBook2", "2001.07.08"),
@@ -44,7 +41,7 @@ namespace TestProject1
             CollectionAssert.AreEqual(expectedBooks, result);
         }
         [TestMethod]
-        public void CatalogueBooks_LinqToObjectCatalogueTupleAuthorBookCountTest()
+        public void CatalogueBooks_CatalogueReturnTupleAuthorBookCountTest()
         {
             Author testAuthor1 = new("Test", "Author1");
             Author testAuthor2 = new("Test", "Author2");
@@ -62,8 +59,8 @@ namespace TestProject1
             List<Book> unsortedBookList = new() { new Book("1234433212343", "TestBook1", "2005.07.08"), new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08") };
             List<Book> expectedSortedList = unsortedBookList.OrderBy(book =>book.Title).ToList();
-            Catalogue testCatalogue = new Catalogue(unsortedBookList);
-            List<Book> result = new List<Book>();
+            Catalogue testCatalogue = new(unsortedBookList);
+            List<Book> result = new();
             foreach (var book in testCatalogue)
             {
                 result.Add(book);
