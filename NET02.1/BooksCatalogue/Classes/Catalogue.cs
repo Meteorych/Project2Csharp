@@ -28,11 +28,8 @@ namespace BooksCatalogue.Classes
         // LINQ and override of Equals
         public Book? GetBook(string isbn)
         {
-            foreach (Book book in _books)
-            {
-                if (book.ISBN == isbn) return book;
-            }
-            return null;
+            var selectedBook = _books.FirstOrDefault(book => book.ISBN == isbn);
+            return selectedBook;
         }
         /// <summary>
         /// Get books of particular author.

@@ -33,7 +33,7 @@ namespace BooksCatalogue.Classes
             Regex pattern = new("^\\d{13}$|^\\d{13}$|^\\d{3}-\\d-\\d{2}-\\d{6}-\\d$");
             return pattern.IsMatch(isbn);
         }
-        //Переделать Equals
+        
         public override bool Equals(object? otherObject)
         {
             if (otherObject == null || otherObject is not Book)
@@ -43,9 +43,8 @@ namespace BooksCatalogue.Classes
 
             // Cast the otherObject to Book type for property comparison.
             Book otherBook = (Book)otherObject;
-
             // Compare ISBN properties for equality.
-            return ISBN == otherBook.ISBN;
+            return ISBN.Replace("-", "") == otherBook.ISBN.Replace("-", "");
         }
         public override int GetHashCode()
         {
