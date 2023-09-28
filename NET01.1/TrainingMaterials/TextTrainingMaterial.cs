@@ -6,15 +6,8 @@
         private const int maxLength = 10000;
         public TextTrainingMaterial(string text, string? description)
         {
-            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException();
-            if (text.Length > maxLength)
-            {
-                Text = text[..maxLength];
-            }
-            else
-            {
-                Text = text;
-            }
+            if (string.IsNullOrEmpty(text) || text.Length > maxLength) throw new ArgumentNullException();
+            Text = text;
             Id = Guid.NewGuid();
             Description = description;
         }

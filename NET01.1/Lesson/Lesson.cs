@@ -13,7 +13,7 @@ namespace ConsoleApp1.Lesson
         TextLesson,
         VideoLesson
     }
-    class TextLesson : BaseEntity, IVersionable, ICloneable
+    class Lesson : BaseEntity, IVersionable, ICloneable
     {
         public Guid Id { get; set; }
         private List<TrainingMaterial> _lessonMaterials;
@@ -21,7 +21,7 @@ namespace ConsoleApp1.Lesson
         public LessonType LessonType { get; }
         public byte[] Version { get; private set; }
       
-        public TextLesson(string? description, List<TrainingMaterial> materials, byte[] version)
+        public Lesson(string? description, List<TrainingMaterial> materials, byte[] version)
         {
             Description = description;
             Id = Guid.NewGuid();
@@ -40,22 +40,11 @@ namespace ConsoleApp1.Lesson
         /// <returns></returns>
         public object Clone()
         {
-            var lesson = (TextLesson)MemberwiseClone();
+            var lesson = ()MemberwiseClone();
             lesson._lessonMaterials = new List<TrainingMaterial>();
             foreach (var material in _lessonMaterials)
             {
-                if (material is VideoTrainingMaterial videoMaterial)
-                {
-                    // Deep clone VideoTraining
-                    var clonedVideoMaterial = new VideoTraining(videoMaterial.URIVideo, videoMaterial.URIPicture, videoMaterial.Format, videoMaterial.Description, videoMaterial.Version);
-                    lesson._lessonMaterials.Add(clonedVideoMaterial);
-                }
-                else if (material is TextTrainingMaterial textMaterial)
-                {
-                    // Deep clone TextTraining
-                    var clonedTextMaterial = new TextTraining(textMaterial.Text, textMaterial.Description);
-                    lesson._lessonMaterials.Add(clonedTextMaterial);
-                }
+                material.Clone();
             }
             return lesson;
         }
@@ -70,12 +59,6 @@ namespace ConsoleApp1.Lesson
         public byte[] GetVersion()
         {
             return _version;
-        }
-    }
-    class VideoLesson : TextLesson
-    {
-        public VideoLesson(string? description, List<TrainingMaterial> materials, byte[] version) : base(description, materials, version)
-        {
         }
     }
 }
