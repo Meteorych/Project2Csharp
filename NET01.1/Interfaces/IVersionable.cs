@@ -8,7 +8,7 @@ namespace ConsoleApp1.Interfaces
 {
     internal interface IVersionable
     {
-        public byte[] Version { get; }
+        public byte[] GetVersion();
         public void SetVersion(byte[] version);
     }
 }

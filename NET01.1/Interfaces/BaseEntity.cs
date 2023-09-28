@@ -9,6 +9,14 @@ namespace ConsoleApp1.Interfaces
     internal abstract class BaseEntity
     {
         public Guid Id { get; set;}
-        public string? Description { get; set; }
+        protected string? _description = null;
+        public string? Description
+        {
+            get { return _description; }
+            set
+            {
+                   _description = value;
+            }
+        }
     }
 }
