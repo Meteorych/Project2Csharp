@@ -18,14 +18,17 @@ namespace BooksCatalogue.Classes
         //Проверка нет ли такой книжки в каталоге
         public void AddBook(Book book)
         {
-            _books.Add(book);
+            if (!_books.Any(book2 => book2.ISBN == book.ISBN))
+            {
+                _books.Add(book);
+            }
+            
         }
         /// <summary>
         /// Get book by its ISBN.
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns></returns>
-        // LINQ and override of Equals
         public Book? GetBook(string isbn)
         {
             var selectedBook = _books.FirstOrDefault(book => book.ISBN == isbn);

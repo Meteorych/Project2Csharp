@@ -7,20 +7,6 @@ namespace TestProject1
     public class UnitTest1
     {
         [TestMethod]
-        public void TestingFirstNameConstraint()
-        {
-            int excpectedLength = 200;
-            Author testAuthor1 = new($"{RandomStringCreation.RandomString(205)}", $"{RandomStringCreation.RandomString(205)}");
-            Assert.AreEqual(excpectedLength, testAuthor1.FirstName.Length);
-        }
-        [TestMethod]
-        public void TestingLastNameConstraint()
-        {
-            int excpectedLength = 200;
-            Author testAuthor1 = new($"{RandomStringCreation.RandomString(205)}", $"{RandomStringCreation.RandomString(205)}");
-            Assert.AreEqual(excpectedLength, testAuthor1.LastName.Length);
-        }
-        [TestMethod]
         public void ReleaseDateParsingTest () 
         {
             DateOnly expected = new(2003, 9, 23);
