@@ -6,8 +6,19 @@ namespace TestProject1
     [TestClass]
     public class UnitTest1
     {
+        private const int MaxLength = 50; // Replace with the actual maximum length
+
         [TestMethod]
-        public void ReleaseDateParsingTest () 
+        public void AuthorConstructor_ThrowsExceptionWhenFirstNameExceedsMaxLength()
+        {
+            // Arrange
+            string firstName = new string('A', MaxLength + 1); // Create a string longer than MaxLength
+
+            // Act and Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Author(firstName, "LastName"));
+        }
+        [TestMethod]
+        public void CatalogueBooks_ReleaseDateParsingTest () 
         {
             DateOnly expected = new(2003, 9, 23);
             string releaseDate = "2003.09.23";
@@ -15,7 +26,7 @@ namespace TestProject1
             Assert.AreEqual (expected, testBook.ReleaseDate);
         }
         [TestMethod]
-        public void LinqToObjectCatalogueBookTimeTest()
+        public void CatalogueBooks_LinqToObjectCatalogueBookTimeTest()
         {
             List<Book> testBookList = new() { new Book("1234433212343", "TestBook1", "2005.07.08"), new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08") };
@@ -24,7 +35,7 @@ namespace TestProject1
             CollectionAssert.AreEqual(expected, result);
         }
         [TestMethod]
-        public void LinqToObjectCatalogueBookNameTest() 
+        public void CatalogueBooks_LinqToObjectCatalogueBookNameTest() 
         {
             List<Book> expectedBooks = new() { new("1234433212343", "TestBook1", authors: new List<Author>() { new Author("Test", "Author1") }) };
             List<Book> testbookList = new() { expectedBooks[0], new Book("1237833215643", "TestBook2", "2001.07.08"),
@@ -33,7 +44,7 @@ namespace TestProject1
             CollectionAssert.AreEqual(expectedBooks, result);
         }
         [TestMethod]
-        public void LinqToObjectCatalogueTupleAuthorBookCountTest()
+        public void CatalogueBooks_LinqToObjectCatalogueTupleAuthorBookCountTest()
         {
             Author testAuthor1 = new("Test", "Author1");
             Author testAuthor2 = new("Test", "Author2");
@@ -46,7 +57,7 @@ namespace TestProject1
             CollectionAssert.AreEqual(expectedTuples, result);
         }
         [TestMethod]
-        public void CatalogueEnumenatorTest()
+        public void CatalogueBooks_EnumenatorTest()
         {
             List<Book> unsortedBookList = new() { new Book("1234433212343", "TestBook1", "2005.07.08"), new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08") };
@@ -60,7 +71,7 @@ namespace TestProject1
             CollectionAssert.AreEqual(result, unsortedBookList);
         }
         [TestMethod]
-        public void GetBookByISBNTest()
+        public void CatalogueBooks_GetBookByISBNTest()
         {
             var expectedBook = new Book("1234433212343", "TestBook1", "2005.07.08");
             List<Book> testBookList = new() { expectedBook, new Book("1237833215643", "TestBook2", "2001.07.08"),
