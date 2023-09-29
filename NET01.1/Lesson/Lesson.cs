@@ -15,11 +15,9 @@ namespace ConsoleApp1.Lesson
     }
     class Lesson : BaseEntity, IVersionable, ICloneable
     {
-        public Guid Id { get; set; }
         private List<TrainingMaterial> _lessonMaterials;
         private byte[] _version;
         public LessonType LessonType { get; }
-        public byte[] Version { get; private set; }
       
         public Lesson(string? description, List<TrainingMaterial> materials, byte[] version)
         {
@@ -40,7 +38,7 @@ namespace ConsoleApp1.Lesson
         /// <returns></returns>
         public object Clone()
         {
-            var lesson = ()MemberwiseClone();
+            var lesson = (Lesson)MemberwiseClone();
             lesson._lessonMaterials = new List<TrainingMaterial>();
             foreach (var material in _lessonMaterials)
             {

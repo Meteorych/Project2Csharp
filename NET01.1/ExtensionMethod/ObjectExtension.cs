@@ -9,7 +9,7 @@ namespace ConsoleApp1.ExtensionMethod
 {
     static class ObjectExtension
     {
-        static public void GenerateNewId(this ITraining trainingObject) 
+        static public void GenerateNewId(this BaseEntity trainingObject) 
         { 
             trainingObject.Id = Guid.NewGuid();
         }  

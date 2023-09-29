@@ -18,12 +18,12 @@ namespace ConsoleApp1.TrainingMaterials
             {
                 throw new ArgumentNullException("URI can't be empty!");
             }
-            URIContent = URI;
             if (!IsValidLinkType(linkType))
             {
                 throw new ArgumentException("Wrong link type!");
 
             }
+            URIContent = URI;
             LinkType = linkType;
             Id = Guid.NewGuid();
             Description = description;
