@@ -1,4 +1,4 @@
-using ConsoleApp1.Lesson;
+using ConsoleApp1.Lessons;
 using ConsoleApp1.TrainingMaterials;
 using System.Security.Cryptography.X509Certificates;
 
@@ -14,6 +14,7 @@ namespace LessonTestProject
             Lesson testlesson2 = (Lesson)testlesson1.Clone();
             CollectionAssert.AreEqual(testlesson1.GetVersion(), testlesson2.GetVersion());
             Assert.AreNotEqual(testlesson2, testlesson1);
+            CollectionAssert.AreNotEqual(testlesson2.LessonMaterials, testlesson1.LessonMaterials);
         }
     }
 }

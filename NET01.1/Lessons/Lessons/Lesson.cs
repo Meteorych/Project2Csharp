@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ConsoleApp1.Interfaces;
 using ConsoleApp1.TrainingMaterials;
 
-namespace ConsoleApp1.Lesson
+namespace ConsoleApp1.Lessons
 {
     public enum LessonType
     {
@@ -18,6 +18,7 @@ namespace ConsoleApp1.Lesson
         private List<TrainingMaterial> _lessonMaterials;
         private byte[] _version;
         public LessonType LessonType { get; }
+        public List<TrainingMaterial> LessonMaterials { get { return _lessonMaterials; } }
       
         public Lesson(List<TrainingMaterial> materials, byte[] version, string? description = null)
         {
@@ -42,7 +43,7 @@ namespace ConsoleApp1.Lesson
             lesson._lessonMaterials = new List<TrainingMaterial>();
             foreach (var material in _lessonMaterials)
             {
-                material.Clone();
+                lesson._lessonMaterials.Add((TrainingMaterial)material.Clone());
             }
             return lesson;
         }
