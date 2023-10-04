@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TemplatesDelegatesEvents.Matrixes
 {
-    internal class DiagonalMatrix
+    internal class DiagonalMatrix : Matrix
     {
     }
 }

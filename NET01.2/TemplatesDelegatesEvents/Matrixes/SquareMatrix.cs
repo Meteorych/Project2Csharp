@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TemplatesDelegatesEvents.Matrixes
 {
-    internal class SquareMatrix
+    internal class SquareMatrix : Matrix
     {
     }
 }
