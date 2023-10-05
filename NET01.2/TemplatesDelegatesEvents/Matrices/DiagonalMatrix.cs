@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace TemplatesDelegatesEvents.Matrixes
 {
-    internal class DiagonalMatrix<T> : Matrix<T>
+    /// <summary>
+    /// Derived class for creating model of Diagonal Matrix on the base of Square Matrix
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    class DiagonalMatrix<T> : SquareMatrix<T>
     {
         public DiagonalMatrix(int size) : base(size) 
         {
             for (int i = 0; i < Size; i++) 
             {
-                _data[(size + 1) * i] = default(T);
+                _data[(size + 1) * i] = default;
             }
         }
     }
