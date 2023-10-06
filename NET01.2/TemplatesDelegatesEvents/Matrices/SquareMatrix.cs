@@ -15,6 +15,7 @@ namespace TemplatesDelegatesEvents.Matrixes
     {
         protected T[] _data;
         public int Size { get; }
+        //Creating the delegate Event Handler, that will contain references to events
         public event EventHandler<EventMatrixElementChangedArgs<T>> ElementChanged;
         public SquareMatrix(int size)
         {
