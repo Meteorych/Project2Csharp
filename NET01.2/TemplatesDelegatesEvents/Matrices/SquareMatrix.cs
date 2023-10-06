@@ -29,7 +29,7 @@ namespace TemplatesDelegatesEvents.Matrixes
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        public T this[int row, int col]
+        public T this[int row, int col] 
         {
             get 
             {
@@ -44,7 +44,7 @@ namespace TemplatesDelegatesEvents.Matrixes
                 if (!Equals(oldValue, value))
                 {
                     _data[row * Size + col] = value;
-                    ElementChanged?.Invoke(this, new EventMatrixElementChangedArgs<T>(row, col, oldValue, value));
+                    ElementChanged.Invoke(this, new EventMatrixElementChangedArgs<T>(row, col, oldValue, value));
                 }
             }
         } 

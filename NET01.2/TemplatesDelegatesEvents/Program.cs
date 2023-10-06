@@ -10,7 +10,7 @@ namespace TemplatesDelegatesEvents
             //Anonimous method for handling events
             matrix.ElementChanged += delegate (object? sender, EventMatrixElementChangedArgs<int> e)
             {
-                Console.WriteLine($"Element at ({e.Row}, {e.Col}) changed from {e.OldValue} to {e.NewValue}");
+                Console.WriteLine($"Element at ({e.Row},  {e.Col}) changed from {e.OldValue} to {e.NewValue}");
             };
             //Calling of regular method
             matrix.ElementChanged += MatrixElementChangedHandler;
@@ -24,9 +24,10 @@ namespace TemplatesDelegatesEvents
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static void MatrixElementChangedHandler(object? sender, EventMatrixElementChangedArgs<int> e)
+        static void MatrixElementChangedHandler(object? sender, EventMatrixElementChangedArgs<int> e) 
         {
             Console.WriteLine($"Element at ({e.Row}, {e.Col}) changed from {e.OldValue} to {e.NewValue}");
         }
+
     }
 }
