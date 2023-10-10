@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TemplatesDelegatesEvents.Matrixes
+namespace TemplatesDelegatesEvents.Matrices
 {
     /// <summary>
     /// Derived class for creating model of Diagonal Matrix on the base of Square Matrix
@@ -16,7 +16,7 @@ namespace TemplatesDelegatesEvents.Matrixes
         {
             for (int i = 0; i < Size; i++) 
             {
-                _data[(size + 1) * i] = default;
+                Data[(size + 1) * i] = default;
             }
         }
     }

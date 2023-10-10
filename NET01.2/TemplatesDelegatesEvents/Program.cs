@@ -1,4 +1,4 @@
-﻿using TemplatesDelegatesEvents.Matrixes;
+﻿using TemplatesDelegatesEvents.Matrices;
 
 namespace TemplatesDelegatesEvents
 {
