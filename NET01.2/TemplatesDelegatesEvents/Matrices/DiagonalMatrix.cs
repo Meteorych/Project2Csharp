@@ -16,7 +16,7 @@ namespace TemplatesDelegatesEvents.Matrices
         {
             for (int i = 0; i < Size; i++) 
             {
-                Data[(size + 1) * i] = default(T) ?? throw new InvalidOperationException();
+                Data[(size + 1) * i] = default(T);
             }
         }
     }
