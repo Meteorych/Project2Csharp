@@ -1,15 +1,17 @@
-﻿namespace ConsoleApp1.TrainingMaterials
+﻿using ConsoleApp1.Interfaces;
+
+namespace ConsoleApp1.TrainingMaterials
 {
     public class TextTrainingMaterial : TrainingMaterial
     {
         public string Text { get;}
-        private const int maxLength = 10000;
-        public TextTrainingMaterial(string text, string? description)
+        private const int MaxLength = 10000;
+        public TextTrainingMaterial(string text, string? setGetDescription)
         {
-            if (string.IsNullOrEmpty(text) || text.Length > maxLength) throw new ArgumentNullException("Plese input text of right length!");
+            if (string.IsNullOrEmpty(text) || text.Length > MaxLength) throw new ArgumentNullException(nameof(text));
             Text = text;
             Id = Guid.NewGuid();
-            Description = description;
+            ((BaseEntity)this).SetGetDescription = setGetDescription;
         }
     }
 }

@@ -1,8 +1,7 @@
 using ConsoleApp1.Lessons;
 using ConsoleApp1.TrainingMaterials;
-using System.Security.Cryptography.X509Certificates;
 
-namespace LessonTestProject
+namespace LessonsTestProject
 {
     [TestClass]
     public class UnitTest1
@@ -10,11 +9,11 @@ namespace LessonTestProject
         [TestMethod]
         public void Lesson_CorrectCloningTest()
         {
-            Lesson testlesson1 = new(materials: new List<TrainingMaterial>() { new HTMLTrainingMaterial("fsafaf", "Html") }, version: new byte[] { 0, 1, 1, 4, 6 });
-            Lesson testlesson2 = (Lesson)testlesson1.Clone();
-            CollectionAssert.AreEqual(testlesson1.GetVersion(), testlesson2.GetVersion());
-            Assert.AreNotEqual(testlesson2, testlesson1);
-            CollectionAssert.AreNotEqual(testlesson2.LessonMaterials, testlesson1.LessonMaterials);
+            Lesson testLesson1 = new(materials: new List<TrainingMaterial>() { new HtmlTrainingMaterial("TestURI", "Html") }, version: new byte[] { 0, 1, 1, 4, 6 });
+            var testLesson2 = (Lesson)testLesson1.Clone();
+            CollectionAssert.AreEqual(testLesson1.GetVersion(), testLesson2.GetVersion());
+            Assert.AreNotEqual(testLesson2, testLesson1);
+            CollectionAssert.AreNotEqual(testLesson2.LessonMaterials, testLesson1.LessonMaterials);
         }
     }
 }

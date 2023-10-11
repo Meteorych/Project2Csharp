@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace ConsoleApp1.TrainingMaterials
+﻿namespace ConsoleApp1.TrainingMaterials
 {
-    public class HTMLTrainingMaterial : TrainingMaterial
+    public class HtmlTrainingMaterial : TrainingMaterial
     {
-        public string URIContent { get; }
+        public string UriContent { get; }
         public string LinkType { get; }
-        public HTMLTrainingMaterial(string URI, string linkType, string? description = null)
+        public HtmlTrainingMaterial(string uri, string linkType, string? description = null)
         {
-            if (string.IsNullOrEmpty(URI))
+            if (string.IsNullOrEmpty(uri))
             {
-                throw new ArgumentNullException("URI can't be empty!");
+                throw new ArgumentNullException(nameof(uri));
             }
             if (!IsValidLinkType(linkType))
             {
                 throw new ArgumentException("Wrong link type!");
 
             }
-            URIContent = URI;
+            UriContent = uri;
             LinkType = linkType;
             Id = Guid.NewGuid();
-            Description = description;
+            SetGetDescription = description;
         }
-        public bool IsValidLinkType(string linkType) 
+        public static bool IsValidLinkType(string linkType) 
         {
             string[] validTypes = { "Unknown", "Html", "Image", "Audio", "Video" };
             return Array.Exists(validTypes, f => f.Equals(linkType, StringComparison.OrdinalIgnoreCase));

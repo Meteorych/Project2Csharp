@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp1.Interfaces;
+﻿using ConsoleApp1.Interfaces;
 using ConsoleApp1.TrainingMaterials;
 
 namespace ConsoleApp1.Lessons
@@ -15,18 +10,17 @@ namespace ConsoleApp1.Lessons
     }
     public class Lesson : BaseEntity, IVersionable, ICloneable
     {
-        private List<TrainingMaterial> _lessonMaterials;
-        private byte[] _version;
+        private byte[] _version = null!;
         public LessonType LessonType { get; }
-        public List<TrainingMaterial> LessonMaterials { get { return _lessonMaterials; } }
-      
+        public List<TrainingMaterial> LessonMaterials { get; private set; }
+
         public Lesson(List<TrainingMaterial> materials, byte[] version, string? description = null)
         {
             Description = description;
             Id = Guid.NewGuid();
-            _lessonMaterials = materials;
+            LessonMaterials = materials;
             LessonType = LessonType.TextLesson;
-            if (_lessonMaterials.Any(material => material is VideoTrainingMaterial))
+            if (LessonMaterials.Any(material => material is VideoTrainingMaterial))
             {
                 LessonType = LessonType.VideoLesson;
             }
@@ -40,21 +34,19 @@ namespace ConsoleApp1.Lessons
         public object Clone()
         {
             var lesson = (Lesson)MemberwiseClone();
-            lesson._lessonMaterials = new List<TrainingMaterial>();
-            foreach (var material in _lessonMaterials)
+            lesson.LessonMaterials = new List<TrainingMaterial>();
+            foreach (var material in LessonMaterials)
             {
-                lesson._lessonMaterials.Add((TrainingMaterial)material.Clone());
+                lesson.LessonMaterials.Add((TrainingMaterial)material.Clone());
             }
             return lesson;
         }
-        public bool Equals(string otherId)
-        {
-            return Id.Equals(otherId);
-        }
+        
         public void SetVersion(byte[] version)
         {
             _version = version;
         }
+
         public byte[] GetVersion()
         {
             return _version;

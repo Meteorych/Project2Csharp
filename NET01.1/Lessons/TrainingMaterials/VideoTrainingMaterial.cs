@@ -18,7 +18,7 @@ namespace ConsoleApp1.TrainingMaterials
 
         private readonly string[] validFormats = { "Unknown", "Avi", "Mp4", "Flv" };
         private byte[] _version;
-        public VideoTrainingMaterial(string uriVideo, string uriPicture, string format, string? description, byte[] version)
+        public VideoTrainingMaterial(string uriVideo, string uriPicture, string format, string? setGetDescription, byte[] version)
         {
             if (string.IsNullOrEmpty(uriVideo) || string.IsNullOrEmpty(uriPicture))
             {
@@ -32,7 +32,7 @@ namespace ConsoleApp1.TrainingMaterials
             URIPicture = uriPicture;
             Format = format;
             Id = Guid.NewGuid();
-            Description = description;
+            ((BaseEntity)this).SetGetDescription = setGetDescription;
             SetVersion(version);
         }
 
