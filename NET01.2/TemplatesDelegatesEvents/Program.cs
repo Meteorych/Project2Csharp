@@ -7,7 +7,7 @@ namespace TemplatesDelegatesEvents
         static void Main()
         {
             SquareMatrix<int> matrix = new(5);
-            //Anonimous method for handling events
+            //Anonymous method for handling events
             matrix.ElementChanged += delegate (object? sender, EventMatrixElementChangedArgs<int> e)
             {
                 Console.WriteLine($"Element at ({e.Row},  {e.Col}) changed from {e.OldValue} to {e.NewValue}");
@@ -24,7 +24,7 @@ namespace TemplatesDelegatesEvents
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static void MatrixElementChangedHandler(object? sender, EventMatrixElementChangedArgs<int> e) 
+        private static void MatrixElementChangedHandler(object? sender, EventMatrixElementChangedArgs<int> e) 
         {
             Console.WriteLine($"Element at ({e.Row}, {e.Col}) changed from {e.OldValue} to {e.NewValue}");
         }

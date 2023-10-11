@@ -4,7 +4,7 @@
     /// Class of event, that will take and give definite arguments.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class EventMatrixElementChangedArgs<T> : EventArgs
+    internal class EventMatrixElementChangedArgs<T> : EventArgs
     {
         public int Row { get; }
         public int Col {  get; }
