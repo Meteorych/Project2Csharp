@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0044:Добавить модификатор только для чтения", Justification = "<Ожидание>", Scope = "member", Target = "~F:BooksCatalogue.Classes.Catalogue._books")]
+[assembly: SuppressMessage("Style", "IDE0044:Добавить модификатор только для чтения", Justification = "<Ожидание>", Scope = "member", Target = "~F:BooksCatalogue.Classes.Catalog._books")]

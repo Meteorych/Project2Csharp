@@ -1,24 +1,19 @@
-﻿  using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
-namespace BooksCatalogue.Classes
+
+namespace BooksCatalog.Classes
 {
-    public class Catalogue : IEnumerable<Book>
+    public class Catalog : IEnumerable<Book>
     {
         private List<Book> _books;
-        public Catalogue(List<Book> books)
+        public Catalog(List<Book> books)
         {
             _books = books;
         }
-        //Проверка нет ли такой книжки в каталоге
+        //Checking if there is such book in catalog
         public void AddBook(Book book)
         {
-            if (!_books.Any(book2 => book2.ISBN == book.ISBN))
+            if (_books.All(book2 => book2.ISBN != book.ISBN))
             {
                 _books.Add(book);
             }
@@ -42,12 +37,12 @@ namespace BooksCatalogue.Classes
         /// <returns></returns>
         public IEnumerable<Book>? GetByAuthorName(string firstName, string lastName)
         {
-            var SelectedBooks = _books.
+            var selectedBooks = _books.
                                 Where(book => book.Authors != null &&
                               book.Authors.Any(author =>
                                   author.FirstName == firstName &&
                                   author.LastName == lastName));
-            return SelectedBooks.ToList();
+            return selectedBooks.ToList();
         }
         /// <summary>
         /// Return list of books sorted from the newest to the oldest.
@@ -55,9 +50,9 @@ namespace BooksCatalogue.Classes
         /// <returns></returns>
         public IEnumerable<Book> ReturnBooksSortedByReleaseDate()
         {
-            var SortedBooks = _books.
+            var sortedBooks = _books.
                                 OrderByDescending(book => book.ReleaseDate);
-            return SortedBooks.ToList();
+            return sortedBooks.ToList();
         }
         /// <summary>
         /// Return tuple "Author — Number of his/her books".

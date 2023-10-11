@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
-namespace BooksCatalogue.Classes
+
+namespace BooksCatalog.Classes
 {
     public class Book
     {
@@ -30,19 +26,18 @@ namespace BooksCatalogue.Classes
 
         private static bool RegexISBNCheck(string isbn)
         {
-            Regex pattern = new("^\\d{13}$|^\\d{13}$|^\\d{3}-\\d-\\d{2}-\\d{6}-\\d$");
+            Regex pattern = new(@"^\d{13}$|^\d{13}$|^\d{3}-\d-\d{2}-\d{6}-\d$");
             return pattern.IsMatch(isbn);
         }
         
         public override bool Equals(object? otherObject)
         {
-            if (otherObject == null || otherObject is not Book)
+            if (otherObject is not Book otherBook)
             {
                 return false;
             }
 
             // Cast the otherObject to Book type for property comparison.
-            Book otherBook = (Book)otherObject;
             // Compare ISBN properties for equality.
             return ISBN.Replace("-", "") == otherBook.ISBN.Replace("-", "");
         }

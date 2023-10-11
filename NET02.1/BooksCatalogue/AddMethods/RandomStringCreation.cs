@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace BooksCatalogue.AddMethods
+
+namespace BooksCatalog.AddMethods
 {
     public static class RandomStringCreation
     {
@@ -14,8 +11,8 @@ namespace BooksCatalogue.AddMethods
             Random rand = new();
             for (int i = 0; i < length; i++)
             {
-                int randValue = rand.Next(26);
-                char letter = Convert.ToChar(randValue + 65);
+                var randValue = rand.Next(26);
+                var letter = Convert.ToChar(randValue + 65);
                 stringBuilder.Append(letter);
             }
             return stringBuilder.ToString();
