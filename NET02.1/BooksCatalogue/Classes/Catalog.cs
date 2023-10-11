@@ -35,7 +35,7 @@ namespace BooksCatalog.Classes
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
         /// <returns></returns>
-        public IEnumerable<Book>? GetByAuthorName(string firstName, string lastName)
+        public IEnumerable<Book> GetByAuthorName(string firstName, string lastName)
         {
             var selectedBooks = _books.
                                 Where(book => book.Authors != null &&
@@ -69,7 +69,7 @@ namespace BooksCatalog.Classes
             return authorBookCounts.ToList();
         }
         /// <summary>
-        /// Method that allows us to enumerate books from catalogue by simple cycle.
+        /// Method that allows us to enumerate books from catalog by simple cycle.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<Book> GetEnumerator()
