@@ -1,6 +1,4 @@
-﻿using ConsoleApp1.Interfaces;
-
-namespace ConsoleApp1.TrainingMaterials
+﻿namespace ConsoleApp1.TrainingMaterials
 {
     public class TextTrainingMaterial : TrainingMaterial
     {
@@ -11,7 +9,7 @@ namespace ConsoleApp1.TrainingMaterials
             if (string.IsNullOrEmpty(text) || text.Length > MaxLength) throw new ArgumentNullException(nameof(text));
             Text = text;
             Id = Guid.NewGuid();
-            ((BaseEntity)this).SetGetDescription = setGetDescription;
+            SetGetDescription = setGetDescription;
         }
     }
 }
