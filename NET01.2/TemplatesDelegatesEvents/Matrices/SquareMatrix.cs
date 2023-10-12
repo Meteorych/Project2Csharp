@@ -3,7 +3,7 @@
     /// <summary>
     /// Parent-class for realization of matrix
     /// </summary>
-    internal class SquareMatrix<T>
+    public class SquareMatrix<T>
     {
         protected T[] Data;
         public int Dimension { get; }
@@ -21,7 +21,7 @@
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        public T this[int row, int col] 
+        public virtual T this[int row, int col] 
         {
             get 
             {
