@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /.vs/Project2/v17/.wsuo
+/NET01.1/Interfaces/BaseEntity.cs
+/NET01.1/TrainingMaterials/HTMLTrainingMaterial.cs
+/NET01.1/TrainingMaterials/TextTrainingMaterial.cs
+/NET01.1/TrainingMaterials/VideoTrainingMaterial.cs
