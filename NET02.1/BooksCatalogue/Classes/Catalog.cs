@@ -13,20 +13,20 @@ namespace BooksCatalog.Classes
         //Checking if there is such book in catalog
         public void AddBook(Book book)
         {
-            if (_books.All(book2 => book2.ISBN != book.ISBN))
+            if (_books.All(book2 => book2.Isbn != book.Isbn))
             {
                 _books.Add(book);
             }
             
         }
         /// <summary>
-        /// Get book by its ISBN.
+        /// Get book by its Isbn.
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns></returns>
         public Book? GetBook(string isbn)
         {
-            var selectedBook = _books.FirstOrDefault(book => book.ISBN == isbn);
+            var selectedBook = _books.FirstOrDefault(book => book.Isbn == isbn);
             return selectedBook;
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace BooksCatalog.Classes
             return authorBookCounts.ToList();
         }
         /// <summary>
-        /// Method that allows us to enumerate books from catalog by simple cycle.
+        /// Method that allows us to enumerate books from catalogщ by simple cycle.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<Book> GetEnumerator()

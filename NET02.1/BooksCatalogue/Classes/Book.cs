@@ -5,17 +5,17 @@ namespace BooksCatalog.Classes
 {
     public class Book
     {
-        public string ISBN { get; }
+        public string Isbn { get; }
         public string Title { get; }
         public DateOnly? ReleaseDate { get; }
         public List<Author>? Authors { get; }
         public Book(string isbn, string title, string? releaseDate = null, List<Author>? authors = null)
         { 
-            if (!RegexISBNCheck(isbn))
+            if (!RegexIsbnCheck(isbn))
             {
-                throw new ArgumentException("Wrong ISBN!");
+                throw new ArgumentException("Wrong Isbn!");
             }
-            ISBN = isbn;
+            Isbn = isbn;
             Title = title;
             if (releaseDate != null)
             {
@@ -24,7 +24,7 @@ namespace BooksCatalog.Classes
             Authors = authors;
         }
 
-        private static bool RegexISBNCheck(string isbn)
+        private static bool RegexIsbnCheck(string isbn)
         {
             Regex pattern = new(@"^\d{13}$|^\d{13}$|^\d{3}-\d-\d{2}-\d{6}-\d$");
             return pattern.IsMatch(isbn);
@@ -39,11 +39,11 @@ namespace BooksCatalog.Classes
 
             // Cast the otherObject to Book type for property comparison.
             // Compare ISBN properties for equality.
-            return ISBN.Replace("-", "") == otherBook.ISBN.Replace("-", "");
+            return Isbn.Replace("-", "") == otherBook.Isbn.Replace("-", "");
         }
         public override int GetHashCode()
         {
-            return ISBN.GetHashCode();
+            return Isbn.GetHashCode();
         }
     }
 }

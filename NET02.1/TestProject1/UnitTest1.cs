@@ -53,7 +53,7 @@ namespace BooksCatalogTests
             CollectionAssert.AreEqual(expectedTuples, result);
         }
         [TestMethod]
-        public void CatalogBooks_EnumenatorTest()
+        public void CatalogBooks_EnumeratorTest()
         {
             List<Book> unsortedBookList = new() { new Book("1234433212343", "TestBook1", "2005.07.08"), new Book("1237833215643", "TestBook2", "2001.07.08"),
                new Book("2835533215643", "TestBook3", "1999.07.08") };
