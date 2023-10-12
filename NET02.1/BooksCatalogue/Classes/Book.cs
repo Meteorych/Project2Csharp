@@ -11,11 +11,11 @@ namespace BooksCatalog.Classes
         public List<Author>? Authors { get; }
         public Book(string isbn, string title, string? releaseDate = null, List<Author>? authors = null)
         { 
-            if (!RegexIsbnCheck(isbn))
+            if (!IsbnCheck(isbn))
             {
                 throw new ArgumentException("Wrong Isbn!");
             }
-            Isbn = isbn;
+            Isbn = isbn.Replace("-", "");
             Title = title;
             if (releaseDate != null)
             {
@@ -23,8 +23,8 @@ namespace BooksCatalog.Classes
             }
             Authors = authors;
         }
-
-        private static bool RegexIsbnCheck(string isbn)
+        //забросить в отдельный класс
+        private static bool IsbnCheck(string isbn)
         {
             Regex pattern = new(@"^\d{13}$|^\d{13}$|^\d{3}-\d-\d{2}-\d{6}-\d$");
             return pattern.IsMatch(isbn);
@@ -39,7 +39,7 @@ namespace BooksCatalog.Classes
 
             // Cast the otherObject to Book type for property comparison.
             // Compare ISBN properties for equality.
-            return Isbn.Replace("-", "") == otherBook.Isbn.Replace("-", "");
+            return Isbn == otherBook.Isbn;
         }
         public override int GetHashCode()
         {

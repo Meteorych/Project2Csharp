@@ -17,18 +17,19 @@ namespace BooksCatalog.Classes
             {
                 _books.Add(book);
             }
+            else
+            {
+                throw new ArgumentException();
+            }
             
         }
+
         /// <summary>
         /// Get book by its Isbn.
         /// </summary>
         /// <param name="isbn"></param>
         /// <returns></returns>
-        public Book? GetBook(string isbn)
-        {
-            var selectedBook = _books.FirstOrDefault(book => book.Isbn == isbn);
-            return selectedBook;
-        }
+        public Book? GetBook(string isbn) => _books.FirstOrDefault(book => book.Isbn == isbn);
         /// <summary>
         /// Get books of particular author.
         /// </summary>
@@ -69,7 +70,7 @@ namespace BooksCatalog.Classes
             return authorBookCounts.ToList();
         }
         /// <summary>
-        /// Method that allows us to enumerate books from catalogщ by simple cycle.
+        /// Method that allows us to enumerate books from catalog by simple cycle.
         /// </summary>
         /// <returns></returns>
         public IEnumerator<Book> GetEnumerator()
