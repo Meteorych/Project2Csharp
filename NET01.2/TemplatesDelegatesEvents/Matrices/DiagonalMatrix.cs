@@ -12,11 +12,14 @@ namespace TemplatesDelegatesEvents.Matrices
     /// <typeparam name="T"></typeparam>
     internal class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        public DiagonalMatrix(int size) : base(size) 
+        public DiagonalMatrix(int dimension) : base(dimension) 
         {
-            for (int i = 0; i < Size; i++) 
+            //Перегрузка индексатора
+            //Меньше элементов в одномерном массиве
+            //Модульные тесты
+            for (int i = 0; i < Dimension; i++) 
             {
-                Data[(size + 1) * i] = default!;
+                Data[(dimension + 1) * i] = default!;
             }
         }
     }
