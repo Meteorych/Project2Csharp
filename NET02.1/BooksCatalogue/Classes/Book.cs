@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using BooksCatalog.Helpers;
 
 
 namespace BooksCatalog.Classes
@@ -11,7 +11,7 @@ namespace BooksCatalog.Classes
         public List<Author>? Authors { get; }
         public Book(string isbn, string title, string? releaseDate = null, List<Author>? authors = null)
         { 
-            if (!IsbnCheck(isbn))
+            if (!Helper.IsbnCheck(isbn))
             {
                 throw new ArgumentException("Wrong Isbn!");
             }
@@ -23,12 +23,8 @@ namespace BooksCatalog.Classes
             }
             Authors = authors;
         }
-        //забросить в отдельный класс
-        private static bool IsbnCheck(string isbn)
-        {
-            Regex pattern = new(@"^\d{13}$|^\d{13}$|^\d{3}-\d-\d{2}-\d{6}-\d$");
-            return pattern.IsMatch(isbn);
-        }
+        
+        
         
         public override bool Equals(object? otherObject)
         {
