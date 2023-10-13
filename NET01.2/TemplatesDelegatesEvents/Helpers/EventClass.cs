@@ -1,4 +1,4 @@
-﻿namespace TemplatesDelegatesEvents
+﻿namespace TemplatesDelegatesEvents.Helpers
 {
     /// <summary>
     /// Class of event, that will take and give definite arguments.
@@ -7,7 +7,7 @@
     public class EventMatrixElementChangedArgs<T> : EventArgs
     {
         public int Row { get; }
-        public int Col {  get; }
+        public int Col { get; }
         public T OldValue { get; }
         public T NewValue { get; }
 

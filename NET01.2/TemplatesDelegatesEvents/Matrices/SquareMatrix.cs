@@ -1,4 +1,6 @@
-﻿namespace TemplatesDelegatesEvents.Matrices
+﻿using TemplatesDelegatesEvents.Helpers;
+
+namespace TemplatesDelegatesEvents.Matrices
 {
     /// <summary>
     /// Parent-class for realization of matrix
