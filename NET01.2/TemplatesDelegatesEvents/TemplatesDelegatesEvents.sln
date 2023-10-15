@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-<<<<<<<< HEAD:NET01.2/TemplatesDelegatesEvents/TemplatesDelegatesEvents.sln
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplatesDelegatesEvents", "TemplatesDelegatesEvents.csproj", "{45EE680E-6565-4BDE-8791-06618CA5D0AE}"
-========
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1.csproj", "{4551A412-0D49-44B1-9055-15086B86B3E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplatesDelegatesEvents", "TemplatesDelegatesEvents.csproj", "{45EE680E-6565-4BDE-8791-06618CA5D0AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LessonsTestProject", "..\LessonsTestProject\LessonsTestProject.csproj", "{B05E162B-DB75-4EAF-85E3-CF38369D68F3}"
->>>>>>>> NET01.1:NET01.1/Lessons/ConsoleApp1.sln
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplatesDelegatesEventsTests", "..\TemplatesDelegatesEventsTests\TemplatesDelegatesEventsTests.csproj", "{FC4DC0FA-34CA-43CF-90D3-BDE9575247AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,21 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-<<<<<<<< HEAD:NET01.2/TemplatesDelegatesEvents/TemplatesDelegatesEvents.sln
 		{45EE680E-6565-4BDE-8791-06618CA5D0AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45EE680E-6565-4BDE-8791-06618CA5D0AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45EE680E-6565-4BDE-8791-06618CA5D0AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45EE680E-6565-4BDE-8791-06618CA5D0AE}.Release|Any CPU.Build.0 = Release|Any CPU
-========
-		{4551A412-0D49-44B1-9055-15086B86B3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4551A412-0D49-44B1-9055-15086B86B3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4551A412-0D49-44B1-9055-15086B86B3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4551A412-0D49-44B1-9055-15086B86B3E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B05E162B-DB75-4EAF-85E3-CF38369D68F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B05E162B-DB75-4EAF-85E3-CF38369D68F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B05E162B-DB75-4EAF-85E3-CF38369D68F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B05E162B-DB75-4EAF-85E3-CF38369D68F3}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>>> NET01.1:NET01.1/Lessons/ConsoleApp1.sln
+		{FC4DC0FA-34CA-43CF-90D3-BDE9575247AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4DC0FA-34CA-43CF-90D3-BDE9575247AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4DC0FA-34CA-43CF-90D3-BDE9575247AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4DC0FA-34CA-43CF-90D3-BDE9575247AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

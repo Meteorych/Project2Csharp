@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TemplatesDelegatesEvents.Helpers;
 
 namespace TemplatesDelegatesEvents.Matrices
 {
@@ -10,17 +6,31 @@ namespace TemplatesDelegatesEvents.Matrices
     /// Derived class for creating model of Diagonal Matrix on the base of Square Matrix
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class DiagonalMatrix<T> : SquareMatrix<T>
+    public class DiagonalMatrix<T> : SquareMatrix<T>
     {
-        public DiagonalMatrix(int dimension) : base(dimension) 
+        public DiagonalMatrix(int dimension) : base(dimension)
         {
-            //Перегрузка индексатора
-            //Меньше элементов в одномерном массиве
-            //Модульные тесты
-            for (int i = 0; i < Dimension; i++) 
+            Data = new T[dimension];
+        }
+
+        public override T this[int row, int column]
+        {
+            get => (row != column ? Data[row] : default)!;
+            set
             {
-                Data[(dimension + 1) * i] = default!;
+                if (row == column)
+                {
+                    var oldValue = Data[row];
+                    if (Equals(oldValue, value)) return;
+                    Data[row] = value;
+                    OnElementChanged(new EventMatrixElementChangedArgs<T>(row, row, oldValue, value));
+                }
+                else
+                {
+                    throw new ArgumentException("You can't change these element in diagonal matrix!");
+                }
             }
         }
+
     }
 }

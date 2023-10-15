@@ -1,14 +1,21 @@
-﻿namespace TemplatesDelegatesEvents.Matrices
+﻿using TemplatesDelegatesEvents.Helpers;
+
+namespace TemplatesDelegatesEvents.Matrices
 {
     /// <summary>
     /// Parent-class for realization of matrix
     /// </summary>
-    internal class SquareMatrix<T>
+    public class SquareMatrix<T>
     {
         protected T[] Data;
         public int Dimension { get; }
         //Creating the delegate Event Handler, that will contain references to events
         public event EventHandler<EventMatrixElementChangedArgs<T>>? ElementChanged;
+
+        protected virtual void OnElementChanged(EventMatrixElementChangedArgs<T> e)
+        {
+            ElementChanged?.Invoke(this, e);
+        }
         public SquareMatrix(int dimension)
         {
             if (dimension <= 0) throw new ArgumentOutOfRangeException(nameof(dimension), "Dimension should be natural.");
@@ -21,7 +28,7 @@
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        public T this[int row, int col] 
+        public virtual T this[int row, int col] 
         {
             get 
             {
@@ -38,7 +45,7 @@
                 var oldValue = Data[row * Dimension + col];
                 if (Equals(oldValue, value)) return;
                 Data[row * Dimension + col] = value;
-                ElementChanged?.Invoke(this, new EventMatrixElementChangedArgs<T>(row, col, oldValue, value));
+                OnElementChanged(new EventMatrixElementChangedArgs<T>(row, col, oldValue, value));
             }
         } 
     }
