@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Security.Cryptography.X509Certificates;
+﻿using TemplatesDelegatesEvents.Helpers;
 
 namespace TemplatesDelegatesEvents.Matrices
 {
@@ -12,11 +11,6 @@ namespace TemplatesDelegatesEvents.Matrices
         public DiagonalMatrix(int dimension) : base(dimension)
         {
             Data = new T[dimension];
-            //Модульные тесты
-            for (int i = 0; i < Dimension; i++) 
-            {
-                Data[(dimension + 1) * i] = default!;
-            }
         }
 
         public override T this[int row, int column]
@@ -26,7 +20,10 @@ namespace TemplatesDelegatesEvents.Matrices
             {
                 if (row == column)
                 {
+                    var oldValue = Data[row];
+                    if (Equals(oldValue, value)) return;
                     Data[row] = value;
+                    OnElementChanged(new EventMatrixElementChangedArgs<T>(row, row, oldValue, value));
                 }
                 else
                 {

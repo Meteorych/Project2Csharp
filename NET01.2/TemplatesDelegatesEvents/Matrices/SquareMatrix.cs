@@ -11,6 +11,11 @@ namespace TemplatesDelegatesEvents.Matrices
         public int Dimension { get; }
         //Creating the delegate Event Handler, that will contain references to events
         public event EventHandler<EventMatrixElementChangedArgs<T>>? ElementChanged;
+
+        protected virtual void OnElementChanged(EventMatrixElementChangedArgs<T> e)
+        {
+            ElementChanged?.Invoke(this, e);
+        }
         public SquareMatrix(int dimension)
         {
             if (dimension <= 0) throw new ArgumentOutOfRangeException(nameof(dimension), "Dimension should be natural.");
@@ -40,7 +45,7 @@ namespace TemplatesDelegatesEvents.Matrices
                 var oldValue = Data[row * Dimension + col];
                 if (Equals(oldValue, value)) return;
                 Data[row * Dimension + col] = value;
-                ElementChanged?.Invoke(this, new EventMatrixElementChangedArgs<T>(row, col, oldValue, value));
+                OnElementChanged(new EventMatrixElementChangedArgs<T>(row, col, oldValue, value));
             }
         } 
     }
