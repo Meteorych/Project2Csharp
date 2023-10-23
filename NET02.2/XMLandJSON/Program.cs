@@ -1,13 +1,15 @@
-﻿using XmlAndJson.LoginClasses;
+﻿using System.Runtime.InteropServices;
+using XmlAndJson.LoginClasses;
+using XmlAndJson.XMLHandling;
 
 namespace XmlAndJson
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Login login = new("fdsafs");
-            login.Windows = new List<Window>();
+            var Handler = new XmlConfigHandler("Config.xml");
+            Console.WriteLine($"{Handler.Logins[0].Windows[1].Attributes["width"]}");
         }
     }
 }

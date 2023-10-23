@@ -2,7 +2,7 @@
 
 namespace XmlAndJson
 {
-    internal class JSONSerialization
+    public class JSONSerialization
     {
     }
 }

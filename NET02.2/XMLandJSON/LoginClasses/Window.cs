@@ -5,10 +5,15 @@
     /// </summary>
     public class Window
     {
-        public Dictionary<string, int> Attributes { get; private set; } = new();
-        public Window()
+        public string Title { get;}
+        public Dictionary<string, int?> Attributes { get; private set; } = new();
+        public Window(string title, int top, int left, int width, int height)
         {
-            
+            Title = title;
+            Attributes["top"] = top;
+            Attributes["left"] = left;
+            Attributes["width"] = width;
+            Attributes["height"] = height;
         }
 
     }
