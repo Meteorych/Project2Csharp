@@ -13,5 +13,10 @@
             Name = name;
             Windows = windowsList;
         }
+
+        //public void ReturnLoginConfig()
+        //{
+        //    foreach(var login in )
+        //}
     }
 }

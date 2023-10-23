@@ -6,8 +6,8 @@
     public class Window
     {
         public string Title { get;}
-        public Dictionary<string, int?> Attributes { get; private set; } = new();
-        public Window(string title, int top, int left, int width, int height)
+        public Dictionary<string, string> Attributes { get;} = new();
+        public Window(string title, string top, string left, string width, string height)
         {
             Title = title;
             Attributes["top"] = top;

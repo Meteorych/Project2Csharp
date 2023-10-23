@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using XmlAndJson.LoginClasses;
+using XMLandJSON.LoginClasses;
 using XmlAndJson.XMLHandling;
 
 namespace XmlAndJson
@@ -8,8 +9,8 @@ namespace XmlAndJson
     {
         static void Main()
         {
-            var Handler = new XmlConfigHandler("Config.xml");
-            Console.WriteLine($"{Handler.Logins[0].Windows[1].Attributes["width"]}");
+            LoginsConfig logins = new(XmlConfigHandler.LoginDataHandler("Config.xml"));
+            logins.LoginList[]
         }
     }
 }
