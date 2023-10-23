@@ -10,7 +10,7 @@ namespace XmlAndJson
         static void Main()
         {
             LoginsConfig logins = new(XmlConfigHandler.LoginDataHandler("Config.xml"));
-            logins.LoginList[]
+            Console.WriteLine($"{logins[0].Windows[0].Title}");
         }
     }
 }

@@ -12,5 +12,7 @@ namespace XMLandJSON.LoginClasses
         {
             LoginList = loginList;
         }
+
+        public Login this[int num] => LoginList[num];
     }
 }
