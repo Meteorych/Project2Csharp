@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using XmlAndJson.LoginClasses;
+﻿using XMLandJSON.DisplayConfigs;
 using XMLandJSON.LoginClasses;
 using XmlAndJson.XMLHandling;
 
@@ -10,7 +9,8 @@ namespace XmlAndJson
         static void Main()
         {
             LoginsConfig logins = new(XmlConfigHandler.LoginDataHandler("Config.xml"));
-            Console.WriteLine($"{logins[0].Windows[0].Title}");
+            DisplayAll.DisplayConfigs(logins);
+            WrongElementsDisplay.DisplayConfigs(logins);
         }
     }
 }

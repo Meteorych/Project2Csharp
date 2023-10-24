@@ -1,5 +1,4 @@
-﻿using System.Reflection.Emit;
-using System.Xml;
+﻿using System.Xml;
 using XmlAndJson.LoginClasses;
 
 namespace XmlAndJson.XMLHandling
@@ -47,8 +46,16 @@ namespace XmlAndJson.XMLHandling
                 var left = leftNode != null ? leftNode.InnerText : "?";
                 var width = widthNode != null ? widthNode.InnerText : "?";
                 var height = heightNode != null ? heightNode.InnerText : "?";
-                Window window = new(title, top, left, width, height);
-                windows.Add(window);
+                if (title == "main" && (top == "?" || left == "?" || width == "?" || height == "?"))
+                {
+                    Window window = new(title, top, left, width, height, rightConfig: false);
+                    windows.Add(window);
+                }
+                else
+                {
+                    Window window = new(title, top, left, width, height);
+                    windows.Add(window);
+                }
             }
             return windows;
         }
