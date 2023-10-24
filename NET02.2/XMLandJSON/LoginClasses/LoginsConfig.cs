@@ -3,6 +3,9 @@ using XmlAndJson.LoginClasses;
 
 namespace XMLandJSON.LoginClasses
 {
+    /// <summary>
+    /// Class for collection of configurations of Logins.
+    /// </summary>
     public class LoginsConfig : IEnumerable
     {
         public List<Login> LoginList { get; }

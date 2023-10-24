@@ -1,20 +1,21 @@
-﻿using System.Text.Json;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json;
 using XMLandJSON.LoginClasses;
 
 namespace XMLandJSON.Json
 {
-    public abstract class JsonSerialization
+    public static class JsonSerialization
     {
         /// <summary>
         /// Default values for attributes during JsonSerialization.
         /// </summary>
-        private static readonly Dictionary<string, string> DefaultValues = new()
+        private static readonly ReadOnlyDictionary<string, string> DefaultValues = new(new Dictionary<string, string>
         {
             { "top", "0" },
             { "left", "0" },
             { "width", "400" },
-            { "height", "400" },
-        };
+            { "height", "150" },
+        });
         /// <summary>
         /// Method for JSON serialization of Logins config.
         /// </summary>
@@ -31,7 +32,8 @@ namespace XMLandJSON.Json
                         window.Attributes = window.Attributes.ToDictionary(pair => pair.Key, pair => DefaultValues.ContainsKey(pair.Key) && pair.Value == "?" ? DefaultValues[pair.Key] : pair.Value);
                     });
                 }
-                File.WriteAllText(path, JsonSerializer.Serialize(login, new JsonSerializerOptions { WriteIndented = true }) );
+                var jsonString = JsonSerializer.Serialize(login, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(path, jsonString );
             }
         }
 
