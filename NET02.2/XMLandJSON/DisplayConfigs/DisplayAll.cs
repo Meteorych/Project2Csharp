@@ -1,5 +1,4 @@
-﻿using XmlAndJson.LoginClasses;
-using XMLandJSON.LoginClasses;
+﻿using XMLandJSON.LoginClasses;
 
 namespace XMLandJSON.DisplayConfigs
 {

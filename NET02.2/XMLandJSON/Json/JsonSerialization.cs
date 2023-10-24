@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text.Json;
-using System.Xml;
+﻿using System.Text.Json;
 using XMLandJSON.LoginClasses;
 
 namespace XMLandJSON.Json
