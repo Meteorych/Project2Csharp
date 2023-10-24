@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XmlAndJson.LoginClasses;
-using XMLandJSON.LoginClasses;
+﻿using XMLandJSON.LoginClasses;
 
 namespace XMLandJSON.DisplayConfigs
 {
     public class WrongElementsDisplay
     {
+        /// <summary>
+        /// Method for displaying logins with wrong configuration.
+        /// </summary>
+        /// <param name="logins"></param>
         public static void DisplayConfigs(LoginsConfig logins)
         {
             foreach (var login in logins)

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text.Json.Serialization;
 
 namespace XmlAndJson.LoginClasses
 {
@@ -8,7 +9,9 @@ namespace XmlAndJson.LoginClasses
     public class Window
     {
         public string Title { get;}
-        public Dictionary<string, string> Attributes { get;} = new();
+        public Dictionary<string, string> Attributes { get; set; } = new();
+
+        [JsonIgnore]
         public bool RightConfig { get;}
         public Window(string title, string top, string left, string width, string height, bool rightConfig = true)
         {

@@ -4,7 +4,11 @@ using XMLandJSON.LoginClasses;
 namespace XMLandJSON.DisplayConfigs
 {
     public class DisplayAll
-    { 
+    {
+        /// <summary>
+        /// Method for displaying all logins.
+        /// </summary>
+        /// <param name="logins"></param>
         public static void DisplayConfigs (LoginsConfig logins)
         {
             foreach (var login in logins)

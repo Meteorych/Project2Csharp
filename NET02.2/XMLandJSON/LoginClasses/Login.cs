@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text.Json.Serialization;
 
 namespace XmlAndJson.LoginClasses
 {
@@ -9,6 +10,7 @@ namespace XmlAndJson.LoginClasses
     {
         public string Name { get; }
         public List<Window> Windows { get; }
+
         public bool RightConfig { get; private set; } = true;
 
         public Login(string name, List<Window> windowsList)
@@ -25,6 +27,7 @@ namespace XmlAndJson.LoginClasses
         {
             return Windows.GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

@@ -13,4 +13,17 @@
 			<height>100</height>
 		</window>
 	</login>
+	<login name = "vanya">
+		<window title = "main">
+			<top>10</top>
+			<left>20</left>
+			<width>400</width>
+			<height>200</height>
+		</window>
+		<window title = "help">
+			<left>30</left>
+			<top>20</top>
+			<height>100</height>
+		</window>
+	</login>
 </config>
