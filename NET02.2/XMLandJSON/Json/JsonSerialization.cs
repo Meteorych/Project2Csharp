@@ -6,6 +6,8 @@ namespace XMLandJSON.Json
 {
     public static class JsonSerialization
     {
+        //C
+
         /// <summary>
         /// Default values for attributes during JsonSerialization.
         /// </summary>

@@ -25,5 +25,37 @@ namespace XMLandJSON.LoginClasses
         {
             return GetEnumerator();
         }
+
+        /// <summary>
+        /// Method for displaying configs of all logins.
+        /// </summary>
+        public void DisplayConfigs()
+        {
+            foreach (var login in LoginList)
+            {
+                Console.WriteLine($"Login: {login.Name}");
+                foreach (var window in login)
+                {
+                    Console.WriteLine($"\t{window.Title}: {window.Attributes["top"]}, {window.Attributes["left"]}, " +
+                                      $"{window.Attributes["width"]}, {window.Attributes["height"]}");
+                }
+            }
+        }
+        /// <summary>
+        /// Method for displaying logins with wrong configuration.
+        /// </summary>
+        public void DisplayWrongConfigs()
+        {
+            foreach (var login in LoginList.Where(login => !login.RightConfig))
+            {
+                Console.WriteLine("Login with wrong configuration!");
+                Console.WriteLine($"Login: {login.Name}");
+                foreach (var window in login)
+                {
+                    Console.WriteLine($"\t{window.Title}: {window.Attributes["top"]}, {window.Attributes["left"]}, " +
+                                      $"{window.Attributes["width"]}, {window.Attributes["height"]}");
+                }
+            }
+        }
     }
 }
