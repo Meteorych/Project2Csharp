@@ -1,7 +1,7 @@
 ﻿using System.Xml;
-using XmlAndJson.LoginClasses;
+using ConfigHandlerLibraries.LoginClasses;
 
-namespace XmlAndJson.XMLHandling
+namespace ConfigHandlerLibraries
 {
     /// <summary>
     /// Class that handles "Login" config files.
@@ -31,7 +31,7 @@ namespace XmlAndJson.XMLHandling
         /// Method for handling "Windows" data from XML-file.
         /// </summary>
         /// <param name="loginElement"></param>
-        /// <returns></returns>
+        /// <returns>List of windows</returns>
         private static List<Window> WindowDataHandler(XmlNode loginElement)
         {
             List<Window> windows = new();

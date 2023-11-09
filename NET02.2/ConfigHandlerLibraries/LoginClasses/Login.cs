@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace XmlAndJson.LoginClasses
+namespace ConfigHandlerLibraries.LoginClasses
 {
     /// <summary>
     /// Class that support Login objects with all their attributes.

@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json;
-using XMLandJSON.LoginClasses;
+using ConfigHandlerLibraries.LoginClasses;
 
-namespace XMLandJSON.Json
+namespace ConfigHandlerLibraries
 {
     public static class JsonSerialization
     {
-        //C
-
         /// <summary>
         /// Default values for attributes during JsonSerialization.
         /// </summary>
@@ -18,12 +16,14 @@ namespace XMLandJSON.Json
             { "width", "400" },
             { "height", "150" },
         });
+
         /// <summary>
         /// Method for JSON serialization of Logins config.
         /// </summary>
-        /// <param name="logins"></param>
-        public static void ConfigSerialization(LoginsConfig logins)
+        /// <param name="obj"></param>
+        public static void ConfigSerialization(object obj)
         {
+            if (obj is not LoginsConfig logins) return;
             foreach (var login in logins)
             {
                 var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.json"));
@@ -35,8 +35,9 @@ namespace XMLandJSON.Json
                     });
                 }
                 var jsonString = JsonSerializer.Serialize(login, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(path, jsonString );
+                File.WriteAllText(path, jsonString);
             }
+
         }
 
     }

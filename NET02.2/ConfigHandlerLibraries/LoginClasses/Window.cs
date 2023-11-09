@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace XmlAndJson.LoginClasses
+namespace ConfigHandlerLibraries.LoginClasses
 {
     /// <summary>
     /// Class for Window objects, that support their attributes.

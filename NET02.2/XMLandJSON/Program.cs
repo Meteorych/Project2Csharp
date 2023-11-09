@@ -1,6 +1,5 @@
-﻿using XMLandJSON.Json;
-using XMLandJSON.LoginClasses;
-using XmlAndJson.XMLHandling;
+﻿using ConfigHandlerLibraries;
+using ConfigHandlerLibraries.LoginClasses;
 
 namespace XmlAndJson
 {
@@ -10,9 +9,8 @@ namespace XmlAndJson
         {
             //перевести на интерфейсы 
             LoginsConfig logins = new(XmlConfigHandler.LoginDataHandler("Config.xml"));
-            //JsonConfig и XMLConfig через отдельные библиотеки!
             logins.DisplayConfigs();
-            logins.DisplayConfigs();
+            logins.DisplayWrongConfigs();
             JsonSerialization.ConfigSerialization(logins);
         }
     }

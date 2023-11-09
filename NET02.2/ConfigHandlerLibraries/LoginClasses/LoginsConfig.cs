@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using XmlAndJson.LoginClasses;
 
-namespace XMLandJSON.LoginClasses
+namespace ConfigHandlerLibraries.LoginClasses
 {
     /// <summary>
     /// Class for collection of configurations of Logins.
