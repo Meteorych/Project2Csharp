@@ -1,5 +1,6 @@
 ﻿using ConfigHandlerLibraries;
 using ConfigHandlerLibraries.LoginClasses;
+using XMLandJSON.Repository;
 
 namespace XmlAndJson
 {
@@ -7,11 +8,11 @@ namespace XmlAndJson
     {
         static void Main()
         {
-            //перевести на интерфейсы 
-            LoginsConfig logins = new(XmlConfigHandler.LoginDataHandler("Config.xml"));
-            logins.DisplayConfigs();
-            logins.DisplayWrongConfigs();
-            JsonSerialization.ConfigSerialization(logins);
+            var data = new RepositoryData();
+            data.Upload("Config.xml");
+            data.Config.DisplayConfigs();
+            data.Config.DisplayWrongConfigs();
+            XmlConfig.ConfigSerialization(data.Config);
         }
     }
 }

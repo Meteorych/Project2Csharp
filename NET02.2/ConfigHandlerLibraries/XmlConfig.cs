@@ -1,4 +1,7 @@
-﻿using System.Xml;
+﻿using System;
+using System.Text.Json;
+using System.Xml;
+using System.Xml.Serialization;
 using ConfigHandlerLibraries.LoginClasses;
 
 namespace ConfigHandlerLibraries
@@ -6,7 +9,7 @@ namespace ConfigHandlerLibraries
     /// <summary>
     /// Class that handles "Login" config files.
     /// </summary>
-    public class XmlConfigHandler
+    public class XmlConfig
     {
         /// <summary>
         /// Method for handling "Logins" data from XML-file.
@@ -58,6 +61,23 @@ namespace ConfigHandlerLibraries
                 }
             }
             return windows;
+        }
+
+        public static void ConfigSerialization(LoginsConfig config)
+        {
+            XmlSerializer xmlSerializer = new(typeof(Login));
+            foreach (var login in config)
+            {
+                var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.xml;"));
+                if (login.Windows.Any(window => window.Attributes.ContainsValue("?")))
+                {
+                    login.Windows.ForEach(window =>
+                    {
+                        window.Attributes = window.Attributes.ToDictionary(pair => pair.Key, pair => LoginsConfig.DefaultValues.ContainsKey(pair.Key) && pair.Value == "?" ? LoginsConfig.DefaultValues[pair.Key] : pair.Value);
+                    });
+                }
+                xmlSerializer.Serialize(new FileStream(path, FileMode.Create), login);
+            }
         }
     }
 }

@@ -7,10 +7,11 @@ namespace ConfigHandlerLibraries.LoginClasses
     /// </summary>
     public class Login : IEnumerable
     {
-        public string Name { get; }
-        public List<Window> Windows { get; }
+        public string Name { get; private set; } = "empty config";
+        public List<Window> Windows { get; private set; } = new List<Window>();
 
         public bool RightConfig { get; private set; } = true;
+        public Login(){}
 
         public Login(string name, List<Window> windowsList)
         {
@@ -22,6 +23,10 @@ namespace ConfigHandlerLibraries.LoginClasses
             }
         }
 
+        public void Add(Window windowConfig)
+        {
+            Windows.Add(windowConfig);
+        }
         public IEnumerator<Window> GetEnumerator()
         {
             return Windows.GetEnumerator();

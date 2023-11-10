@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace ConfigHandlerLibraries.LoginClasses
 {
@@ -45,9 +46,9 @@ namespace ConfigHandlerLibraries.LoginClasses
         /// </summary>
         public void DisplayWrongConfigs()
         {
+            Console.WriteLine("Logins with wrong configuration:");
             foreach (var login in LoginList.Where(login => !login.RightConfig))
             {
-                Console.WriteLine("Login with wrong configuration!");
                 Console.WriteLine($"Login: {login.Name}");
                 foreach (var window in login)
                 {
@@ -56,5 +57,15 @@ namespace ConfigHandlerLibraries.LoginClasses
                 }
             }
         }
+        /// <summary>
+        /// Default values for attributes during Serialization.
+        /// </summary>
+        public static readonly ReadOnlyDictionary<string, string> DefaultValues = new(new Dictionary<string, string>
+        {
+            { "top", "0" },
+            { "left", "0" },
+            { "width", "400" },
+            { "height", "150" },
+        });
     }
 }
