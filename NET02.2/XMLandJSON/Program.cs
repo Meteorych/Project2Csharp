@@ -12,7 +12,7 @@ namespace XmlAndJson
             data.Upload("Config.xml");
             data.Config.DisplayConfigs();
             data.Config.DisplayWrongConfigs();
-            XmlConfig.ConfigSerialization(data.Config);
+            XmlConfig.LoginsDataDump(data.Config);
         }
     }
 }

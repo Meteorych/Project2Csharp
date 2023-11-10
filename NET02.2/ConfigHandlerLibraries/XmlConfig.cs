@@ -9,12 +9,12 @@ namespace ConfigHandlerLibraries
     /// <summary>
     /// Class that handles "Login" config files.
     /// </summary>
-    public class XmlConfig
+    public class XmlConfig : IConfigurable
     {
         /// <summary>
         /// Method for handling "Logins" data from XML-file.
         /// </summary>
-        public static List<Login> LoginDataHandler(string xmlWay)
+        public static List<Login> LoginDataUpload(string xmlWay)
         {
             var xDoc = new XmlDocument();
             xDoc.Load(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Config\", xmlWay));
@@ -63,7 +63,7 @@ namespace ConfigHandlerLibraries
             return windows;
         }
 
-        public static void ConfigSerialization(LoginsConfig config)
+        public static void LoginsDataDump(LoginsConfig config)
         {
             XmlSerializer xmlSerializer = new(typeof(Login));
             foreach (var login in config)

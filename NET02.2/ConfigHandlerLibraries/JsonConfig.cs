@@ -5,17 +5,16 @@ using ConfigHandlerLibraries.LoginClasses;
 
 namespace ConfigHandlerLibraries
 {
-    public static class JsonConfig
+    public class JsonConfig : IConfigurable
     {
         
 
         /// <summary>
         /// Method for JSON serialization of Logins config.
         /// </summary>
-        /// <param name="obj"></param>
-        public static void ConfigSerialization(object obj)
+        /// <param name="logins"></param>
+        public static void LoginsDataDump(LoginsConfig logins)
         {
-            if (obj is not LoginsConfig logins) return;
             foreach (var login in logins)
             {
                 var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.json"));
@@ -31,7 +30,7 @@ namespace ConfigHandlerLibraries
             }
 
         }
-        public static List<Login> ConfigDeserialization(string jsonWay)
+        public static List<Login> LoginDataUpload(string jsonWay)
         {
             var info = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Config\", jsonWay));
             if (string.IsNullOrEmpty(info))
