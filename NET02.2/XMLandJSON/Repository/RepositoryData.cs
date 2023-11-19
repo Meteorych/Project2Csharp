@@ -13,7 +13,7 @@ namespace XMLandJSON.Repository
         /// <summary>
         /// Method for upload data info in repository
         /// </summary>
-        /// <param name="fileWay"></param>
+        /// <param name="fileWay">Way to JSON/XML file with information</param>
         public void Upload(string fileWay)
         {
             _config = Path.GetExtension(fileWay) switch
@@ -23,10 +23,16 @@ namespace XMLandJSON.Repository
                 _ => _config
             };
         }
+
+        public void Delete(string userName)
+        {
+            Config.LoginList.RemoveAt(Config.LoginList.FindIndex(a => a.Name == userName));
+        }
+
         /// <summary>
         /// Method for dumping data info in repository
         /// </summary>
-        /// <param name="extensionType"></param>
+        /// <param name="extensionType">Type of file's extension in which we gonna dump our config</param>
         public void Dump(string extensionType)
         {
             switch (extensionType)

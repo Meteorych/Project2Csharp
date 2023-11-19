@@ -1,5 +1,4 @@
 ﻿using ConfigHandlerLibraries;
-using ConfigHandlerLibraries.LoginClasses;
 using XMLandJSON.Repository;
 
 namespace XmlAndJson
@@ -7,7 +6,7 @@ namespace XmlAndJson
     internal class Program
     {
         static void Main()
-        {
+        { 
             var data = new RepositoryData();
             data.Upload("Config.xml");
             data.Config.DisplayConfigs();
