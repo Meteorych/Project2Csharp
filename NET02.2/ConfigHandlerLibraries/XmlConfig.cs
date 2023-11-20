@@ -12,11 +12,11 @@ namespace ConfigHandlerLibraries
         /// <summary>
         /// Method for handling "Logins" data from XML-file.
         /// </summary>
-        public static List<Login> LoginDataUpload(string xmlWay)
+        public List<Login> LoginDataUpload(string uploadFileName)
         {
             var xDoc = new XmlDocument();
-            xDoc.Load(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Config\", xmlWay));
-            var xRoot = xDoc.DocumentElement ?? throw new ArgumentNullException(nameof(xmlWay), message: "Empty or wrong file");
+            xDoc.Load(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Config\", uploadFileName));
+            var xRoot = xDoc.DocumentElement ?? throw new ArgumentNullException(nameof(uploadFileName), message: "Empty or wrong file");
             var loginsList = new List<Login>();
             var loginNodes = xRoot.SelectNodes("//login");
             if (loginNodes is null) return loginsList;
@@ -61,9 +61,10 @@ namespace ConfigHandlerLibraries
             return windows;
         }
 
-        public static void LoginsDataDump(LoginsConfig config)
+        public void LoginsDataDump(LoginsConfig? config)
         {
             XmlSerializer xmlSerializer = new(typeof(Login));
+            if (config is null) return;
             foreach (var login in config)
             {
                 var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.xml;"));

@@ -25,7 +25,7 @@ namespace ConfigHandlerLibraries.LoginClasses
         {
             return GetEnumerator();
         }
-
+        //ToString() вначале и отдельный метод для консоль
         /// <summary>
         /// Method for displaying configs of all logins.
         /// </summary>

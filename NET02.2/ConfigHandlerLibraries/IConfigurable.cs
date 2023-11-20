@@ -6,7 +6,7 @@ namespace ConfigHandlerLibraries;
 /// </summary>
 public interface IConfigurable
 {
-    public static abstract List<Login> LoginDataUpload(string dataFileWay);
-    public static abstract void LoginsDataDump(LoginsConfig loginsData);
+    public List<Login> LoginDataUpload(string uploadFileName);
+    public void LoginsDataDump(LoginsConfig? loginsData);
 }
 
