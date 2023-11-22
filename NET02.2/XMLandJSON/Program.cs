@@ -20,7 +20,9 @@ namespace XmlAndJson
                     data.Upload(new JsonConfig(), filename);
                     break;
             };
-            const string extensionType = ".json";
+            data.Config.DisplayConfigs();
+            data.Config.DisplayWrongConfigs();
+            const string extensionType = ".xml";
             switch (extensionType)
             {
                 case ".xml":

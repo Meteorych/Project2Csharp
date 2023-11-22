@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Text.Json;
+using System.Xml;
 using System.Xml.Serialization;
 using ConfigHandlerLibraries.LoginClasses;
 
@@ -60,23 +61,64 @@ namespace ConfigHandlerLibraries
             }
             return windows;
         }
-
-        public void LoginsDataDump(LoginsConfig? config)
+        //To XML through Serialization (don't like this method because you have to change your class structure drastically
+        //public void LoginsDataDump(LoginsConfig? config)
+        //{
+        //    XmlSerializer xmlSerializer = new(typeof(Login));
+        //    if (config is null) return;
+        //    foreach (var login in config)
+        //    {
+        //        var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.xml;"));
+        //        if (login.Windows.Any(window => window.Attributes.ContainsValue("?")))
+        //        {
+        //            login.Windows.ForEach(window =>
+        //            {
+        //                window.Attributes = window.Attributes.ToDictionary(pair => pair.Key, pair => LoginsConfig.DefaultValues.ContainsKey(pair.Key) && pair.Value == "?" ? LoginsConfig.DefaultValues[pair.Key] : pair.Value);
+        //            });
+        //        }
+        //        xmlSerializer.Serialize(new FileStream(path, FileMode.Create), login);
+        //    }
+        //}
+        public void LoginsDataDump(LoginsConfig? logins)
         {
-            XmlSerializer xmlSerializer = new(typeof(Login));
-            if (config is null) return;
-            foreach (var login in config)
             {
-                var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.xml;"));
-                if (login.Windows.Any(window => window.Attributes.ContainsValue("?")))
+
+                if (logins is null) return;
+                foreach (var login in logins.LoginList)
                 {
-                    login.Windows.ForEach(window =>
+                    var xDoc = new XmlDocument();
+                    var rootNode = xDoc.CreateElement("Login");
+                    xDoc.AppendChild(rootNode);
+                    rootNode.SetAttribute("name", login.Name);
+
+                    foreach (var window in login.Windows)
                     {
-                        window.Attributes = window.Attributes.ToDictionary(pair => pair.Key, pair => LoginsConfig.DefaultValues.ContainsKey(pair.Key) && pair.Value == "?" ? LoginsConfig.DefaultValues[pair.Key] : pair.Value);
-                    });
+                        var windowElement = xDoc.CreateElement("Window");
+                        windowElement.SetAttribute("title", window.Title);
+
+                        var topNode = xDoc.CreateElement("top");
+                        topNode.InnerText = window.Attributes["top"];
+                        windowElement.AppendChild(topNode);
+
+                        var leftNode = xDoc.CreateElement("left");
+                        leftNode.InnerText = window.Attributes["left"];
+                        windowElement.AppendChild(leftNode);
+
+                        var widthNode = xDoc.CreateElement("width");
+                        widthNode.InnerText = window.Attributes["width"];
+                        windowElement.AppendChild(widthNode);
+
+                        var heightNode = xDoc.CreateElement("height");
+                        heightNode.InnerText = window.Attributes["height"];
+                        windowElement.AppendChild(heightNode);
+
+                        rootNode.AppendChild(windowElement);
+                    }
+
+                    xDoc.Save(Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.xml;"));
                 }
-                xmlSerializer.Serialize(new FileStream(path, FileMode.Create), login);
             }
         }
+
     }
 }

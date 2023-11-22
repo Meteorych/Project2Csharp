@@ -8,33 +8,11 @@ namespace ConfigHandlerLibraries.LoginClasses
     /// </summary>
     public class Window
     {
-        public string Title { get; set; } = "";
-        [XmlIgnore] // Ignore for serialization
+        public string Title { get; set; }
         public Dictionary<string, string> Attributes { get; set; } = new();
-        [JsonIgnore]
-        public List<AttributeItem> Coordinates
-        {
-            get
-            {
-                return Attributes.Select(coordinate => new AttributeItem { Key = coordinate.Key, Value = coordinate.Value }).ToList();
-            }
-            set
-            {
-                Attributes = new Dictionary<string, string>();
-                foreach (var item in value)
-                {
-                    Attributes[item.Key] = item.Value;
-                }
-            }
-        }
 
         [JsonIgnore]
-        [XmlIgnore]
         public bool RightConfig { get;}
-        /// <summary>
-        /// Empty constructor
-        /// </summary>
-        public Window() { }
         /// <summary>
         /// Constructor with parameters
         /// </summary>
@@ -54,11 +32,4 @@ namespace ConfigHandlerLibraries.LoginClasses
             RightConfig = rightConfig;
         }
     }
-
-    public class AttributeItem
-    {
-        public string Key { get; set; } = "";
-        public string Value { get; set; } = "";
-    }
-
 }
