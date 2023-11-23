@@ -5,7 +5,7 @@ namespace BooksCatalog.Classes
 {
     public class Catalog : IEnumerable<Book>
     {
-        private List<Book> _books;
+        private readonly List<Book> _books;
         public Catalog(List<Book> books)
         {
             _books = books;
@@ -19,7 +19,7 @@ namespace BooksCatalog.Classes
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentException("List already has these book!");
             }
             
         }
