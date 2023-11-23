@@ -4,7 +4,7 @@ using TemplatesDelegatesEvents.Matrices;
 namespace TemplatesDelegatesEventsTests.Matrices
 {
     [TestClass]
-    public class DiagonalMatrixTests
+    public class MatricesTests
     {
         [TestMethod]
         public void Square_Matrix_Setter_Getter_Test()
