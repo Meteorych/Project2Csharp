@@ -33,15 +33,7 @@ namespace ConfigHandlerLibraries
             foreach (var login in config)
             {
                 var path = (Path.Combine(Environment.CurrentDirectory, @$"..\..\..\Config\{login.Name}.json"));
-                if (login.Windows.Any(window => window.Attributes.ContainsValue("?")))
-                {
-                    //Упростить
-                    login.Windows.ForEach(window =>
-                    {
-                        window.Attributes = window.Attributes.ToDictionary(pair => pair.Key, pair => LoginsConfig.DefaultValues.ContainsKey(pair.Key) && pair.Value == 
-                            "?" ? LoginsConfig.DefaultValues[pair.Key] : pair.Value);
-                    });
-                }
+                login.LoginNullToDefault();
                 var jsonString = JsonSerializer.Serialize(login, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, jsonString);
             }

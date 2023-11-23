@@ -7,11 +7,10 @@ namespace ConfigHandlerLibraries.LoginClasses
     /// </summary>
     public class Login : IEnumerable
     {
-        public string Name { get; private set; } = "empty config";
-        public List<Window> Windows { get; private set; } = new List<Window>();
+        public string Name { get; private set; }
+        public List<Window> Windows { get;}
 
         public bool RightConfig { get; private set; } = true;
-        public Login(){}
 
         public Login(string name, List<Window> windowsList)
         {
@@ -20,6 +19,20 @@ namespace ConfigHandlerLibraries.LoginClasses
             if (Windows.Any(window => window.RightConfig == false))
             {
                 RightConfig = false;
+            }
+        }
+
+        public void LoginNullToDefault()
+        {
+            if (Windows.Any(window => window.Attributes.ContainsValue("?")))
+            {
+                Windows.ForEach(window =>
+                {
+                    foreach (var key in window.Attributes.Keys.Where(key => window.Attributes[key] == "?"))
+                    {
+                        window.Attributes[key] = LoginsConfig.DefaultValues[key];
+                    }
+                });
             }
         }
 

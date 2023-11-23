@@ -86,6 +86,7 @@ namespace ConfigHandlerLibraries
                 if (logins is null) return;
                 foreach (var login in logins.LoginList)
                 {
+                    login.LoginNullToDefault();
                     var xDoc = new XmlDocument();
                     var rootNode = xDoc.CreateElement("Login");
                     xDoc.AppendChild(rootNode);

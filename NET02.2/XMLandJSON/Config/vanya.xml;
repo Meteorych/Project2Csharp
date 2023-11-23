@@ -1,6 +1,6 @@
 <Login name="vanya">
   <Window title="main">
-    <top>?</top>
+    <top>0</top>
     <left>20</left>
     <width>400</width>
     <height>200</height>
@@ -8,7 +8,7 @@
   <Window title="help">
     <top>20</top>
     <left>30</left>
-    <width>?</width>
+    <width>400</width>
     <height>100</height>
   </Window>
 </Login>
