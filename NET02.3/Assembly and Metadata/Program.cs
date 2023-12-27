@@ -12,12 +12,12 @@ namespace Assembly_and_Metadata
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
-            LogManager.Configuration = new NLogLoggingConfiguration(nLogConfig.GetSection("NLog"));
             var logger = LogManager.GetCurrentClassLogger();
             
             var myLogger = new MyLogger(logger, nLogConfig);
             myLogger.InitializeListeners();
             myLogger.LogMessage("Test");
+            myLogger.Track(new Person());
             LogManager.Shutdown();
         }
     }

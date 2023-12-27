@@ -38,26 +38,25 @@ namespace Assembly_and_Metadata
 
         public void Track(object trackObject)
         {
-            if (trackObject.GetType().GetCustomAttribute(typeof(TrackingEntity), true) is not null)
+            if (trackObject.GetType().GetCustomAttribute(typeof(TrackingEntity), true) is null) return;
+
+            var properties = trackObject
+                .GetType()
+                .GetProperties()
+                .Where(property => property.GetCustomAttribute<TrackingProperty>() is not null);
+            var fields = trackObject
+                .GetType()
+                .GetFields()
+                .Where(field => field.GetCustomAttribute<TrackingProperty>() is not null);
+
+            foreach (var property in properties)
             {
-                var properties = trackObject
-                    .GetType()
-                    .GetProperties()
-                    .Where(property => property.GetCustomAttribute<TrackingProperty>() is not null);
-                var fields = trackObject
-                    .GetType()
-                    .GetFields()
-                    .Where(field => field.GetCustomAttribute<TrackingProperty>() is not null);
+                LogMessage($"{property.Name} - {property.GetValue(trackObject)}");
+            }
 
-                foreach (var property in properties)
-                {
-                    LogMessage($"{property.Name} - {property.GetValue(trackObject)}");
-                }
-
-                foreach (var field in fields)
-                {
-                    LogMessage($"{field.Name} - {field.GetValue(trackObject)}");
-                }
+            foreach (var field in fields)
+            {
+                LogMessage($"{field.Name} - {field.GetValue(trackObject)}");
             }
         }
     }

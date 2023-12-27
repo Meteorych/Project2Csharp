@@ -20,7 +20,7 @@ namespace TextListeners
         {
             try
             {
-                File.AppendAllText(_filePath, $"{DateTime.Now}: {message}");
+                File.AppendAllText(_filePath, $"{DateTime.Now}: {message}\n");
             }
             catch (Exception ex)
             {
