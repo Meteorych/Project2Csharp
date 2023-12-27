@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NLog;
+using NLog.Extensions.Logging;
 
 namespace Assembly_and_Metadata
 {
@@ -7,11 +8,13 @@ namespace Assembly_and_Metadata
     {
         static void Main()
         {
-            var logger = LogManager.GetCurrentClassLogger();
             var nLogConfig = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
+            LogManager.Configuration = new NLogLoggingConfiguration(nLogConfig.GetSection("NLog"));
+            var logger = LogManager.GetCurrentClassLogger();
+            
             var myLogger = new MyLogger(logger, nLogConfig);
             myLogger.InitializeListeners();
             myLogger.LogMessage("Test");

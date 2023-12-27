@@ -1,8 +1,9 @@
-﻿using EventLogListeners;
+﻿using System.Reflection;
+using Assembly_and_Metadata.Attributes;
+using EventLogListeners;
 using Listeners;
 using Microsoft.Extensions.Configuration;
 using NLog;
-using NLog.Targets;
 using TextListeners;
 using WordListeners;
 
@@ -12,7 +13,7 @@ namespace Assembly_and_Metadata
     {
         private ILogger _logger;
         private readonly IConfiguration _configuration;
-        private readonly Dictionary<string, IListener> _listeners = new Dictionary<string, IListener>();
+        private readonly Dictionary<string, IListener> _listeners = new();
 
         public MyLogger(ILogger logger, IConfiguration configuration)
         {
@@ -32,6 +33,31 @@ namespace Assembly_and_Metadata
             foreach (var pair in _listeners)
             {
                 pair.Value.LogMessage(message);
+            }
+        }
+
+        public void Track(object trackObject)
+        {
+            if (trackObject.GetType().GetCustomAttribute(typeof(TrackingEntity), true) is not null)
+            {
+                var properties = trackObject
+                    .GetType()
+                    .GetProperties()
+                    .Where(property => property.GetCustomAttribute<TrackingProperty>() is not null);
+                var fields = trackObject
+                    .GetType()
+                    .GetFields()
+                    .Where(field => field.GetCustomAttribute<TrackingProperty>() is not null);
+
+                foreach (var property in properties)
+                {
+                    LogMessage($"{property.Name} - {property.GetValue(trackObject)}");
+                }
+
+                foreach (var field in fields)
+                {
+                    LogMessage($"{field.Name} - {field.GetValue(trackObject)}");
+                }
             }
         }
     }
