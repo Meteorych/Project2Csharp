@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using NLog;
-using NLog.Extensions.Logging;
 
 namespace Assembly_and_Metadata
 {
@@ -14,6 +12,10 @@ namespace Assembly_and_Metadata
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
+            var myLogger = new MyLogger(logger, nLogConfig);
+            myLogger.InitializeListeners();
+            myLogger.LogMessage("Test");
+            LogManager.Shutdown();
         }
     }
 }

@@ -17,8 +17,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventLogListeners\EventLogListeners.csproj" />
-    <ProjectReference Include="..\TextListener\TextListeners.csproj" />
+    <ProjectReference Include="..\TextListeners\TextListeners.csproj" />
     <ProjectReference Include="..\WordListeners\WordListeners.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
