@@ -2,14 +2,23 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Assembly_and_Metadata</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="NLog" Version="5.2.7" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventLogListeners\EventLogListeners.csproj" />
+    <ProjectReference Include="..\TextListener\TextListeners.csproj" />
+    <ProjectReference Include="..\WordListeners\WordListeners.csproj" />
   </ItemGroup>
 
 </Project>
