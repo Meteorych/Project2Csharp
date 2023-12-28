@@ -1,17 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using XmlAndJson.XMLHandling;
-using XMLandJSON.LoginClasses;
+﻿using ConfigHandlerLibraries;
+using ConfigHandlerLibraries.LoginClasses;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace XMLandJSONTests
 {
     [TestClass]
     public class XmlConfigHandlerTests
     {
+        private const string TestFilesPath = "/Files/";
+
         [TestMethod]
         public void WindowsEmptyArgsTest()
         {
             const string expectedValue = "?";
-            LoginsConfig testLogins = new(XmlConfigHandler.LoginDataHandler("TestConfig.xml"));
+            LoginsConfig testLogins = new(new XmlConfig().LoginsDataUpload("TestConfig.xml"));
             Assert.AreEqual(expectedValue, testLogins[0].Windows[1].Attributes["width"]);
         }
 
@@ -19,8 +22,17 @@ namespace XMLandJSONTests
         public void LoginDataHandlerTest()
         {
             const bool expectedValue = false;
-            LoginsConfig testLogins = new(XmlConfigHandler.LoginDataHandler("TestConfig.xml"));
+            LoginsConfig testLogins = new(new XmlConfig().LoginsDataUpload("TestConfig.xml"));
             Assert.AreEqual(expectedValue, testLogins[1].RightConfig);
+        }
+
+        /// <summary>
+        /// Cleanup after tests
+        /// </summary>
+        [TestCleanup]
+        public void Cleanup()
+        {
+            Directory.Delete("/Files/");
         }
     }
 }
