@@ -8,9 +8,8 @@ namespace XmlAndJson
     {
         static void Main()
         { 
-            //Ну сделать Data Access layer...(да, я знаю, не хочется) или переделать XML сериализацию в нормальный XML
             var data = new RepositoryData();
-            const string filename = "Config.xml";
+            var filename = "Config.xml";
             switch (Path.GetExtension("Config.xml"))
             {
                 case ".xml":
@@ -22,7 +21,7 @@ namespace XmlAndJson
             };
             data.Config.DisplayConfigs();
             data.Config.DisplayWrongConfigs();
-            const string extensionType = ".xml";
+            var extensionType = ".xml";
             switch (extensionType)
             {
                 case ".xml":

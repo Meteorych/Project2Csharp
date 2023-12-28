@@ -12,7 +12,7 @@ namespace ConfigHandlerLibraries
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public List<Login> LoginDataUpload(string uploadFileName)
+        public List<Login> LoginsDataUpload(string uploadFileName)
         {
             var info = File.ReadAllText(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Config\", uploadFileName));
             if (string.IsNullOrEmpty(info))

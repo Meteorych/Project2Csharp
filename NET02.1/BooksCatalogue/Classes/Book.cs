@@ -9,6 +9,7 @@ namespace BooksCatalog.Classes
         public string Title { get; }
         public DateOnly? ReleaseDate { get; }
         public List<Author>? Authors { get; }
+
         public Book(string isbn, string title, string? releaseDate = null, List<Author>? authors = null)
         { 
             if (!Helper.IsbnCheck(isbn))

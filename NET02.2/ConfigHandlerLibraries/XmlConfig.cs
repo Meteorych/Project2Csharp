@@ -13,7 +13,7 @@ namespace ConfigHandlerLibraries
         /// <summary>
         /// Method for handling "Logins" data from XML-file.
         /// </summary>
-        public List<Login> LoginDataUpload(string uploadFileName)
+        public List<Login> LoginsDataUpload(string uploadFileName)
         {
             var xDoc = new XmlDocument();
             xDoc.Load(Path.Combine(Environment.CurrentDirectory, @"..\..\..\Config\", uploadFileName));

@@ -18,7 +18,7 @@ namespace XMLandJSON.Repository
         /// <param name="uploadFileName">Name of the datafile</param>
         public void Upload(IConfigurable configParser, string uploadFileName)
         {
-            _config = new LoginsConfig(configParser.LoginDataUpload(uploadFileName));
+            _config = new LoginsConfig(configParser.LoginsDataUpload(uploadFileName));
         }
 
         public void Delete(string userName)
