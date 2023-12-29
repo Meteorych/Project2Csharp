@@ -27,12 +27,15 @@ namespace XMLandJSONTests
         }
 
         /// <summary>
-        /// Cleanup after tests
+        /// Cleanup after tests.
         /// </summary>
         [TestCleanup]
         public void Cleanup()
         {
-            Directory.Delete("/Files/");
+            if (Directory.Exists("Files/"))
+            {
+                Directory.Delete("Files/");
+            }
         }
     }
 }

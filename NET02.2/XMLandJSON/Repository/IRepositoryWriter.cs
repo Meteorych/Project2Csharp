@@ -7,6 +7,6 @@ namespace XMLandJSON.Repository
     /// </summary>
     public interface IRepositoryWriter
     {
-        public void Dump(IConfigurable configParser);
+        public void Save(IConfigurable configParser);
     }
 }

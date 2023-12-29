@@ -8,27 +8,30 @@ namespace XmlAndJson
     {
         static void Main()
         { 
-            var data = new RepositoryData();
             var filename = "Config.xml";
+            Repository? data;
             switch (Path.GetExtension("Config.xml"))
             {
                 case ".xml":
-                    data.Upload(new XmlConfig(), filename);
+                    data = new Repository(new XmlConfig(), filename);
                     break;
                 case ".json":
-                    data.Upload(new JsonConfig(), filename);
+                    data = new Repository(new JsonConfig(), filename);
+                    break;
+                default:
+                    data = null;
                     break;
             };
-            data.Config.DisplayConfigs();
-            data.Config.DisplayWrongConfigs();
+            data.GetConfig.DisplayConfigs();
+            data.GetConfig.DisplayWrongConfigs();
             var extensionType = ".xml";
             switch (extensionType)
             {
                 case ".xml":
-                    data.Dump(new XmlConfig());
+                    data.Save(new XmlConfig());
                     break;
                 case ".json":
-                    data.Dump(new JsonConfig());
+                    data.Save(new JsonConfig());
                     break;
             }
         }
