@@ -11,23 +11,40 @@ namespace WordListeners
     /// <summary>
     /// WordListener class for logging into *.docx files.
     /// </summary>
-    public class WordListener : IListener
+    public class WordListener : IListener, IDisposable
     {
-        private readonly string _filePath;
+        private readonly object _lockObject = new();
+        private readonly WordprocessingDocument _document;
+        private readonly Document _workPart;
         public EventHandler<EventListenerArgs>? Events;
 
         public WordListener(string path)
         {
-            _filePath = path;
+            using var doc = WordprocessingDocument.Create(path, WordprocessingDocumentType.Document);
+            var mainPart = doc.AddMainDocumentPart();
+            mainPart.Document = new Document();
+            _workPart = mainPart.Document;
+            _document = doc;
         }
 
         public void LogMessage(string message)
         {
-            using var doc = WordprocessingDocument.Create(_filePath, WordprocessingDocumentType.Document);
-            var mainPart = doc.AddMainDocumentPart();
-            mainPart.Document = new Document();
-            var body = new Body(new Paragraph(new Run(new Text(message))));
-            mainPart.Document.Append(body);
+            lock (_lockObject)
+            {
+                var body = new Body(new Paragraph(new Run(new Text(message))));
+                _workPart.Append(body);
+            }
+        }
+
+        public void Dispose()
+        {
+            _document.Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        ~WordListener()
+        {
+            Dispose();
         }
     }
 }

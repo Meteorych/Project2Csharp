@@ -3,7 +3,6 @@ using Assembly_and_Metadata.Attributes;
 using EventLogListeners;
 using Listeners;
 using Microsoft.Extensions.Configuration;
-using NLog;
 using TextListeners;
 using WordListeners;
 
@@ -11,13 +10,11 @@ namespace Assembly_and_Metadata
 {
     public class MyLogger
     {
-        private ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly Dictionary<string, IListener> _listeners = new();
 
-        public MyLogger(ILogger logger, IConfiguration configuration)
+        public MyLogger(IConfiguration configuration)
         {
-            _logger = logger;
             _configuration = configuration;
         }
 

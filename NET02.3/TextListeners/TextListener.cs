@@ -7,6 +7,7 @@ namespace TextListeners
     /// </summary>
     public class TextListener : IListener
     {
+        private readonly object _lockObject = new();
         private readonly string _filePath;
 
         public EventHandler<EventListenerArgs>? Events;
@@ -18,13 +19,16 @@ namespace TextListeners
 
         public void LogMessage(string message)
         {
-            try
+            lock (_lockObject)
             {
-                File.AppendAllText(_filePath, $"{DateTime.Now}: {message}\n");
-            }
-            catch (Exception ex)
-            {
-                OnEvent(new EventListenerArgs(ex.Message));
+                try
+                {
+                    File.AppendAllText(_filePath, $"{DateTime.Now}: {message}\n");
+                }
+                catch (Exception ex)
+                {
+                    OnEvent(new EventListenerArgs(ex.Message));
+                }
             }
         }
 

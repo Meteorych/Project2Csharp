@@ -8,6 +8,7 @@ namespace EventLogListeners
     /// </summary>
     public class EventLogListener : IListener
     {
+        private readonly object _lockObject = new();
         private readonly string _sourceName = "Assembly and Metadata";
 
         public EventLogListener()
@@ -20,7 +21,11 @@ namespace EventLogListeners
 
         public void LogMessage(string message)
         {
-            EventLog.WriteEntry(_sourceName, message, EventLogEntryType.Information);
+            lock (_lockObject)
+            {
+                EventLog.WriteEntry(_sourceName, message, EventLogEntryType.Information);
+            }
+           
         }
     }
 }
