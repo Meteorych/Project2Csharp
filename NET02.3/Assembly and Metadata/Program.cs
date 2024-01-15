@@ -1,16 +1,19 @@
-﻿namespace Assembly_and_Metadata
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Assembly_and_Metadata
 {
     internal class Program
     {
         static void Main()
         {
+
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var logger = new MyLogger(config);
             
-           
-            
-            //var myLogger = new MyLogger(logger, nLogConfig);
-            //myLogger.InitializeListeners();
-            //myLogger.LogMessage("Test");
-            //myLogger.Track(new Person());
         }
     }
 }

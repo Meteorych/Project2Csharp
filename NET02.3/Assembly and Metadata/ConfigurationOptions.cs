@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assembly_and_Metadata
 {
-    public class ConfigurationOptions : ILogConfigurable
+    public class ConfigurationOptions
     {
         private readonly string _filePath;
         private LogLevels _minimumLogLevel;
