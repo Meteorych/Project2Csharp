@@ -1,8 +1,7 @@
-﻿namespace Assembly_and_Metadata.Attributes
+﻿namespace Assembly_and_Metadata.Attributes;
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+public class TrackingProperty : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class TrackingProperty : Attribute
-    {
-        public string PropertyName { get; set; }
-    };
-}
+    public string PropertyName { get; set; }
+};
