@@ -1,35 +1,43 @@
 ﻿using System.Reflection;
 using Assembly_and_Metadata.Attributes;
-using EventLogListeners;
 using Listeners;
 using Microsoft.Extensions.Configuration;
-using TextListeners;
-using WordListeners;
 
 namespace Assembly_and_Metadata
 {
     public class MyLogger
     {
         private readonly IConfiguration _configuration;
-        private readonly Dictionary<string, IListener> _listeners = new();
+        private readonly List<IListener> _listeners = new();
 
         public MyLogger(IConfiguration configuration)
         {
             _configuration = configuration;
+            
         }
 
         public void InitializeListeners()
         {
-            _listeners.Add("TextListeners", new TextListener(_configuration.GetSection("NLog:targets:textFile:fileName").Value ?? "logwrong.txt"));
-            _listeners.Add("WordListener", new WordListener(_configuration.GetSection("NLog:targets:wordFile:fileName").Value ?? "logwrong.docx"));
-            _listeners.Add("EventLogListener", new EventLogListener());
+            var listenerConfigurations = _configuration.GetSection("Listeners").Get<List<ListenerOptions>>();
+            if (listenerConfigurations is null)
+            {
+                throw new ArgumentNullException(nameof(listenerConfigurations));
+            }
+            foreach (var listenerConfiguration in listenerConfigurations)
+            {
+                var listener = CreateListener(listenerConfiguration);
+                _listeners.Add(listener);
+            }
+            //_listeners.Add("TextListeners", new TextListener(_configuration.GetSection("NLog:targets:textFile:fileName").Value ?? "logwrong.txt"));
+            //_listeners.Add("WordListener", new WordListener(_configuration.GetSection("NLog:targets:wordFile:fileName").Value ?? "logwrong.docx"));
+            //_listeners.Add("EventLogListener", new EventLogListener());
         }
 
         public void LogMessage(string message)
         {
-            foreach (var pair in _listeners)
+            foreach (var listener in _listeners)
             {
-                pair.Value.LogMessage(message);
+                listener.LogMessage(message);
             }
         }
 
@@ -55,6 +63,23 @@ namespace Assembly_and_Metadata
             {
                 LogMessage($"{field.Name} - {field.GetValue(trackObject)}");
             }
+        }
+
+        private IListener CreateListener(ListenerOptions options)
+        {
+            var listenerTypeName = options.ListenerType;
+            if (string.IsNullOrEmpty(listenerTypeName))
+            {
+                throw new ArgumentNullException(nameof(listenerTypeName), "Listener type option is null or empty.");
+            }
+
+            var listenerType = Type.GetType(listenerTypeName, true, true) ?? throw new TypeLoadException("Unable to load type.");
+            var listener = Activator.CreateInstance(listenerType, options);
+            if (listener == null)
+            {
+                throw new ArgumentNullException(nameof(listener), "Listener doesn't exist.");
+            }
+            return (IListener)listener;
         }
     }
 }
