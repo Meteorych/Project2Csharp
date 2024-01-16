@@ -10,9 +10,11 @@ namespace EventLogListeners
     {
         private readonly object _lockObject = new();
         private readonly string _sourceName = "Assembly and Metadata";
+        private readonly ListenerOptions _options;
 
-        public EventLogListener()
+        public EventLogListener(ListenerOptions options)
         {
+            _options = options;
             if (!EventLog.SourceExists(_sourceName))
             {
                 EventLog.CreateEventSource(_sourceName, "Assembly and Metadata");

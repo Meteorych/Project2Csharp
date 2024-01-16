@@ -12,9 +12,13 @@ namespace TextListeners
 
         public EventHandler<EventListenerArgs>? Events;
 
-        public TextListener(string path)
+        public TextListener(ListenerOptions options)
         {
-            _filePath = path;
+            if (string.IsNullOrEmpty(options.FilePath))
+            {
+                throw new ArgumentNullException(nameof(options.FilePath), "File path can't be empty");
+            }
+            _filePath = options.FilePath;
         }
 
         public void LogMessage(string message)

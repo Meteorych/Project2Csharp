@@ -1,4 +1,4 @@
-﻿namespace Assembly_and_Metadata;
+﻿namespace Listeners;
 
 public enum LogLevels
 {

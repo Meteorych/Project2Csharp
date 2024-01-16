@@ -18,9 +18,14 @@ namespace WordListeners
         private readonly Document _workPart;
         public EventHandler<EventListenerArgs>? Events;
 
-        public WordListener(string path)
+        public WordListener(ListenerOptions options)
         {
-            using var doc = WordprocessingDocument.Create(path, WordprocessingDocumentType.Document);
+            if (string.IsNullOrEmpty(options.FilePath))
+            {
+                throw new ArgumentNullException(nameof(options.FilePath), "File path can't be empty");
+            }
+            
+            using var doc = WordprocessingDocument.Create(options.FilePath, WordprocessingDocumentType.Document);
             var mainPart = doc.AddMainDocumentPart();
             mainPart.Document = new Document();
             _workPart = mainPart.Document;

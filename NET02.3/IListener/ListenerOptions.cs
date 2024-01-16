@@ -1,4 +1,4 @@
-﻿namespace Assembly_and_Metadata;
+﻿namespace Listeners;
 
 /// <summary>
 /// Private struct to store ListenerOptions for several operations.
