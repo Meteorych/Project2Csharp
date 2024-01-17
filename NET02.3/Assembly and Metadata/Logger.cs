@@ -2,9 +2,6 @@
 using System.Text;
 using Assembly_and_Metadata.Attributes;
 using Listeners;
-using TextListeners;
-using WordListeners;
-using EventLogListeners;
 using Microsoft.Extensions.Configuration;
 
 namespace Assembly_and_Metadata
@@ -37,6 +34,10 @@ namespace Assembly_and_Metadata
             }
         }
 
+        /// <summary>
+        /// Logging method.
+        /// </summary>
+        /// <param name="message">Message that is going to be logged.</param>
         public void LogMessage(string message)
         {
             foreach (var listener in _listeners)
@@ -44,6 +45,7 @@ namespace Assembly_and_Metadata
                 listener.LogMessage(message);
             }
         }
+
         /// <summary>
         /// Method for tracking classes and its methods.
         /// </summary>
@@ -73,6 +75,7 @@ namespace Assembly_and_Metadata
             }
             LogMessage(message.ToString());
         }
+
         /// <summary>
         /// Method for creating listener.
         /// </summary>

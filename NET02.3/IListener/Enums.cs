@@ -1,5 +1,8 @@
 ﻿namespace Listeners;
 
+/// <summary>
+/// Enumeration with available log levels.
+/// </summary>
 public enum LogLevels
 {
     Trace = 0,

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Listeners
+﻿namespace Listeners
 {
     /// <summary>
     /// Abstract class with realization of some common methods and fields for Listeners.
