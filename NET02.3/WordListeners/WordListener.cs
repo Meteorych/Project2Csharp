@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Listeners;
@@ -11,12 +12,11 @@ namespace WordListeners
     /// <summary>
     /// WordListener class for logging into *.docx files.
     /// </summary>
-    public class WordListener : IListener, IDisposable
+    public class WordListener : AbstractListener, IDisposable
     {
         private readonly object _lockObject = new();
         private readonly WordprocessingDocument _document;
-        private readonly ListenerOptions _options;
-        private readonly Document _workPart;
+        private readonly Body _workPart;
         public EventHandler<EventListenerArgs>? Events;
 
         public WordListener(ListenerOptions options)
@@ -25,46 +25,40 @@ namespace WordListeners
             {
                 throw new ArgumentNullException(nameof(options.FilePath), "File path can't be empty");
             }
-            _options = options;
-            using var doc = WordprocessingDocument.Create(_options.FilePath, WordprocessingDocumentType.Document);
-            var mainPart = doc.AddMainDocumentPart();
-            mainPart.Document = new Document();
-            _workPart = mainPart.Document;
-            _document = doc;
+            Options = options;
+            MainDocumentPart mainPart;
+            if (File.Exists(Options.FilePath))
+            {
+                _document = WordprocessingDocument.Open(Options.FilePath, true);
+                mainPart = _document.MainDocumentPart ?? _document.AddMainDocumentPart();
+                mainPart.Document ??= new Document();
+            }
+            else
+            {
+                _document = WordprocessingDocument.Create(Options.FilePath, WordprocessingDocumentType.Document);
+                mainPart = _document.AddMainDocumentPart();
+                mainPart.Document = new Document();
+            }
+
+            if (mainPart.Document.Body is null)
+            {
+                mainPart.Document.Append(new Body(new Run(new Title("Logs:"))));
+                _document.Save();
+            }
+
+            mainPart.Document.Body ??= new Body();
+            _workPart = mainPart.Document.Body;
+            
         }
 
-        public void LogMessage(string message)
+        public override void LogMessage(string message)
         {
             if (!IsLogLevelEnabled(message)) return;
             lock (_lockObject)
             {
-                var body = new Body(new Paragraph(new Run(new Text(message))));
-                _workPart.Append(body);
-            }
-        }
-
-        private bool IsLogLevelEnabled(string message)
-        {
-            var comparisonOption = StringComparison.InvariantCultureIgnoreCase;
-            switch (_options.MinimumLogLevel)
-            {
-                case LogLevels.Trace:
-                    return true; //All levels
-                case LogLevels.Debug:
-                    return (message.Contains("DEBUG", comparisonOption) || message.Contains("INFO", comparisonOption) ||
-                            message.Contains("WARN", comparisonOption)
-                            || message.Contains("ERROR", comparisonOption));
-                case LogLevels.Info:
-                    return (message.Contains("INFO", comparisonOption) ||
-                            message.Contains("WARN", comparisonOption)
-                            || message.Contains("ERROR", comparisonOption));
-                case LogLevels.Warn:
-                    return (message.Contains("WARN", comparisonOption)
-                            || message.Contains("ERROR", comparisonOption));
-                case LogLevels.Error:
-                    return message.Contains("ERROR", comparisonOption);
-                default:
-                    return false;
+                var paragraph = new Paragraph(new Run(new Text($"{DateTime.Now}: {message}")));
+                _workPart.Append(paragraph);
+                _document.Save();
             }
         }
 
@@ -76,6 +70,7 @@ namespace WordListeners
 
         ~WordListener()
         {
+            _document.Save();
             Dispose();
         }
     }

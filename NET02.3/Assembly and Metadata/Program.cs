@@ -13,7 +13,8 @@ namespace Assembly_and_Metadata
                 .AddJsonFile("appsettings.json")
                 .Build();
             var logger = new MyLogger(config);
-            
+            logger.InitializeListeners();
+            logger.LogMessage("WARN: I want something to do!");
         }
     }
 }

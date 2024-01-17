@@ -1,6 +1,9 @@
 ﻿using System.Reflection;
 using Assembly_and_Metadata.Attributes;
 using Listeners;
+using TextListeners;
+using WordListeners;
+using EventLogListeners;
 using Microsoft.Extensions.Configuration;
 
 namespace Assembly_and_Metadata
@@ -13,9 +16,12 @@ namespace Assembly_and_Metadata
         public MyLogger(IConfiguration configuration)
         {
             _configuration = configuration;
-            
         }
 
+        /// <summary>
+        /// Method for initializing listeners using settings from configuration.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"></exception>
         public void InitializeListeners()
         {
             var listenerConfigurations = _configuration.GetSection("Listeners").Get<List<ListenerOptions>>();
@@ -28,9 +34,6 @@ namespace Assembly_and_Metadata
                 var listener = CreateListener(listenerConfiguration);
                 _listeners.Add(listener);
             }
-            //_listeners.Add("TextListeners", new TextListener(_configuration.GetSection("NLog:targets:textFile:fileName").Value ?? "logwrong.txt"));
-            //_listeners.Add("WordListener", new WordListener(_configuration.GetSection("NLog:targets:wordFile:fileName").Value ?? "logwrong.docx"));
-            //_listeners.Add("EventLogListener", new EventLogListener());
         }
 
         public void LogMessage(string message)
@@ -40,7 +43,10 @@ namespace Assembly_and_Metadata
                 listener.LogMessage(message);
             }
         }
-
+        /// <summary>
+        /// Method for tracking classes and its methods.
+        /// </summary>
+        /// <param name="trackObject">Object for tracking.</param>
         public void Track(object trackObject)
         {
             if (trackObject.GetType().GetCustomAttribute(typeof(TrackingEntity), true) is null) return;
@@ -64,7 +70,13 @@ namespace Assembly_and_Metadata
                 LogMessage($"{field.Name} - {field.GetValue(trackObject)}");
             }
         }
-
+        /// <summary>
+        /// Method for creating listener.
+        /// </summary>
+        /// <param name="options">Listener options.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="TypeLoadException"></exception>
         private IListener CreateListener(ListenerOptions options)
         {
             var listenerTypeName = options.ListenerType;
