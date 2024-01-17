@@ -15,6 +15,7 @@ namespace WordListeners
     {
         private readonly object _lockObject = new();
         private readonly WordprocessingDocument _document;
+        private readonly ListenerOptions _options;
         private readonly Document _workPart;
         public EventHandler<EventListenerArgs>? Events;
 
@@ -24,8 +25,8 @@ namespace WordListeners
             {
                 throw new ArgumentNullException(nameof(options.FilePath), "File path can't be empty");
             }
-            
-            using var doc = WordprocessingDocument.Create(options.FilePath, WordprocessingDocumentType.Document);
+            _options = options;
+            using var doc = WordprocessingDocument.Create(_options.FilePath, WordprocessingDocumentType.Document);
             var mainPart = doc.AddMainDocumentPart();
             mainPart.Document = new Document();
             _workPart = mainPart.Document;
@@ -34,10 +35,36 @@ namespace WordListeners
 
         public void LogMessage(string message)
         {
+            if (!IsLogLevelEnabled(message)) return;
             lock (_lockObject)
             {
                 var body = new Body(new Paragraph(new Run(new Text(message))));
                 _workPart.Append(body);
+            }
+        }
+
+        private bool IsLogLevelEnabled(string message)
+        {
+            var comparisonOption = StringComparison.InvariantCultureIgnoreCase;
+            switch (_options.MinimumLogLevel)
+            {
+                case LogLevels.Trace:
+                    return true; //All levels
+                case LogLevels.Debug:
+                    return (message.Contains("DEBUG", comparisonOption) || message.Contains("INFO", comparisonOption) ||
+                            message.Contains("WARN", comparisonOption)
+                            || message.Contains("ERROR", comparisonOption));
+                case LogLevels.Info:
+                    return (message.Contains("INFO", comparisonOption) ||
+                            message.Contains("WARN", comparisonOption)
+                            || message.Contains("ERROR", comparisonOption));
+                case LogLevels.Warn:
+                    return (message.Contains("WARN", comparisonOption)
+                            || message.Contains("ERROR", comparisonOption));
+                case LogLevels.Error:
+                    return message.Contains("ERROR", comparisonOption);
+                default:
+                    return false;
             }
         }
 
