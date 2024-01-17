@@ -15,6 +15,8 @@ namespace Assembly_and_Metadata
             var logger = new MyLogger(config);
             logger.InitializeListeners();
             logger.LogMessage("WARN: I want something to do!");
+            var person = new Person();
+            logger.Track(person);
         }
     }
 }

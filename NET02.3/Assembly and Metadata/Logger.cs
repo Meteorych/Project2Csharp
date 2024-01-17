@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 using Assembly_and_Metadata.Attributes;
 using Listeners;
 using TextListeners;
@@ -60,15 +61,17 @@ namespace Assembly_and_Metadata
                 .GetFields()
                 .Where(field => field.GetCustomAttribute<TrackingProperty>() is not null);
 
+            var message = new StringBuilder($"TRACE: Tracking of object {trackObject}\n");
             foreach (var property in properties)
             {
-                LogMessage($"{property.Name} - {property.GetValue(trackObject)}");
+                message.Append($"Property name: {property.Name}; Property value: {property.GetValue(trackObject)}\n");
             }
 
             foreach (var field in fields)
             {
-                LogMessage($"{field.Name} - {field.GetValue(trackObject)}");
+                message.Append($"Field name: {field.Name}; Field value: {field.GetValue(trackObject)}\n");
             }
+            LogMessage(message.ToString());
         }
         /// <summary>
         /// Method for creating listener.
