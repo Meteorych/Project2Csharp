@@ -12,6 +12,6 @@
 
 
 	<ItemGroup>
-		<ProjectReference Include="..\IListener\AbstractListener.csproj" />
+		<ProjectReference Include="..\IListener\Listener.csproj" />
 	</ItemGroup>
 </Project>
