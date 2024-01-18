@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Assembly_and_Metadata.TestEntities;
+using Microsoft.Extensions.Configuration;
 
 namespace Assembly_and_Metadata
 {
