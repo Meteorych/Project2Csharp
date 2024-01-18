@@ -1,30 +1,39 @@
-﻿using Listeners;
+﻿using AbstractListener;
 
 namespace TextListeners
 {
     /// <summary>
     /// TextListener class for logging on *.txt files
     /// </summary>
-    public class TextListener : IListener
+    public class TextListener : AbstractListener
     {
+        private readonly object _lockObject = new();
         private readonly string _filePath;
-
         public EventHandler<EventListenerArgs>? Events;
 
-        public TextListener(string path)
+        public TextListener(ListenerOptions options)
         {
-            _filePath = path;
+            if (string.IsNullOrEmpty(options.FilePath))
+            {
+                throw new ArgumentNullException(nameof(options.FilePath), "File path can't be empty");
+            }
+            Options = options;
+            _filePath = Options.FilePath;
         }
 
-        public void LogMessage(string message)
+        public override void LogMessage(string message)
         {
-            try
+            if (!IsLogLevelEnabled(message)) return;
+            lock (_lockObject)
             {
-                File.AppendAllText(_filePath, $"{DateTime.Now}: {message}\n");
-            }
-            catch (Exception ex)
-            {
-                OnEvent(new EventListenerArgs(ex.Message));
+                try
+                {
+                    File.AppendAllText(_filePath ?? throw new InvalidOperationException(), $"{DateTime.Now}: {message}\n");
+                }
+                catch (Exception ex)
+                {
+                    OnEvent(new EventListenerArgs(ex.Message));
+                }
             }
         }
 
@@ -32,5 +41,6 @@ namespace TextListeners
         {
             Events?.Invoke(this, e);
         }
+
     }
 }
