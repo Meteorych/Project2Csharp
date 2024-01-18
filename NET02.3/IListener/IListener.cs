@@ -1,4 +1,4 @@
-﻿namespace AbstractListener
+﻿namespace Listener
 {
     /// <summary>
     /// IListener interface that have compulsory method for logger listeners.

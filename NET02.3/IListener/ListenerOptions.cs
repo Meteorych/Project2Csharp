@@ -1,4 +1,4 @@
-﻿namespace AbstractListener;
+﻿namespace Listener;
 
 /// <summary>
 /// Private struct to store ListenerOptions for several operations.
