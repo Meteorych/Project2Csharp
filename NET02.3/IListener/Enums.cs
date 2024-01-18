@@ -1,4 +1,4 @@
-﻿namespace Listeners;
+﻿namespace AbstractListener;
 
 /// <summary>
 /// Enumeration with available log levels.

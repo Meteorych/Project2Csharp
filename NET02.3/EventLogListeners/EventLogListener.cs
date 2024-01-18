@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Listeners;
+using AbstractListener;
 
 namespace EventLogListeners
 {

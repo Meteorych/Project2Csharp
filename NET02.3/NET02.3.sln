@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34302.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly and Metadata", "Assembly and Metadata\Assembly and Metadata.csproj", "{2F506EAF-EE24-46A8-8BCD-5838FF78431A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Listeners", "IListener\Listeners.csproj", "{382A215A-54A2-4B1F-BC02-B5997B40517F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractListener", "IListener\AbstractListener.csproj", "{382A215A-54A2-4B1F-BC02-B5997B40517F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordListeners", "WordListeners\WordListeners.csproj", "{97095575-33F7-494A-B28C-9E41D174F0D1}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventLogListeners", "EventL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextListeners", "TextListeners\TextListeners.csproj", "{AC25E6C5-38DA-4C61-81B7-426CA9D33433}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly and Metadata.Tests", "Assembly and Metadata.Tests\Assembly and Metadata.Tests.csproj", "{DDACF5C2-E7FC-4775-9FB2-5AC72E830B04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly and Metadata.Tests", "Assembly and Metadata.Tests\Assembly and Metadata.Tests.csproj", "{DDACF5C2-E7FC-4775-9FB2-5AC72E830B04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

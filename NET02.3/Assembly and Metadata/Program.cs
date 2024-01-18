@@ -6,8 +6,6 @@ namespace Assembly_and_Metadata
     {
         static void Main()
         {
-
-
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")

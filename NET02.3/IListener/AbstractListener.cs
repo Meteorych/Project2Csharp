@@ -1,4 +1,4 @@
-﻿namespace Listeners
+﻿namespace AbstractListener
 {
     /// <summary>
     /// Abstract class with realization of some common methods and fields for Listeners.
