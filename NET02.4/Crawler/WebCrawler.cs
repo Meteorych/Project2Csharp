@@ -14,24 +14,46 @@ public class WebCrawler
     private TimeSpan _maxWaitingTime;
     private string _url;
     private string _mailAddress;
-    private Logger _logger;
+    private ILogger _logger;
+    private IConfiguration _config;
 
-
-    public WebCrawler(CrawlerOptions options, Logger logger)
+    public WebCrawler(IConfiguration config, ILogger logger)
     {
+        _config = config;
         _logger = logger;
-        _timeout = options.Timeout;
-        _maxWaitingTime = options.MaxWaitingTime;
-        if (options.Url is null || options.MailAddress is null)
-        {   
-            var exceptions = new List<Exception>
-            {
-                new ArgumentNullException(nameof(options.Url)),
-                new ArgumentNullException(nameof(options.MailAddress))
-            };
-            throw new AggregateException("Options is wrong (some of the fields equal null)!", exceptions);
+        Task.Run(SetConfig);
+        Task.Run(CheckOptionChanges);
+        Task.Run(CheckSite);
+    }
+
+    private async Task CheckSite()
+    {
+        await Task.Delay(_timeout);
+    }
+
+    private async Task CheckOptionChanges()
+    {
+        var watcher = new FileSystemWatcher();
+        watcher.Path = "appsettings.json";
+        watcher.Changed += async (sender, args) =>
+        {
+            await SetConfig();
+        };
+
+        while (true)
+        {
+            await Task.Delay(1000);
         }
-        _url = options.Url;
-        _mailAddress = options.MailAddress;
+    }
+
+    private async Task SetConfig()
+    {
+        if (_config["Url"] is null || _config["MailAddress"] is null || !TimeSpan.TryParse(_config["Timeout"], out _timeout)
+            || !TimeSpan.TryParse(_config["MaxWaitingTime"], out _maxWaitingTime))
+        {
+            throw new ArgumentNullException(nameof(_config), "Options is wrong (some of the fields equal null)!");
+        }
+        _url = _config["Url"]!;
+        _mailAddress = _config["MailAddress"]!;
     }
 }

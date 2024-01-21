@@ -10,12 +10,9 @@ public class Program
     {
         var config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
         var logger = LogManager.GetLogger("Crawling Logger");
-        var crawlerOptions = new CrawlerOptions();
-        var crawler = new WebCrawler(crawlerOptions, logger);
-        config.Bind(crawlerOptions);
-        
+        var crawler = new WebCrawler(config, logger);
     }
 }
