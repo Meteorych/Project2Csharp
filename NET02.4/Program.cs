@@ -6,7 +6,7 @@ namespace NET02._4;
 
 public class Program
 {
-    static void Main()
+    static async Task Main()
     {
         var config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -14,5 +14,9 @@ public class Program
             .Build();
         var logger = LogManager.GetLogger("Crawling Logger");
         var crawler = new WebCrawler(config, logger);
+        var crawlerTask = crawler.Start();
+        await Task.Delay(1200);
+        crawler.Stop();
+        await crawlerTask;
     }
 }
