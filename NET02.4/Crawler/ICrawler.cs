@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NET02._4;
+namespace NET02._4.Crawler;
 
-internal interface ICrawler
+public interface ICrawler
 {
+    public void Crawl();
 }
