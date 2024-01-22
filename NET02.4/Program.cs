@@ -14,9 +14,10 @@ public class Program
             .Build();
         var logger = LogManager.GetLogger("Crawling Logger");
         var crawler = new WebCrawler(config, logger);
-        var crawlerTask = crawler.Start();
-        await Task.Delay(1200);
+        
+        await crawler.Start();
+        await Task.Delay(100000);
         crawler.Stop();
-        await crawlerTask;
+        
     }
 }
