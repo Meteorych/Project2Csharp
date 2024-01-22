@@ -38,19 +38,19 @@ public class WebCrawler
         SetConfig();
         _systemWatcher.Path = Directory.GetCurrentDirectory();
         _systemWatcher.Filter = "appsettings.json";
-        _systemWatcher.Changed += async (sender, args) => await Task.Run(() => ChangeConfig(sender, args));
+        _systemWatcher.Changed += ChangeConfig;
     }
 
     /// <summary>
     /// Method that starts running of crawler.
     /// </summary>
     /// <returns></returns>
-    public async Task Start()
+    public void Start()
     {
         _systemWatcher.EnableRaisingEvents = true;
         var cancellationToken = _cancellationTokenSource.Token;
 
-        await Task.WhenAll(CheckSite(cancellationToken));
+        Task.Run(() => CheckSite(cancellationToken), cancellationToken);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public class WebCrawler
                 var startTime = DateTime.Now;
                 var response = await _httpClient.GetAsync(_url, CancellationToken.None);
                 var elapsedTime = DateTime.Now - startTime;
-                if (response.IsSuccessStatusCode || elapsedTime < _maxWaitingTime)
+                if (false)
                 {
                     _logger.Info("Site is working properly.");
                 }
@@ -85,7 +85,7 @@ public class WebCrawler
                     using var message = CreateEmailMessage();
                     using var client = new SmtpClient();
                     await client.ConnectAsync("smtp.mail.ru", 465, true, CancellationToken.None);
-                    await client.AuthenticateAsync("super.titlov@inbox.ru", "", CancellationToken.None);
+                    await client.AuthenticateAsync("super.titlov@inbox.ru", _config.GetValue<string>("Password"), CancellationToken.None);
                     await client.SendAsync(message, CancellationToken.None);
                     _logger.Info("Email is sent.");
                 }
@@ -104,8 +104,11 @@ public class WebCrawler
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
-    private async Task ChangeConfig(object sender , FileSystemEventArgs args)
+    private void ChangeConfig(object sender , FileSystemEventArgs args)
     {
+        //Small delay to ensure that all file's changes is saved properly.
+        Thread.Sleep(500);
+
         SetConfig();
         _logger.Info("Configuration changed.");
     }
