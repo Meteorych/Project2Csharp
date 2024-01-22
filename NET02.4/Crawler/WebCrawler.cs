@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using MimeKit;
 using NLog;
-using Org.BouncyCastle.Tls;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace NET02._4.Crawler;
 
-public class WebCrawler
+public class WebCrawler : ICrawler
 {
     private TimeSpan _timeout;
     private TimeSpan _maxWaitingTime;
@@ -76,7 +67,7 @@ public class WebCrawler
                 var startTime = DateTime.Now;
                 var response = await _httpClient.GetAsync(_url, CancellationToken.None);
                 var elapsedTime = DateTime.Now - startTime;
-                if (false)
+                if (response.IsSuccessStatusCode || elapsedTime < _maxWaitingTime)
                 {
                     _logger.Info("Site is working properly.");
                 }

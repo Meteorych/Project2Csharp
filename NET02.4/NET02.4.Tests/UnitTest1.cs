@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using NET02._4.Crawler;
 using NLog;
 
 namespace NET02._4.Tests
@@ -15,7 +14,7 @@ namespace NET02._4.Tests
         [Fact]
         public void Test1()
         {
-            //TODO: Write tests in the future
+            //TODO: Write tests
         }
     }
 }
