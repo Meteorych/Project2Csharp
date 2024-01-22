@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NET02.4\NET02.4.csproj" />
+    <ProjectReference Include="..\NET02.4.csproj" />
   </ItemGroup>
 
 </Project>
