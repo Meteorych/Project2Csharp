@@ -11,8 +11,9 @@ public class WebCrawler : ICrawler
     private TimeSpan _maxWaitingTime;
     private string _url;
     private string _mailAddress;
+
     private readonly ILogger _logger;
-    private IConfiguration _config;
+    private readonly IConfiguration _config;
     private readonly HttpClient _httpClient = new();
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly FileSystemWatcher _systemWatcher = new();

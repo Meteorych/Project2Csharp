@@ -13,13 +13,13 @@ public class Program
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddUserSecrets<Program>()
             .Build();
-        var logger = LogManager.GetLogger("Crawling Logger");
+        var logger = LogManager.GetLogger("Crawler's Logger");
+
         var crawler = new WebCrawler(config, logger);
         crawler.Start();
         while (Console.ReadKey().Key != ConsoleKey.Q)
         {
         }
-
         crawler.Stop();
         
     }
