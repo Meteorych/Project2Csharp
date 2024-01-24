@@ -8,15 +8,15 @@ namespace Assembly_and_Metadata
         static void Main()
         {
             //Test code
-            //var config = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json")
-            //    .Build();
-            //var logger = new MyLogger(config);
-            //logger.InitializeListeners();
-            //logger.LogMessage("WARN: I want something to do!");
-            //var person = new Person();
-            //logger.Track(person);
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var logger = new MyLogger(config);
+            logger.InitializeListeners();
+            logger.LogMessage("WARN: I want something to do!");
+            var person = new Person();
+            logger.Track(person);
         }
     }
 }

@@ -1,4 +1,6 @@
 using System.Text;
+using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office.Word;
 using Listener;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -10,12 +12,12 @@ namespace Assembly_and_Metadata.Tests
         [Fact]
         public void LogDebugMessage_WhenMinLogLevelIsInfo_DoNotLog()
         {
-            // TODO: Doesn't working: right way will be to correctly mock Configuration.
+
             var configurationText = @"{
                                           ""Listeners"": [
                                             {
                                               ""ListenerType"": ""TextListeners.TextListener, TextListeners"",
-                                              ""FilePath"": ""log.txt"",
+                                              ""FilePath"": ""log1.txt"",
                                               ""MinimumLogLevel"": ""Info""
                                             }
                                         ]
@@ -24,21 +26,42 @@ namespace Assembly_and_Metadata.Tests
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(configurationText)))
                 .Build();
-            var textListenerMock = new Mock<IListener>();
             var logger = new MyLogger(configuration);
+            var message = "DEBUG||This isn't working";
 
             // Act
             logger.InitializeListeners();
-            logger.LogMessage("DEBUG||This isn't working");
+            logger.LogMessage(message);
 
             // Assert
-            textListenerMock.Verify(listener => listener.LogMessage("INFO||This isn't working"), Times.Never);
+            Assert.Empty(File.ReadAllLines(configuration.GetSection("Listeners:0")["FilePath"]));
         }
 
         [Fact]
         public void LogDebugMessage_WhenMinLogLevelIsDebug_Log()
         {
-            throw new NotImplementedException();
+            var configurationText = @"{
+                                          ""Listeners"": [
+                                            {
+                                              ""ListenerType"": ""TextListeners.TextListener, TextListeners"",
+                                              ""FilePath"": ""log2.txt"",
+                                              ""MinimumLogLevel"": ""Info""
+                                            }
+                                        ]
+                                       }";
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(configurationText)))
+                .Build();
+            var logger = new MyLogger(configuration);
+            var message = "INFO || This isn't working";
+
+            // Act
+            logger.InitializeListeners();
+            logger.LogMessage(message);
+
+            // Assert
+            Assert.Contains(message, File.ReadAllLines(configuration.GetSection("Listeners:0")["FilePath"])[0]);
         }
 
         [Fact]
