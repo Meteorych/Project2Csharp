@@ -9,7 +9,7 @@ namespace Assembly_and_Metadata;
 /// <summary>
 /// Logger class. It is necessary to call InitializeListeners to make it work.
 /// </summary>
-public class MyLogger
+public class MyLogger : ILogger
 {
     private readonly IConfiguration _configuration;
     private readonly List<IListener> _listeners = new();
@@ -35,6 +35,15 @@ public class MyLogger
             var listener = CreateListener(listenerConfiguration);
             _listeners.Add(listener);
         }
+    }
+
+    /// <summary>
+    /// Method for register new Listener.
+    /// </summary>
+    /// <param name="listener">Listener to register in Logger.</param>
+    public void RegisterListener(IListener listener)
+    {
+        _listeners.Add(listener);    
     }
 
     /// <summary>

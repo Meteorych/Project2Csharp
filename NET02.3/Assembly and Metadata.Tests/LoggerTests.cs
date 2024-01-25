@@ -1,6 +1,4 @@
 using System.Text;
-using DocumentFormat.OpenXml.EMMA;
-using DocumentFormat.OpenXml.Office.Word;
 using Listener;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -12,7 +10,7 @@ namespace Assembly_and_Metadata.Tests
         [Fact]
         public void LogDebugMessage_WhenMinLogLevelIsInfo_DoNotLog()
         {
-
+            var listenerMock = new Mock<IListener>();
             var configurationText = @"{
                                           ""Listeners"": [
                                             {
@@ -30,15 +28,16 @@ namespace Assembly_and_Metadata.Tests
             var message = "DEBUG||This isn't working";
 
             // Act
+            File.Delete(configuration.GetSection("Listeners:0")["FilePath"]);
             logger.InitializeListeners();
             logger.LogMessage(message);
 
             // Assert
-            Assert.Empty(File.ReadAllLines(configuration.GetSection("Listeners:0")["FilePath"]));
+            Assert.False(File.Exists(configuration.GetSection("Listeners:0")["FilePath"]));
         }
 
         [Fact]
-        public void LogDebugMessage_WhenMinLogLevelIsDebug_Log()
+        public void LogInfoMessage_WhenMinLogLevelIsDebug_Log()
         {
             var configurationText = @"{
                                           ""Listeners"": [
@@ -62,12 +61,6 @@ namespace Assembly_and_Metadata.Tests
 
             // Assert
             Assert.Contains(message, File.ReadAllLines(configuration.GetSection("Listeners:0")["FilePath"])[0]);
-        }
-
-        [Fact]
-        public void TrackObject_TrackObjectPerson_LogTraceInfoAboutIt()
-        {
-            throw new NotImplementedException();
         }
     }
 }
