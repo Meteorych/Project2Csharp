@@ -29,8 +29,8 @@ public class WebCrawler : ICrawler, IDisposable
     {
         _config = config;
         _logger = logger;
-        _message = CreateEmailMessage();
         SetConfig();
+        _message = CreateEmailMessage();
         _systemWatcher.Path = Directory.GetCurrentDirectory();
         _systemWatcher.Filter = "appsettings.json";
         _systemWatcher.Changed += ChangeConfig;
@@ -63,7 +63,7 @@ public class WebCrawler : ICrawler, IDisposable
     /// </summary>
     /// <param name="token">Cancellation token.</param>
     /// <returns></returns>
-    private async Task CheckSite(CancellationToken token)
+    public async Task CheckSite(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
@@ -91,7 +91,6 @@ public class WebCrawler : ICrawler, IDisposable
             }
             await Task.Delay(_timeout, CancellationToken.None);
         }
-        
     }
 
     /// <summary>
@@ -134,7 +133,7 @@ public class WebCrawler : ICrawler, IDisposable
     /// <exception cref="ArgumentNullException"></exception>
     private void SetConfig()
     {
-        if (_config["Url"] is null || _config["MailAddress"] is null || !TimeSpan.TryParse(_config["Timeout"], out _timeout)
+        if (_config["Url"] is null || _config["MailAddress"] is null || _config["AdminName"] is null || !TimeSpan.TryParse(_config["Timeout"], out _timeout)
             || !TimeSpan.TryParse(_config["MaxWaitingTime"], out _maxWaitingTime))
         {
             throw new ArgumentNullException(nameof(_config), "Options is wrong (some of the fields equal null)!");

@@ -11,26 +11,26 @@ namespace NET02._4.Tests
         private readonly Mock<ILogger> _logger = new();
 
         [Fact]
-        public void Test1()
+        public async Task CheckSite_CheckingWorkingSite_LogMessage()
         {
+            //Arrange
             var config = Mock.Of<IConfiguration>(
                 config => config["Url"] == "https://www.youtube.com" &&
                           config["Timeout"] == "00:00:02" &&
                           config["MaxWaitingTime"] == "00:00:03" &&
                           config["MailAddress"] == "super.titlov@inbox.ru" &&
-                          config["AdministratorName"] == "Ivan Titlov");
+                          config["AdminName"] == "Ivan Titlov");
             var crawler = new WebCrawler(config, _logger.Object);
 
             //Act
-            var startTime = DateTime.Now;
-            do
+            await Task.Run(async () =>
             {
                 crawler.Start();
-            } while ((DateTime.Now - startTime).Milliseconds < 100);
-            crawler.Stop();
+                await Task.Delay(3000); // Let the crawler run for 10 seconds
+                crawler.Stop();
+            });
 
-            //TODO: Write tests
-
+            //Assert
             _logger.Verify(logger => logger.Info(It.IsAny<string>()), Times.AtLeastOnce);
         }
     }
