@@ -5,12 +5,14 @@ using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace NET02._4.Crawler;
 
-public class WebCrawler : ICrawler
+public class WebCrawler : ICrawler, IDisposable
 {
     private TimeSpan _timeout;
     private TimeSpan _maxWaitingTime;
     private string _url;
     private string _mailAddress;
+    private string _adminName;
+    private readonly MimeMessage _message;
 
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
@@ -27,10 +29,12 @@ public class WebCrawler : ICrawler
     {
         _config = config;
         _logger = logger;
+        _message = CreateEmailMessage();
         SetConfig();
         _systemWatcher.Path = Directory.GetCurrentDirectory();
         _systemWatcher.Filter = "appsettings.json";
         _systemWatcher.Changed += ChangeConfig;
+
     }
 
     /// <summary>
@@ -74,11 +78,10 @@ public class WebCrawler : ICrawler
                 }
                 else
                 {
-                    using var message = CreateEmailMessage();
                     using var client = new SmtpClient();
                     await client.ConnectAsync("smtp.mail.ru", 465, true, CancellationToken.None);
                     await client.AuthenticateAsync("super.titlov@inbox.ru", _config.GetValue<string>("Password"), CancellationToken.None);
-                    await client.SendAsync(message, CancellationToken.None);
+                    await client.SendAsync(_message, CancellationToken.None);
                     _logger.Info("Email is sent.");
                 }
             }
@@ -114,7 +117,7 @@ public class WebCrawler : ICrawler
         var emailMessage = new MimeMessage();
 
         emailMessage.From.Add(new MailboxAddress("Web Crawler", "super.titlov@inbox.ru"));
-        emailMessage.To.Add(new MailboxAddress("Ivan Titlov", _mailAddress));
+        emailMessage.To.Add(new MailboxAddress(_adminName, _mailAddress));
         emailMessage.Subject = "Your site isn't working";
         emailMessage.Body = new TextPart("plain")
         {
@@ -137,7 +140,22 @@ public class WebCrawler : ICrawler
             throw new ArgumentNullException(nameof(_config), "Options is wrong (some of the fields equal null)!");
         }
         _url = _config["Url"]!;
+        _adminName = _config["AdminName"]!;
         _mailAddress = _config["MailAddress"]!;
     }
-    
+
+    public void Dispose()
+    {
+        _message.Dispose();
+        _systemWatcher.Dispose();
+        _cancellationTokenSource.Dispose();
+        _httpClient.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    ~WebCrawler()
+    {
+        Dispose();
+        _logger.Info("Object is finalized.");
+    }
 }
