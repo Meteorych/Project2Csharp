@@ -72,7 +72,7 @@ public class WebCrawler : ICrawler, IDisposable
                 var startTime = DateTime.Now;
                 var response = await _httpClient.GetAsync(_url, CancellationToken.None);
                 var elapsedTime = DateTime.Now - startTime;
-                if (response.IsSuccessStatusCode || elapsedTime < _maxWaitingTime)
+                if (response.IsSuccessStatusCode && elapsedTime < _maxWaitingTime)
                 {
                     _logger.Info("Site is working properly.");
                 }
@@ -149,6 +149,7 @@ public class WebCrawler : ICrawler, IDisposable
         _systemWatcher.Dispose();
         _cancellationTokenSource.Dispose();
         _httpClient.Dispose();
+        _logger.Info("Object is disposed.");
         GC.SuppressFinalize(this);
     }
 
