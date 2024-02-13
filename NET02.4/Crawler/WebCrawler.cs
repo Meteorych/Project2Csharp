@@ -14,11 +14,14 @@ public class WebCrawler : ICrawler, IDisposable
     private string _adminName;
     private readonly MimeMessage _message;
 
+    //TODO: Все оборачивается в класс приложения, который может содержать много Crawler'ов, проверяющих каждый свой сайт
+    //TODO: FileSystemWatcher должен быть отдельно в этом классе приложения
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
     private readonly HttpClient _httpClient = new();
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly FileSystemWatcher _systemWatcher = new();
+    
 
     /// <summary>
     /// Constructor for crawler.
@@ -34,7 +37,6 @@ public class WebCrawler : ICrawler, IDisposable
         _systemWatcher.Path = Directory.GetCurrentDirectory();
         _systemWatcher.Filter = "appsettings.json";
         _systemWatcher.Changed += ChangeConfig;
-
     }
 
     /// <summary>
