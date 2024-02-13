@@ -15,12 +15,12 @@ public class Program
             .Build();
         var logger = LogManager.GetLogger("Crawler's Logger");
 
-        var crawler = new WebCrawler(config, logger);
-        crawler.Start();
+        var app = new MonitorApp(config, logger);
+        app.Run();
         while (Console.ReadKey().Key != ConsoleKey.Q)
         {
         }
-        crawler.Stop();
+        app.Stop();
         
     }
 }

@@ -19,8 +19,7 @@ public class WebCrawler : ICrawler, IDisposable
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
     private readonly HttpClient _httpClient = new();
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
-    private readonly FileSystemWatcher _systemWatcher = new();
+    
     
 
     /// <summary>
@@ -34,31 +33,17 @@ public class WebCrawler : ICrawler, IDisposable
         _logger = logger;
         SetConfig();
         _message = CreateEmailMessage();
-        _systemWatcher.Path = Directory.GetCurrentDirectory();
-        _systemWatcher.Filter = "appsettings.json";
-        _systemWatcher.Changed += ChangeConfig;
     }
 
     /// <summary>
     /// Method that starts running of crawler.
     /// </summary>
     /// <returns></returns>
-    public void Start()
-    {
-        _systemWatcher.EnableRaisingEvents = true;
-        var cancellationToken = _cancellationTokenSource.Token;
-
-        Task.Run(() => CheckSite(cancellationToken), cancellationToken);
+    public void Start(CancellationToken token)
+    { 
+        Task.Run(() => CheckSite(token), token);
     }
 
-    /// <summary>
-    /// Method for stopping the crawler.
-    /// </summary>
-    public void Stop()
-    {
-        _cancellationTokenSource.Cancel();
-        _systemWatcher.EnableRaisingEvents = false;
-    }
 
     /// <summary>
     /// Method for checking sites.
@@ -91,23 +76,12 @@ public class WebCrawler : ICrawler, IDisposable
             {
                 _logger.Error($"Can't send email: {ex.Message}");
             }
+            token.ThrowIfCancellationRequested();
             await Task.Delay(_timeout, CancellationToken.None);
         }
     }
 
-    /// <summary>
-    /// Method for config checking.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="args"></param>
-    private void ChangeConfig(object sender , FileSystemEventArgs args)
-    {
-        //Small delay to ensure that all file's changes is saved properly.
-        Thread.Sleep(500);
-
-        SetConfig();
-        _logger.Info("Configuration changed.");
-    }
+    
 
     /// <summary>
     /// Method with creating of email message to administrator of site.
@@ -148,8 +122,6 @@ public class WebCrawler : ICrawler, IDisposable
     public void Dispose()
     {
         _message.Dispose();
-        _systemWatcher.Dispose();
-        _cancellationTokenSource.Dispose();
         _httpClient.Dispose();
         _logger.Info("Object is disposed.");
         GC.SuppressFinalize(this);

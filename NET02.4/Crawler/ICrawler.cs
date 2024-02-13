@@ -5,6 +5,5 @@
 /// </summary>
 public interface ICrawler
 {
-    public void Start();
-    public void Stop();
+    public void Start(CancellationToken token);
 }
