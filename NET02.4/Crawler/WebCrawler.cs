@@ -61,7 +61,7 @@ public class WebCrawler : ICrawler, IDisposable
                 var elapsedTime = DateTime.Now - startTime;
                 if (response.IsSuccessStatusCode && elapsedTime < _maxWaitingTime)
                 {
-                    _logger.Info("Site is working properly.");
+                    _logger.Info($"{_url} is working properly.");
                 }
                 else
                 {

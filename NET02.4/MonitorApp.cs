@@ -33,7 +33,7 @@ namespace NET02._4
             var tasks = new List<Task>();
             foreach (var crawler in _crawlerList)
             {
-                tasks.Add(new Task(() => crawler.Start(token)));
+                tasks.Add(Task.Run(() => crawler.Start(token), token));
             }
 
             try
