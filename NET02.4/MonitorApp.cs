@@ -29,11 +29,13 @@ namespace NET02._4
 
         public void Run()
         {
+            if (IsRunning) return;
             _systemWatcher.EnableRaisingEvents = true;
             var token  = _cancellationTokenSource.Token;
             var tasks = new List<Task>();
             try
             {
+                IsRunning = true;
                 foreach (var crawler in _crawlerList)
                 {
                     tasks.Add(Task.Run(() => crawler.Start(token), token));
@@ -48,6 +50,7 @@ namespace NET02._4
         public void Stop()
         {
             _cancellationTokenSource.Cancel();
+            IsRunning = false;
         }
 
         /// <summary>
