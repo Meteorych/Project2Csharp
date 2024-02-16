@@ -13,6 +13,7 @@ namespace NET02._4
         public HttpClient _httpClient = new ();
         private readonly FileSystemWatcher _systemWatcher = new();
 
+        public static bool IsRunning { get; private set; }
         public MonitorApp(IConfiguration config, ILogger logger)
         { 
             _config = config;
@@ -31,14 +32,12 @@ namespace NET02._4
             _systemWatcher.EnableRaisingEvents = true;
             var token  = _cancellationTokenSource.Token;
             var tasks = new List<Task>();
-            foreach (var crawler in _crawlerList)
-            {
-                tasks.Add(Task.Run(() => crawler.Start(token), token));
-            }
-
             try
             {
-                Task.WhenAll(tasks);
+                foreach (var crawler in _crawlerList)
+                {
+                    tasks.Add(Task.Run(() => crawler.Start(token), token));
+                }
             }
             catch (OperationCanceledException)
             {

@@ -21,6 +21,6 @@ public class Program
         {
         }
         app.Stop();
-        
+        Task.Delay(10000);
     }
 }
