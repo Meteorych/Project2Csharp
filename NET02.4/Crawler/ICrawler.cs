@@ -3,7 +3,7 @@
 /// <summary>
 /// Crawler's interface with public methods.
 /// </summary>
-public interface ICrawler
+public interface ICrawler : IDisposable
 {
     public void Start(CancellationToken token);
 }

@@ -6,22 +6,20 @@ namespace NET02._4
 {
     public class MonitorApp : IDisposable
     {
-        private readonly List<WebCrawler> _crawlerList = new();
+        private readonly List<ICrawler> _crawlerList = new();
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly ILogger _logger;
-        private IConfiguration _config;
-        public HttpClient _httpClient = new ();
+        private readonly IConfiguration _config;
+        private HttpClient _httpClient = new ();
         private readonly FileSystemWatcher _systemWatcher = new();
 
         public static bool IsRunning { get; private set; }
+
         public MonitorApp(IConfiguration config, ILogger logger)
         { 
             _config = config;
             _logger = logger;
-            foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
-            {
-                _crawlerList.Add(new WebCrawler(crawlerOptions, logger));
-            }
+            SetCrawlers();
             _systemWatcher.Path = Directory.GetCurrentDirectory();
             _systemWatcher.Filter = "appsettings.json";
             _systemWatcher.Changed += ChangeConfig;
@@ -63,8 +61,16 @@ namespace NET02._4
             //Small delay to ensure that all file's changes is saved properly.
             Thread.Sleep(500);
 
-            
+            Stop();
             _logger.Info("Configuration changed.");
+        }
+
+        private void SetCrawlers()
+        {
+            foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
+            {
+                _crawlerList.Add(new WebCrawler(crawlerOptions, _logger));
+            }
         }
 
         public void Dispose()
@@ -73,6 +79,12 @@ namespace NET02._4
             {
                 crawler.Dispose();
             }
+            GC.SuppressFinalize(this);
+        }
+
+        ~MonitorApp()
+        {
+            Dispose();
         }
     }
 }
