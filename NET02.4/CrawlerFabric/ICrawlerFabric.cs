@@ -8,6 +8,6 @@ namespace NET02._4.CrawlerFabric
     /// </summary>
     public interface ICrawlerFabric
     {
-        public ICrawler Create(IConfigurationSection config);
+        public ICrawler Create(IConfigurationSection config, HttpClient httpClient);
     }
 }

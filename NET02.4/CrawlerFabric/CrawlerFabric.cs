@@ -13,9 +13,9 @@ namespace NET02._4.CrawlerFabric
             _logger = logger;
         }
 
-        public ICrawler Create(IConfigurationSection config)
+        public ICrawler Create(IConfigurationSection config, HttpClient httpClient)
         {
-            return new WebCrawler(config, _logger);
+            return new WebCrawler(config, httpClient, _logger);
         }
     }
 }

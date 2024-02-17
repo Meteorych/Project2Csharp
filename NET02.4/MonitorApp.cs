@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileSystemGlobbing;
 using NET02._4.Crawler;
 using NET02._4.CrawlerFabric;
 using NLog;
+using System;
 
 namespace NET02._4
 {
@@ -12,8 +14,8 @@ namespace NET02._4
         private readonly ILogger _logger;
         private readonly IConfiguration _config;
         private readonly ICrawlerFabric _crawlerFabric;
-        private HttpClient _httpClient = new ();
-        private readonly FileSystemWatcher _systemWatcher = new();
+        private readonly HttpClient _httpClient = new ();
+        private readonly FileSystemWatcher _systemWatcher = new(Directory.GetCurrentDirectory(), "appsettings.json");
 
         public static bool IsRunning { get; private set; }
 
@@ -23,9 +25,16 @@ namespace NET02._4
             _logger = logger;
             _crawlerFabric = crawlerFabric;
             SetCrawlers();
-            _systemWatcher.Path = Directory.GetCurrentDirectory();
-            _systemWatcher.Filter = "appsettings.json";
+            _systemWatcher.NotifyFilter = NotifyFilters.Attributes
+                                   | NotifyFilters.CreationTime
+                                   | NotifyFilters.FileName
+                                   | NotifyFilters.LastAccess
+                                   | NotifyFilters.LastWrite
+                                   | NotifyFilters.Size;
             _systemWatcher.Changed += ChangeConfig;
+            _systemWatcher.EnableRaisingEvents = true;
+            var token = _cancellationTokenSource.Token;
+            Console.ReadKey();
         }
 
         public void Run()
@@ -33,13 +42,15 @@ namespace NET02._4
             if (IsRunning) return;
             _systemWatcher.EnableRaisingEvents = true;
             var token  = _cancellationTokenSource.Token;
-            var tasks = new List<Task>();
+            while (Console.ReadKey().Key != ConsoleKey.Q)
+            {
+            }
             try
             {
                 IsRunning = true;
                 foreach (var crawler in _crawlerList)
                 {
-                    tasks.Add(Task.Run(() => crawler.Start(token), token));
+                    crawler.Start(token);
                 }
             }
             catch (OperationCanceledException)
@@ -51,7 +62,9 @@ namespace NET02._4
         public void Stop()
         {
             _cancellationTokenSource.Cancel();
+            _systemWatcher.EnableRaisingEvents = false;
             IsRunning = false;
+            _logger.Info("Operations is canceled!");
         }
 
         /// <summary>
@@ -59,22 +72,23 @@ namespace NET02._4
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void ChangeConfig(object sender, FileSystemEventArgs args)
+        public void ChangeConfig(object sender, FileSystemEventArgs args)
         {
-            //Small delay to ensure that all file's changes is saved properly.
+
             Thread.Sleep(500);
 
             Stop();
             SetCrawlers();
-            _logger.Info("Configuration changed.");
+            Run();
+            _logger.Info("Configuration is changed.");
         }
-
+        
         private void SetCrawlers()
         {
             _crawlerList.Clear();
             foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
             {
-                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions));
+                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, _httpClient));
             }
         }
 

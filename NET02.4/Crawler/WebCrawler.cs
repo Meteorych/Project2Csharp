@@ -13,24 +13,20 @@ public class WebCrawler : ICrawler, IDisposable
     private string _mailAddress;
     private string _adminName;
     private readonly MimeMessage _message;
-
-    //TODO: Все оборачивается в класс приложения, который может содержать много Crawler'ов, проверяющих каждый свой сайт
-    //TODO: FileSystemWatcher должен быть отдельно в этом классе приложения
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
-    private readonly HttpClient _httpClient = new();
-    
-    
+    private readonly HttpClient _httpClient;
 
     /// <summary>
     /// Constructor for crawler.
     /// </summary>
     /// <param name="config">Crawler's configuration.</param>
     /// <param name="logger">Logger for crawler.</param>
-    public WebCrawler(IConfiguration config, ILogger logger)
+    public WebCrawler(IConfiguration config, HttpClient httpClient, ILogger logger)
     {
         _config = config;
         _logger = logger;
+        _httpClient = httpClient;
         SetConfig();
         _message = CreateEmailMessage();
     }
@@ -123,13 +119,13 @@ public class WebCrawler : ICrawler, IDisposable
     {
         _message.Dispose();
         _httpClient.Dispose();
-        _logger.Info("Object is disposed.");
+        _logger.Debug("Object is disposed.");
         GC.SuppressFinalize(this);
     }
 
     ~WebCrawler()
     {
         Dispose();
-        _logger.Info("Object is finalized.");
+        _logger.Debug("Object is finalized.");
     }
 }

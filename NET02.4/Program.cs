@@ -19,10 +19,13 @@ public class Program
         var app = new MonitorApp(config, new WebCrawlerFabric(logger), logger);
 
         app.Run();
+
+
         while (Console.ReadKey().Key != ConsoleKey.Q)
         {
         }
         app.Stop();
-        Task.Delay(10000);
+        
+
     }
 }
