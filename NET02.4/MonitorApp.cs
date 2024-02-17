@@ -32,9 +32,6 @@ namespace NET02._4
                                    | NotifyFilters.LastWrite
                                    | NotifyFilters.Size;
             _systemWatcher.Changed += ChangeConfig;
-            _systemWatcher.EnableRaisingEvents = true;
-            var token = _cancellationTokenSource.Token;
-            Console.ReadKey();
         }
 
         public void Run()
