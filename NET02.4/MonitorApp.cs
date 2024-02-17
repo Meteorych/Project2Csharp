@@ -1,24 +1,27 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NET02._4.Crawler;
+using NET02._4.CrawlerFabric;
 using NLog;
 
 namespace NET02._4
 {
     public class MonitorApp : IDisposable
     {
-        private readonly List<ICrawler> _crawlerList = new();
+        private readonly List<ICrawler> _crawlerList = [];
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly ILogger _logger;
         private readonly IConfiguration _config;
+        private readonly ICrawlerFabric _crawlerFabric;
         private HttpClient _httpClient = new ();
         private readonly FileSystemWatcher _systemWatcher = new();
 
         public static bool IsRunning { get; private set; }
 
-        public MonitorApp(IConfiguration config, ILogger logger)
+        public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, ILogger logger)
         { 
             _config = config;
             _logger = logger;
+            _crawlerFabric = crawlerFabric;
             SetCrawlers();
             _systemWatcher.Path = Directory.GetCurrentDirectory();
             _systemWatcher.Filter = "appsettings.json";
@@ -62,14 +65,16 @@ namespace NET02._4
             Thread.Sleep(500);
 
             Stop();
+            SetCrawlers();
             _logger.Info("Configuration changed.");
         }
 
         private void SetCrawlers()
         {
+            _crawlerList.Clear();
             foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
             {
-                _crawlerList.Add(new WebCrawler(crawlerOptions, _logger));
+                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions));
             }
         }
 
