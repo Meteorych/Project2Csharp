@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using NET02._4.Crawler;
 using NLog;
 
@@ -13,9 +14,9 @@ namespace NET02._4.CrawlerFabric
             _logger = logger;
         }
 
-        public ICrawler Create(IConfigurationSection config, HttpClient httpClient)
+        public ICrawler Create(IConfigurationSection config, SmtpClient smtpClient, HttpClient httpClient)
         {
-            return new WebCrawler(config, httpClient, _logger);
+            return new WebCrawler(config, smtpClient, httpClient, _logger);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using NET02._4.Crawler;
 using NET02._4.CrawlerFabric;
 using NLog;
@@ -16,16 +17,13 @@ public class Program
             .AddUserSecrets<Program>()
             .Build();
         var logger = LogManager.GetLogger("Crawler's Logger");
-        var app = new MonitorApp(config, new WebCrawlerFabric(logger), logger);
+        var systemWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory(), "appsettings.json");
+        var app = new MonitorApp(config, new WebCrawlerFabric(logger), systemWatcher, logger);
 
         app.Run();
-
-
         while (Console.ReadKey().Key != ConsoleKey.Q)
         {
         }
         app.Stop();
-        
-
     }
 }

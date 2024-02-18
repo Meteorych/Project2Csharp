@@ -4,6 +4,7 @@ using NET02._4.Crawler;
 using NET02._4.CrawlerFabric;
 using NLog;
 using System;
+using MailKit.Net.Smtp;
 
 namespace NET02._4
 {
@@ -15,16 +16,17 @@ namespace NET02._4
         private readonly IConfiguration _config;
         private readonly ICrawlerFabric _crawlerFabric;
         private readonly HttpClient _httpClient = new ();
-        private readonly FileSystemWatcher _systemWatcher = new(Directory.GetCurrentDirectory(), "appsettings.json");
+        private readonly FileSystemWatcher _systemWatcher;
 
         public static bool IsRunning { get; private set; }
 
-        public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, ILogger logger)
+        public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, FileSystemWatcher systemWatcher, ILogger logger)
         { 
             _config = config;
             _logger = logger;
             _crawlerFabric = crawlerFabric;
             SetCrawlers();
+            _systemWatcher = systemWatcher;
             _systemWatcher.NotifyFilter = NotifyFilters.Attributes
                                    | NotifyFilters.CreationTime
                                    | NotifyFilters.FileName
@@ -34,20 +36,26 @@ namespace NET02._4
             _systemWatcher.Changed += ChangeConfig;
         }
 
-        public void Run()
+        /// <summary>
+        /// Method for starting app.
+        /// </summary>
+        public async void Run()
         {
             if (IsRunning) return;
             _systemWatcher.EnableRaisingEvents = true;
             var token  = _cancellationTokenSource.Token;
-            while (Console.ReadKey().Key != ConsoleKey.Q)
-            {
-            }
+            var tasks = new List<Task>();
             try
             {
-                IsRunning = true;
-                foreach (var crawler in _crawlerList)
+                while (!token.IsCancellationRequested)
                 {
-                    crawler.Start(token);
+                    IsRunning = true;
+                    foreach (var crawler in _crawlerList)
+                    {
+                         tasks.Add(Task.Run(() => crawler.Start(token), token));
+                    }
+
+                    await Task.WhenAll(tasks);
                 }
             }
             catch (OperationCanceledException)
@@ -80,12 +88,29 @@ namespace NET02._4
             _logger.Info("Configuration is changed.");
         }
         
+        /// <summary>
+        /// Method for creating SMTP client for app. 
+        /// </summary>
+        /// <returns>SMTP client for app with authentication and connection.</returns>
+        private SmtpClient CreatingSmtpClient()
+        {
+            var client = new SmtpClient();
+            client.Connect("smtp.mail.ru", 465, true, CancellationToken.None);
+            client.Authenticate(_config.GetValue<string>("MonitorAppMailAddress") ?? "super.titlov@inbox.ru",
+                _config.GetValue<string>("Password"), CancellationToken.None);
+            return client;
+        }
+
+        /// <summary>
+        /// Setting crawlers for checking URLs.
+        /// </summary>
         private void SetCrawlers()
         {
             _crawlerList.Clear();
+            var smtpClient = CreatingSmtpClient();
             foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
             {
-                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, _httpClient));
+                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, smtpClient, _httpClient));
             }
         }
 

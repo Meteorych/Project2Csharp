@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using NET02._4.Crawler;
 
 namespace NET02._4.CrawlerFabric
@@ -8,6 +9,6 @@ namespace NET02._4.CrawlerFabric
     /// </summary>
     public interface ICrawlerFabric
     {
-        public ICrawler Create(IConfigurationSection config, HttpClient httpClient);
+        public ICrawler Create(IConfigurationSection config, SmtpClient smtpClient, HttpClient httpClient);
     }
 }

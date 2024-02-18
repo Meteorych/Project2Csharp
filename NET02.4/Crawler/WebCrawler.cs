@@ -16,37 +16,33 @@ public class WebCrawler : ICrawler, IDisposable
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
     private readonly HttpClient _httpClient;
+    private readonly SmtpClient _smtpClient;
+    private readonly string _crawlerAddress;
 
     /// <summary>
     /// Constructor for crawler.
     /// </summary>
     /// <param name="config">Crawler's configuration.</param>
     /// <param name="logger">Logger for crawler.</param>
-    public WebCrawler(IConfiguration config, HttpClient httpClient, ILogger logger)
+    /// <param name="httpClient">HttpClient for crawler.</param>
+    /// <param name="smtpClient">SmtpClient for crawler.</param>
+    public WebCrawler(IConfiguration config, SmtpClient smtpClient, HttpClient httpClient, ILogger logger)
     {
         _config = config;
         _logger = logger;
         _httpClient = httpClient;
+        _smtpClient = smtpClient;
         SetConfig();
         _message = CreateEmailMessage();
+        _crawlerAddress = _config.GetValue<string>("CrawlerAddress") ?? "super.titlov@inbox.ru";
     }
-
-    /// <summary>
-    /// Method that starts running of crawler.
-    /// </summary>
-    /// <returns></returns>
-    public void Start(CancellationToken token)
-    { 
-        Task.Run(() => CheckSite(token), token);
-    }
-
 
     /// <summary>
     /// Method for checking sites.
     /// </summary>
     /// <param name="token">Cancellation token.</param>
     /// <returns></returns>
-    public async Task CheckSite(CancellationToken token)
+    public async Task Start(CancellationToken token)
     {
         while (!token.IsCancellationRequested)
         {
@@ -61,9 +57,12 @@ public class WebCrawler : ICrawler, IDisposable
                 }
                 else
                 {
-                    using var client = new SmtpClient();
-                    await client.ConnectAsync("smtp.mail.ru", 465, true, CancellationToken.None);
-                    await client.AuthenticateAsync("super.titlov@inbox.ru", _config.GetValue<string>("Password"), CancellationToken.None);
+                    using var client = _smtpClient;
+                    _message.Body = new TextPart("plain")
+                    {
+                        Text =
+                            $"Hello, Dear Administrator of site with address {_url}, \n\t I want to inform you that your site is currently isn't working. \n\t Regards,\n\t Web Crawler"
+                    };
                     await client.SendAsync(_message, CancellationToken.None);
                     _logger.Info("Email is sent.");
                 }
@@ -87,14 +86,9 @@ public class WebCrawler : ICrawler, IDisposable
     {
         var emailMessage = new MimeMessage();
 
-        emailMessage.From.Add(new MailboxAddress("Web Crawler", "super.titlov@inbox.ru"));
+        emailMessage.From.Add(new MailboxAddress("Web Crawler", _crawlerAddress));
         emailMessage.To.Add(new MailboxAddress(_adminName, _mailAddress));
         emailMessage.Subject = "Your site isn't working";
-        emailMessage.Body = new TextPart("plain")
-        {
-            Text =
-                $"Hello, Dear Administrator of site with address {_url}, \n\t I want to inform you that your site is currently isn't working. \n\t Regards,\n\t Web Crawler"
-        };
         return emailMessage;
 
     }
