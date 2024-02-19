@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileSystemGlobbing;
 using NET02._4.Crawler;
 using NET02._4.CrawlerFabric;
 using NLog;
-using System;
 using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace NET02._4
 {
@@ -92,7 +91,7 @@ namespace NET02._4
         /// Method for creating SMTP client for app. 
         /// </summary>
         /// <returns>SMTP client for app with authentication and connection.</returns>
-        private SmtpClient CreatingSmtpClient()
+        private SmtpClient CreateSmtpClient()
         {
             var client = new SmtpClient();
             client.Connect("smtp.mail.ru", 465, true, CancellationToken.None);
@@ -102,15 +101,27 @@ namespace NET02._4
         }
 
         /// <summary>
+        /// Method with creating of email message to administrator of site.
+        /// </summary>
+        /// <returns></returns>
+        private MimeMessage CreateEmailMessage()
+        {
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Web Crawler", _config.GetValue<string>("MonitorAppMailAddress") ?? "super.titlov@inbox.ru"));
+            return emailMessage;
+        }
+
+        /// <summary>
         /// Setting crawlers for checking URLs.
         /// </summary>
         private void SetCrawlers()
         {
             _crawlerList.Clear();
-            var smtpClient = CreatingSmtpClient();
+            var smtpClient = CreateSmtpClient();
+            var message = CreateEmailMessage();
             foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
             {
-                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, smtpClient, _httpClient));
+                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, smtpClient, message, _httpClient));
             }
         }
 

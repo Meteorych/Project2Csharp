@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MimeKit;
 using NLog;
+using System.Net.Mail;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace NET02._4.Crawler;
 
-public class WebCrawler : ICrawler, IDisposable
+public class WebCrawler : ICrawler
 {
     private TimeSpan _timeout;
     private TimeSpan _maxWaitingTime;
@@ -17,7 +18,6 @@ public class WebCrawler : ICrawler, IDisposable
     private readonly IConfiguration _config;
     private readonly HttpClient _httpClient;
     private readonly SmtpClient _smtpClient;
-    private readonly string _crawlerAddress;
 
     /// <summary>
     /// Constructor for crawler.
@@ -26,21 +26,20 @@ public class WebCrawler : ICrawler, IDisposable
     /// <param name="logger">Logger for crawler.</param>
     /// <param name="httpClient">HttpClient for crawler.</param>
     /// <param name="smtpClient">SmtpClient for crawler.</param>
-    public WebCrawler(IConfiguration config, SmtpClient smtpClient, HttpClient httpClient, ILogger logger)
+    /// <param name="message">Message for admin of site in case it doesn't working.</param>
+    public WebCrawler(IConfiguration config, SmtpClient? smtpClient, MimeMessage? message, HttpClient httpClient, ILogger logger)
     {
         _config = config;
         _logger = logger;
         _httpClient = httpClient;
-        _smtpClient = smtpClient;
+        _smtpClient = smtpClient ?? throw new ArgumentNullException(nameof(smtpClient));
+        _message = message ?? throw new ArgumentNullException(nameof(message));
         SetConfig();
-        _message = CreateEmailMessage();
-        _crawlerAddress = _config.GetValue<string>("CrawlerAddress") ?? "super.titlov@inbox.ru";
     }
 
     /// <summary>
     /// Method for checking sites.
     /// </summary>
-    /// <param name="token">Cancellation token.</param>
     /// <returns></returns>
     public async Task Start(CancellationToken token)
     {
@@ -58,6 +57,8 @@ public class WebCrawler : ICrawler, IDisposable
                 else
                 {
                     using var client = _smtpClient;
+                    _message.To.Add(new MailboxAddress(_adminName, _mailAddress));
+                    _message.Subject = "Your site isn't working";
                     _message.Body = new TextPart("plain")
                     {
                         Text =
@@ -74,23 +75,6 @@ public class WebCrawler : ICrawler, IDisposable
             token.ThrowIfCancellationRequested();
             await Task.Delay(_timeout, CancellationToken.None);
         }
-    }
-
-    
-
-    /// <summary>
-    /// Method with creating of email message to administrator of site.
-    /// </summary>
-    /// <returns></returns>
-    private MimeMessage CreateEmailMessage()
-    {
-        var emailMessage = new MimeMessage();
-
-        emailMessage.From.Add(new MailboxAddress("Web Crawler", _crawlerAddress));
-        emailMessage.To.Add(new MailboxAddress(_adminName, _mailAddress));
-        emailMessage.Subject = "Your site isn't working";
-        return emailMessage;
-
     }
 
     /// <summary>
