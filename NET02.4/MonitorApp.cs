@@ -73,6 +73,9 @@ namespace NET02._4
             }
         }
 
+        /// <summary>
+        /// Method for stopping app.
+        /// </summary>
         public void Stop()
         {
             _cancellationTokenSource.Cancel();
