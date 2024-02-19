@@ -17,8 +17,18 @@ namespace NET02._4
         private readonly HttpClient _httpClient = new ();
         private readonly FileSystemWatcher _systemWatcher;
 
+        /// <summary>
+        /// Watching if one instance of class is running.
+        /// </summary>
         public static bool IsRunning { get; private set; }
 
+        /// <summary>
+        /// Constructor of the monitoring app that is used to create list of crawlers and start them.
+        /// </summary>
+        /// <param name="config">Configuration for app.</param>
+        /// <param name="crawlerFabric">Abstract fabric for creating crawlers.</param>
+        /// <param name="systemWatcher">Watcher after config file.</param>
+        /// <param name="logger">Logger for app.</param>
         public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, FileSystemWatcher systemWatcher, ILogger logger)
         { 
             _config = config;
