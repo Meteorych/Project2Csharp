@@ -134,7 +134,7 @@ namespace NET02._4
             var message = CreateEmailMessage();
             foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
             {
-                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, smtpClient, message, _httpClient));
+                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, _httpClient, smtpClient, message));
             }
         }
 
