@@ -27,11 +27,10 @@ namespace NET02._4
         /// </summary>
         /// <param name="config">Configuration for app.</param>
         /// <param name="crawlerFabric">Abstract fabric for creating crawlers.</param>
-        /// <param name="systemWatcher">Watcher after config file.</param>
+        /// <param name="systemWatcher">Watcher after config file.</param> 
         /// <param name="logger">Logger for app.</param>
         public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, FileSystemWatcher systemWatcher, ILogger logger)
         { 
-            //TODO:Для каждого Crawler свой config-файл
             _config = config;
             _logger = logger;
             _crawlerFabric = crawlerFabric;
@@ -140,7 +139,7 @@ namespace NET02._4
             _crawlerList.Clear();
             var smtpClient = CreateSmtpClient();
             var message = CreateEmailMessage();
-            foreach (var crawlerOptions in _config.GetSection("Crawlers").GetChildren())
+            foreach (var crawlerOptions in _config.GetSection("Crawler").GetChildren())
             {
                 _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, _httpClient, smtpClient, message));
             }

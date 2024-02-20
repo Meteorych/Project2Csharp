@@ -11,11 +11,15 @@ public class Program
 {
     static void Main()
     {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddUserSecrets<Program>()
-            .Build();
+        var configFiles = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "Configurations"));
+        var configBuilder = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configurations"))
+            .AddUserSecrets<Program>();
+        foreach (var file in configFiles)
+        {
+            configBuilder.AddJsonFile(file);
+        }
+        var config = configBuilder.Build();
         var logger = LogManager.GetLogger("Crawler's Logger");
         var systemWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory(), "appsettings.json");
         using var app = new MonitorApp(config, new WebCrawlerFabric(logger), systemWatcher, logger);
