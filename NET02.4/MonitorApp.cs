@@ -31,19 +31,25 @@ namespace NET02._4
         /// <param name="logger">Logger for app.</param>
         public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, FileSystemWatcher systemWatcher, ILogger logger)
         { 
-            //TODO:Разгрузить конструктор
             //TODO:Для каждого Crawler свой config-файл
             _config = config;
             _logger = logger;
             _crawlerFabric = crawlerFabric;
-            SetCrawlers();
             _systemWatcher = systemWatcher;
+        }
+
+        /// <summary>
+        /// Initializing crawlers in the app.
+        /// </summary>
+        public void Initialize()
+        {
+            SetCrawlers();
             _systemWatcher.NotifyFilter = NotifyFilters.Attributes
-                                   | NotifyFilters.CreationTime
-                                   | NotifyFilters.FileName
-                                   | NotifyFilters.LastAccess
-                                   | NotifyFilters.LastWrite
-                                   | NotifyFilters.Size;
+                                          | NotifyFilters.CreationTime
+                                          | NotifyFilters.FileName
+                                          | NotifyFilters.LastAccess
+                                          | NotifyFilters.LastWrite
+                                          | NotifyFilters.Size;
             _systemWatcher.Changed += ChangeConfig;
         }
 
