@@ -9,7 +9,7 @@ namespace NET02._4
 {
     public class MonitorApp : IDisposable
     {
-        private readonly List<ICrawler> _crawlerList = [];
+        private readonly Dictionary<ICrawler, string> _crawlerDict = new();
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly ILogger _logger;
         private readonly IConfiguration _config;
@@ -66,9 +66,9 @@ namespace NET02._4
                 while (!token.IsCancellationRequested)
                 {
                     IsRunning = true;
-                    foreach (var crawler in _crawlerList)
+                    foreach (var crawler in _crawlerDict.Keys)
                     {
-                         tasks.Add(Task.Run(() => crawler.Start(token), token));
+                         tasks.Add(Task.Run(() => crawler.Start(), token));
                     }
 
                     await Task.WhenAll(tasks);
@@ -101,9 +101,22 @@ namespace NET02._4
 
             Thread.Sleep(500);
 
-            Stop();
-            SetCrawlers();
-            Run();
+            var crawlerToStop = _crawlerDict
+                .Where(c => c.Value == args.FullPath)
+                .Select(pair => pair.Key)
+                .ToList();
+
+            //TODO:Доделывать и допиливать
+            foreach (var pair in _crawlerDict)
+            {
+                if (crawlerToStop.FirstOrDefault(value => value == pair.Key) is not null)
+                {
+                    pair.Key.Stop();
+                    
+                    pair.Key.Start();
+                }
+                
+            }
             _logger.Info("Configuration is changed.");
         }
         
@@ -136,18 +149,18 @@ namespace NET02._4
         /// </summary>
         private void SetCrawlers()
         {
-            _crawlerList.Clear();
+            _crawlerDict.Clear();
             var smtpClient = CreateSmtpClient();
             var message = CreateEmailMessage();
             foreach (var crawlerOptions in _config.GetSection("Crawler").GetChildren())
             {
-                _crawlerList.Add(_crawlerFabric.Create(crawlerOptions, _httpClient, smtpClient, message));
+                _crawlerDict.Add(_crawlerFabric.Create(crawlerOptions, _httpClient, smtpClient, message), crawlerOptions.Path);
             }
         }
 
         public void Dispose()
         {
-            foreach (var crawler in _crawlerList)
+            foreach (var crawler in _crawlerDict.Keys)
             {
                 crawler.Dispose();
             }

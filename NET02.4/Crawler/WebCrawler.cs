@@ -15,6 +15,7 @@ public class WebCrawler : ICrawler
     private string _adminName;
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
+    private bool _runningStatus;
     //TODO: Создать отедльный MailService
     private readonly MimeMessage _message;
     private readonly HttpClient _httpClient;
@@ -42,10 +43,12 @@ public class WebCrawler : ICrawler
     /// Method for checking sites.
     /// </summary>
     /// <returns></returns>
-    public async Task Start(CancellationToken token)
+    public async Task Start()
     {
-        while (!token.IsCancellationRequested)
+        _runningStatus = true;
+        while (_runningStatus)
         {
+
             try
             {
                 var startTime = DateTime.Now;
@@ -73,9 +76,14 @@ public class WebCrawler : ICrawler
             {
                 _logger.Error($"Can't send email: {ex.Message}");
             }
-            token.ThrowIfCancellationRequested();
             await Task.Delay(_timeout, CancellationToken.None);
+
         }
+    }
+
+    public void Stop()
+    {
+        _runningStatus = false;
     }
 
     /// <summary>

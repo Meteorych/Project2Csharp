@@ -5,5 +5,6 @@
 /// </summary>
 public interface ICrawler : IDisposable
 {
-    public Task Start(CancellationToken token);
+    public Task Start();
+    public void Stop();
 }
