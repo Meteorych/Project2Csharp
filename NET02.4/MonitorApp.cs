@@ -31,6 +31,8 @@ namespace NET02._4
         /// <param name="logger">Logger for app.</param>
         public MonitorApp(IConfiguration config, ICrawlerFabric crawlerFabric, FileSystemWatcher systemWatcher, ILogger logger)
         { 
+            //TODO:Разгрузить конструктор
+            //TODO:Для каждого Crawler свой config-файл
             _config = config;
             _logger = logger;
             _crawlerFabric = crawlerFabric;

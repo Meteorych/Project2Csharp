@@ -5,6 +5,7 @@ using NLog;
 
 namespace NET02._4.Tests;
 
+//TODO:Write tests for new version of app, old version of test doesn't work now.
 //public class OldUnitTest1
 //{
 //    private readonly Mock<ILogger> _logger = new();

@@ -13,9 +13,10 @@ public class WebCrawler : ICrawler
     private string _url;
     private string _mailAddress;
     private string _adminName;
-    private readonly MimeMessage _message;
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
+    //TODO: Создать отедльный MailService
+    private readonly MimeMessage _message;
     private readonly HttpClient _httpClient;
     private readonly SmtpClient _smtpClient;
 

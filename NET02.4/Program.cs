@@ -18,7 +18,7 @@ public class Program
             .Build();
         var logger = LogManager.GetLogger("Crawler's Logger");
         var systemWatcher = new FileSystemWatcher(Directory.GetCurrentDirectory(), "appsettings.json");
-        var app = new MonitorApp(config, new WebCrawlerFabric(logger), systemWatcher, logger);
+        using var app = new MonitorApp(config, new WebCrawlerFabric(logger), systemWatcher, logger);
 
         app.Run();
         while (Console.ReadKey().Key != ConsoleKey.Q)
