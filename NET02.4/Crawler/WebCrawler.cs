@@ -76,6 +76,7 @@ public class WebCrawler : ICrawler
             {
                 _logger.Error($"Can't send email: {ex.Message}");
             }
+
             await Task.Delay(_timeout, CancellationToken.None);
 
         }

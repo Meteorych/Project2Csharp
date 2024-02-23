@@ -63,16 +63,15 @@ namespace NET02._4
             var tasks = new List<Task>();
             try
             {
-                while (!token.IsCancellationRequested)
+                
+                IsRunning = true;
+                foreach (var crawler in _crawlerDict.Keys)
                 {
-                    IsRunning = true;
-                    foreach (var crawler in _crawlerDict.Keys)
-                    {
-                         tasks.Add(Task.Run(() => crawler.Start(), token));
-                    }
-
-                    await Task.WhenAll(tasks);
+                     tasks.Add(Task.Run(() => crawler.Start(), token));
                 }
+
+                await Task.WhenAll(tasks);
+                
             }
             catch (OperationCanceledException)
             {
