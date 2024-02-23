@@ -2,6 +2,7 @@
 using MimeKit;
 using NLog;
 using System.Net.Mail;
+using static System.Net.Mime.MediaTypeNames;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace NET02._4.Crawler;
@@ -16,10 +17,8 @@ public class WebCrawler : ICrawler
     private readonly ILogger _logger;
     private readonly IConfiguration _config;
     private bool _runningStatus;
-    //TODO: Создать отедльный MailService
-    private readonly MimeMessage _message;
     private readonly HttpClient _httpClient;
-    private readonly SmtpClient _smtpClient;
+    private readonly MailService _mailService;
 
     /// <summary>
     /// Constructor for crawler.
@@ -27,15 +26,13 @@ public class WebCrawler : ICrawler
     /// <param name="config">Crawler's configuration.</param>
     /// <param name="logger">Logger for crawler.</param>
     /// <param name="httpClient">HttpClient for crawler.</param>
-    /// <param name="smtpClient">SmtpClient for crawler.</param>
-    /// <param name="message">Message for admin of site in case it doesn't working.</param>
-    public WebCrawler(IConfiguration config, SmtpClient? smtpClient, MimeMessage? message, HttpClient httpClient, ILogger logger)
+    /// <param name="mailService">SmtpClient for crawler.</param>
+    public WebCrawler(IConfiguration config, MailService? mailService, HttpClient httpClient, ILogger logger)
     {
         _config = config;
         _logger = logger;
         _httpClient = httpClient;
-        _smtpClient = smtpClient ?? throw new ArgumentNullException(nameof(smtpClient));
-        _message = message ?? throw new ArgumentNullException(nameof(message));
+        _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
         SetConfig();
     }
 
@@ -60,15 +57,13 @@ public class WebCrawler : ICrawler
                 }
                 else
                 {
-                    using var client = _smtpClient;
-                    _message.To.Add(new MailboxAddress(_adminName, _mailAddress));
-                    _message.Subject = "Your site isn't working";
-                    _message.Body = new TextPart("plain")
+                    var bodyMessage = new TextPart("plain")
                     {
                         Text =
                             $"Hello, Dear Administrator of site with address {_url}, \n\t I want to inform you that your site is currently isn't working. \n\t Regards,\n\t Web Crawler"
                     };
-                    await client.SendAsync(_message, CancellationToken.None);
+                    _mailService.InitializeMessageBody(new MailboxAddress(_adminName, _mailAddress), "Your site isn't working", bodyMessage);
+                    await _mailService.SendMessage();
                     _logger.Info("Email is sent.");
                 }
             }
@@ -105,7 +100,7 @@ public class WebCrawler : ICrawler
 
     public void Dispose()
     {
-        _message.Dispose();
+        _mailService.Dispose();
         _httpClient.Dispose();
         _logger.Debug("Object is disposed.");
         GC.SuppressFinalize(this);

@@ -10,6 +10,6 @@ namespace NET02._4.CrawlerFabric
     /// </summary>
     public interface ICrawlerFabric
     {
-        public ICrawler Create(IConfigurationSection config, HttpClient httpClient, SmtpClient? smtpClient = null, MimeMessage? message = null);
+        public ICrawler Create(IConfigurationSection config, HttpClient httpClient, MailService? mailService = null);
     }
 }

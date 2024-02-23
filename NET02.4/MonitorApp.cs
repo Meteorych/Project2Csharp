@@ -117,37 +117,25 @@ namespace NET02._4
         /// Method for creating SMTP client for app. 
         /// </summary>
         /// <returns>SMTP client for app with authentication and connection.</returns>
-        private SmtpClient CreateSmtpClient()
+        private MailService CreateMailService()
         {
-            var client = new SmtpClient();
-            client.Connect("smtp.mail.ru", 465, true, CancellationToken.None);
-            client.Authenticate(_config.GetValue<string>("MonitorAppMailAddress") ?? "super.titlov@inbox.ru",
-                _config.GetValue<string>("Password"), CancellationToken.None);
-            return client;
-        }
-
-        /// <summary>
-        /// Method with creating of email message to administrator of site.
-        /// </summary>
-        /// <returns></returns>
-        private MimeMessage CreateEmailMessage()
-        {
-            var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Web Crawler", _config.GetValue<string>("MonitorAppMailAddress") ?? "super.titlov@inbox.ru"));
-            return emailMessage;
+            var mailService = new MailService();
+            mailService.InitializeMessage(_config.GetValue<string>("MonitorAppMailAddress") ?? "super.titlov@inbox.ru",
+                _config.GetValue<string>("Password"), "Web Crawler");
+            return mailService;
         }
 
         /// <summary>
         /// Setting crawlers for checking URLs.
         /// </summary>
         private void SetCrawlers()
+
         {
             _crawlerDict.Clear();
-            var smtpClient = CreateSmtpClient();
-            var message = CreateEmailMessage();
+            var mailService = CreateMailService();
             foreach (var crawlerOptions in _config.GetSection("Crawler").GetChildren())
             {
-                _crawlerDict.Add(_crawlerFabric.Create(crawlerOptions, _httpClient, smtpClient, message), crawlerOptions.Path);
+                _crawlerDict.Add(_crawlerFabric.Create(crawlerOptions, _httpClient, mailService), crawlerOptions.Path);
             }
         }
 

@@ -15,9 +15,9 @@ namespace NET02._4.CrawlerFabric
             _logger = logger;
         }
 
-        public ICrawler Create(IConfigurationSection config, HttpClient httpClient, SmtpClient? smtpClient, MimeMessage? message)
+        public ICrawler Create(IConfigurationSection config, HttpClient httpClient, MailService? mailService)
         {
-            return new WebCrawler(config, smtpClient, message, httpClient, _logger);
+            return new WebCrawler(config, mailService, httpClient, _logger);
         }
     }
 }
