@@ -106,16 +106,10 @@ namespace NET02._4
                 .Select(pair => pair.Key)
                 .ToList();
 
-            //TODO:Доделывать и допиливать
-            foreach (var pair in _crawlerDict)
+            foreach (var crawler in crawlerToStop)
             {
-                if (crawlerToStop.FirstOrDefault(value => value == pair.Key) is not null)
-                {
-                    pair.Key.Stop();
-                    
-                    pair.Key.Start();
-                }
-                
+                crawler.Stop();
+                crawler.Start();
             }
             _logger.Info("Configuration is changed.");
         }
