@@ -1,9 +1,6 @@
-﻿using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
-using NET02._4.Crawler;
+﻿using Microsoft.Extensions.Configuration;
 using NET02._4.CrawlerFabric;
 using NLog;
-using NLog.LayoutRenderers.Wrappers;
 
 namespace NET02._4;
 

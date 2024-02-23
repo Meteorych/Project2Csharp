@@ -1,6 +1,4 @@
-﻿using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
-using MimeKit;
+﻿using Microsoft.Extensions.Configuration;
 using NET02._4.Crawler;
 
 namespace NET02._4.CrawlerFabric

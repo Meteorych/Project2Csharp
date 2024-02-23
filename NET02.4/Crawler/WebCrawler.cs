@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MimeKit;
 using NLog;
-using System.Net.Mail;
-using static System.Net.Mime.MediaTypeNames;
-using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace NET02._4.Crawler;
 
